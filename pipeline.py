@@ -71,6 +71,8 @@ def validate(spec):
         raise ValueError('Canvas exceeds the verified H3 limit')
     if not 2 <= spec['seconds'] <= 15:
         raise ValueError('Duration must be 2-15 seconds')
+    if 'anchor_first' in spec and (type(spec['anchor_first']) is not int or not 0 <= spec['anchor_first'] < len(refs)):
+        raise ValueError('anchor_first must be a zero-based reference image index')
     return hashes
 
 
@@ -99,6 +101,11 @@ def graph(spec, names):
         key = str(200 + i)
         g[key] = {'class_type': 'LoadImage', 'inputs': {'image': name}}
         cond[f'ref_images.ref_image_{i}'] = [key, 0]
+    if 'anchor_first' in spec:
+        g['300'] = {'class_type': 'MiniMaxH3AddGuide', 'inputs': {
+            'positive': ['136', 0], 'latent': ['136', 1], 'vae': ['119', 0],
+            'image': [str(200 + spec['anchor_first']), 0], 'frame_idx': 0}}
+        g['126']['inputs']['conditioning'] = ['300', 0]
     return g
 
 
@@ -125,7 +132,7 @@ def refresh(directory):
     job = read(directory / 'job.json')
     if job.get('shot_hash') and digest(directory / 'shot.json') != job['shot_hash']:
         raise ValueError('Shot changed after submission; create a new shot revision')
-    if job['status'] in ('approved', 'rejected'):
+    if job['status'] in ('approved', 'rejected', 'cancelled'):
         return job
     if not job.get('prompt_id'):
         candidates = [v for v in api('/history').values() if v['prompt'][3].get('codex_job_id') == job['job_id']]
@@ -255,10 +262,14 @@ async def watch(directory, seconds=45):
                     continue
                 if event.type == aiohttp.WSMsgType.TEXT:
                     message = json.loads(event.data)
+                    if message.get('data', {}).get('prompt_id', job['prompt_id']) != job['prompt_id']:
+                        continue
                     if message['type'] in ('progress', 'executing', 'execution_error', 'execution_success'):
                         print(json.dumps(message, ensure_ascii=False), flush=True)
                     if message['type'] in ('execution_error', 'execution_success'):
                         break
+                elif event.type in (aiohttp.WSMsgType.CLOSED, aiohttp.WSMsgType.CLOSE, aiohttp.WSMsgType.ERROR):
+                    break
     return refresh(directory)
 
 
@@ -283,6 +294,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=['validate', 'submit', 'status', 'inspect', 'watch', 'cancel'])
     parser.add_argument('path')
+    parser.add_argument('--seconds', type=int, default=45)
     args = parser.parse_args()
     if args.command == 'validate':
         result = {'valid': True, 'hashes': validate(read(args.path))}
@@ -291,7 +303,9 @@ def main():
     elif args.command == 'status':
         result = refresh(args.path)
     elif args.command == 'watch':
-        result = asyncio.run(watch(args.path))
+        if not 1 <= args.seconds <= 3600:
+            parser.error('--seconds must be between 1 and 3600')
+        result = asyncio.run(watch(args.path, args.seconds))
     elif args.command == 'cancel':
         result = cancel(args.path)
     else:

@@ -1,5 +1,9 @@
 # 작업 맥락
 
+2026-09-14 추가 검증. 로컬 Git 저장소를 초기화하고 실행기를 0cc1896으로 커밋했다. 기존 LTX 설치 스크립트·보고서는 별도 미추적 상태로 보존했다. 인물 단일 정면의 기본 20-step은 611.257초, Turbo는 229.088초였다. 이미지·프롬프트·seed·해상도·길이는 같고 ID와 Turbo 설정만 다름을 확인했다. 각 1회 캐시 포함 측정이며 comparison.json에 저장했다.
+
+자동차 이야기의 세 R2V Turbo 숏과 15.5초 검증용 편집본을 생성했다. 접근 243.533초, 문 열기 335.213초, 탑승 244.889초였다. 차량 지붕 구조 오류가 있고, 두 번째 숏은 운전석 지시 대신 뒷문을 열었다. 사용자 원래 요청은 좌석을 지정하지 않아 세 번째는 뒷좌석으로 연결했지만 시작 시 닫힌 문으로 되돌아가는 오류가 있었다. 결과를 최종 승인하지 않고 preview로 편집했다. 설치된 MiniMaxH3AddGuide의 frame_idx=0을 이용해 anchor_first 옵션을 구현하고 세 번째 숏만 별도 shot03_anchor에서 재실행 중이다. 라이브 브리지는 재확인 시에도 미연결이다.
+
 2026-09-14 구현 진행. pipeline.py는 실제 성공 API 그래프에서 H3 실행 그래프를 만들고 /prompt 제출, WebSocket 진행 수신, history 회수와 PyAV 전체 디코드를 처리한다. 참조 입력 키는 ref_images.ref_image_0 형태다. 첫 변환 시 남은 139 링크로 HTTP 400을 받아 수정했으며 원래 거부된 제출 기록은 rejected-initial-job.json으로 보관했다.
 
 project.py는 자산 등록·해시·시점 분리, 숏 검증, Blender 대표 프레임 결합, 순차 실행, 검수 기록, 영상·오디오 이어 붙이기를 제공한다. Blender 5.2.1은 E:\Blender Foundation\Blender 5.2\blender.exe를 사용한다. 별도 프로세스 렌더가 성공했으며 사용자 확장 환경과 분리하기 위해 BLENDER_USER_RESOURCES를 작업 폴더로 지정했다. 사용자 썸네일 캐시 쓰기 경고가 있으나 blend와 PNG 저장은 성공했다. Higgsfield get_host_status는 Blender 미연결을 반환했다.
@@ -30,3 +34,5 @@ J:\LTX2.5 경로 존재와 추가 모델 경로 설정은 재확인했다. 이�
 Conv VAE는 공식 카드에서 더 가볍고 빠른 대안으로 설명됨. 기본 템플릿의 영상 VAE 선택을 해당 Conv 파일로 바꿔야 함. NVFP4보다 현재 공식 Comfy 템플릿의 INT8 경로를 우선함.
 
 2026-09-14. 사용자가 Hugging Face 로그인을 완료함. 선택한 5개 파일 다운로드 완료. install_ltx25.py가 저장소 revision 메타데이터의 LFS SHA256과 실제 파일 SHA256을 대조했고 모두 통과하여 ltx25-install-report.json을 생성함. ComfyUI folder_paths를 통해 diffusion model, text encoder, 두 VAE, latent spatial upscaler가 각각 검색되는 것을 확인함. 다운로드 중 생성된 parts.json 및 중복 incomplete/lock 파일은 검증 후 정리함. ComfyUI 서버는 검증 시 실행 중이 아니어서 실제 영상 생성은 수행하지 않음.
+
+2026-09-14. 첫 프레임 고정 탑승 재생성 성공(256.590초). 0·60·123프레임에서 열린 문 상태로 시작해 뒷좌석으로 들어가는 흐름 확인. 차량 지붕과 문 왜곡은 남아 있어 승인하지 않았다. 기존 결과를 보존하고 project-anchored.json의 세 번째 숏만 교체했다. car_entry_preview_v2.mp4는 전체 372프레임·15.5초·864×480·24fps 및 스테레오 48kHz 디코드 통과.

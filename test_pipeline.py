@@ -36,6 +36,17 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(g['124']['inputs']['steps'], 4 if turbo else 20)
             self.assertNotIn('ref_image_1', g['136']['inputs'])
 
+    def test_anchor_index_and_graph(self):
+        self.spec['anchor_first'] = 1
+        with self.assertRaisesRegex(ValueError, 'anchor_first'):
+            p.validate(self.spec)
+        self.spec['anchor_first'] = 0
+        p.validate(self.spec)
+        g = p.graph(self.spec, ['reference.png'])
+        self.assertEqual(g['300']['inputs']['frame_idx'], 0)
+        self.assertEqual(g['300']['inputs']['image'], ['200', 0])
+        self.assertEqual(g['126']['inputs']['conditioning'], ['300', 0])
+
     def test_existing_job_never_submitted_again(self):
         directory = Path(self.tmp.name)
         p.save(directory / 'shot.json', self.spec)
