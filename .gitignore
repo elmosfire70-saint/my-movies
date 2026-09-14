@@ -1,0 +1,16 @@
+__pycache__/
+*.log
+*.err
+*.zip
+*.lock
+.blender-runtime/
+tmp*/
+projects/**/assets/
+projects/**/previz*/
+projects/**/*.mp4
+projects/**/*.png
+projects/**/*.blend*
+projects/**/job.json
+projects/**/history.json
+projects/**/workflow-api.json
+projects/**/rejected-initial-job.json
