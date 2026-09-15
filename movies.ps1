@@ -11,7 +11,7 @@ $env:PYTHONIOENCODING = 'utf-8'
 Push-Location $PSScriptRoot
 try {
     if ($Tool -eq 'test') {
-        & $runtime -m unittest -v test_pipeline test_project
+        & $runtime -m unittest -v test_pipeline test_project test_custom_nodes
     } else {
         & $runtime (Join-Path $PSScriptRoot ($Tool + '.py')) @ToolArguments
     }

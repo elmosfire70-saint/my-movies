@@ -1,5 +1,7 @@
 # Codex 로컬 H3 제작 실행기
 
+ComfyUI 화면에서 사용하는 범용 노드는 [워크플로우 사용법](workflows/README.md)을 참고한다. `Codex_Generic_H3`를 열어 이미지·프롬프트를 바꾸면 다른 영상에도 사용할 수 있다.
+
 현재 설치된 ComfyUI Python의 PyAV·aiohttp와 Blender 5.2를 사용한다. 새 모델이나 패키지를 설치하지 않는다. 서버 주소는 `http://127.0.0.1:8188`이며 실제 제출 전에 서버가 실행 중이어야 한다.
 
 ## 빠른 사용

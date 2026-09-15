@@ -1,0 +1,11 @@
+{
+  "width": 512,
+  "height": 288,
+  "fps": 24.0,
+  "audio_streams": 1,
+  "duration": 2.333333,
+  "audio_channels": 2,
+  "audio_sample_rate": 32000,
+  "decoded_frames": 56,
+  "audio_frames": 73
+}
