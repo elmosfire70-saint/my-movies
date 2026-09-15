@@ -41,9 +41,15 @@ class References:
     @classmethod
     def INPUT_TYPES(cls):
         return {'required': {'roles': ('STRING', {'multiline': True, 'default': 'Subject identity and appearance.\nObject appearance.\nComposition only; replace primitive surfaces.'})},
-                'optional': {f'image_{i}': ('IMAGE',) for i in range(1, 10)}}
+                'optional': {**{f'image_{i}': ('IMAGE', {'lazy': True}) for i in range(1, 10)},
+                             'enabled': ('BOOLEAN', {'default': True})}}
 
-    def run(self, roles, **images):
+    def check_lazy_status(self, roles, enabled=True, **images):
+        return [name for name, value in images.items() if value is None] if enabled else []
+
+    def run(self, roles, enabled=True, **images):
+        if not enabled:
+            return ({'images': [], 'roles': []},)
         connected = [(i, images[f'image_{i}']) for i in range(1, 10) if images.get(f'image_{i}') is not None]
         if [i for i, _ in connected] != list(range(1, len(connected) + 1)):
             raise ValueError('Connect images consecutively starting at image_1.')
@@ -208,3 +214,28 @@ NODE_CLASS_MAPPINGS = {'CodexShotSettings': ShotSettings, 'CodexReferences': Ref
 NODE_DISPLAY_NAME_MAPPINGS = {'CodexShotSettings': 'Codex · Shot Settings',
     'CodexReferences': 'Codex · Reference Images & Roles', 'CodexLastFrame': 'Codex · Previous Video Last Frame',
     'CodexH3Inputs': 'Codex · H3 Shot Inputs', 'CodexPrevizVideo': 'Codex · Previz Video Reference'}
+
+
+def skip_disabled_image_inputs(data):
+    # 화면의 연결은 유지하고 실행 요청의 꺼진 이미지 참조 연결만 제외한다.
+    from copy import deepcopy
+    prompt = data.get('prompt', {})
+    disabled = [key for key, node in prompt.items() if node.get('class_type') == 'CodexReferences'
+                and node.get('inputs', {}).get('enabled') is False]
+    if not disabled:
+        return data
+    result = dict(data)
+    result['prompt'] = deepcopy(prompt)
+    for key in disabled:
+        inputs = result['prompt'][key]['inputs']
+        for index in range(1, 10):
+            inputs.pop(f'image_{index}', None)
+    return result
+
+
+try:
+    from server import PromptServer
+except ImportError:
+    pass  # ComfyUI 밖의 단위 테스트에서는 서버 훅을 등록하지 않는다.
+else:
+    PromptServer.instance.add_on_prompt_handler(skip_disabled_image_inputs)

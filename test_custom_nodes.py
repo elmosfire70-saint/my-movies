@@ -8,10 +8,22 @@ import types
 import numpy as np
 import torch
 import av
-from custom_nodes.codex_video_tools import ShotSettings, References, LastFrame, H3Inputs, PrevizVideo
+from custom_nodes.codex_video_tools import ShotSettings, References, LastFrame, H3Inputs, PrevizVideo, skip_disabled_image_inputs
 
 
 class CustomNodeTests(unittest.TestCase):
+    def test_disabled_references_preserve_ui_and_skip_inputs(self):
+        self.assertEqual(References().run('', enabled=False, image_1=object()), ({'images': [], 'roles': []},))
+        self.assertEqual(References().check_lazy_status('', enabled=False, image_1=None), [])
+        self.assertEqual(References().check_lazy_status('role', image_1=None), ['image_1'])
+        request = {'prompt': {'1': {'class_type': 'CodexReferences', 'inputs': {'roles': '', 'enabled': False, 'image_1': ['2', 0]}},
+                              '2': {'class_type': 'LoadImage', 'inputs': {'image': ''}},
+                              '3': {'class_type': 'CodexReferences', 'inputs': {'roles': 'role', 'image_1': ['2', 0]}}}}
+        result = skip_disabled_image_inputs(request)
+        self.assertNotIn('image_1', result['prompt']['1']['inputs'])
+        self.assertIn('image_1', request['prompt']['1']['inputs'])
+        self.assertIn('image_1', result['prompt']['3']['inputs'])
+
     def test_video_resamples_time_and_limits_size(self):
         self.assertEqual(PrevizVideo().run(False, '', '', 124, 864)[0], None)
         with tempfile.TemporaryDirectory() as folder:

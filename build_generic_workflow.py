@@ -13,7 +13,7 @@ def build():
     g['1'] = {'class_type': 'CodexShotSettings', 'inputs': {'prompt': 'A single continuous shot. Describe the action, setting, camera and sound.',
         'width': 864, 'height': 480, 'seconds': 5.0, 'turbo': True, 'project': 'my_video', 'shot': 'shot01'}}
     g['2'] = {'class_type': 'LoadImage', 'inputs': {'image': ''}}
-    g['3'] = {'class_type': 'CodexReferences', 'inputs': {'roles': 'Subject identity and appearance.\nObject appearance.\nComposition only; replace primitive surfaces.', 'image_1': ['2', 0]}}
+    g['3'] = {'class_type': 'CodexReferences', 'inputs': {'roles': 'Subject identity and appearance.\nObject appearance.\nComposition only; replace primitive surfaces.', 'image_1': ['2', 0], 'enabled': True}}
     g['4'] = {'class_type': 'CodexLastFrame', 'inputs': {'enabled': False, 'video_path': ''}}
     g['6'] = {'class_type': 'CodexPrevizVideo', 'inputs': {'enabled': False, 'video_path': '',
         'role': 'Use camera movement, timing and blocking only. Replace primitive surfaces with realistic appearance.',

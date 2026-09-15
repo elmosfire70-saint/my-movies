@@ -51,3 +51,6 @@ CodexShotSettings, CodexReferences, CodexLastFrame, CodexH3Inputs를 설치하�
 
 ## 프리비즈 영상 참조.
 CodexPrevizVideo를 추가하고 H3Inputs의 선택 video_reference 포트로 연결했다. 12/24/30fps 입력의 시간 기준 24fps 변환, 크기 및 길이 제한, 비활성 경로, Video 태그 및 네이티브 ref_videos 전달 테스트를 포함해 movies.ps1 test 18개 통과. 실제 Blender 렌더 56프레임 MP4를 이미지 참조와 함께 제출해 H3 생성 성공. 결과 512×288·24fps·56프레임·2.333초·스테레오 32kHz 전체 디코드 통과. 모션 재현 정확도와 시각 품질은 별도 검토가 필요하다.
+
+## 이미지 참조 enabled.
+movies.ps1 test 19개 통과. 서버 스키마 enabled 기본 true 확인. 빈 이미지 로더를 연결한 API에서 enabled=false로 영상 전용 생성 성공(20a2e013-a75f-48f7-8eee-e0f15e78e7ff). 결과 512×288·24fps·56프레임·2.333초 및 스테레오 32kHz 디코드 통과. UI 연결은 보존하고 실행 요청의 해당 이미지 입력만 제외한다.
