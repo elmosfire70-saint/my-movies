@@ -40,10 +40,14 @@ def actor(item):
             part('cylinder', f'arm{side}', (side * .27, 0, 1.02), (.06, .06, .31))
     elif kind == 'car':
         part('cube', 'body', (0, 0, .65), (1, 2, .35))
-        part('cube', 'roof', (0, 0, 1.55), (.83, 1, .06))
-        for x in (-.8, .8):
-            for y in (-.9, .9):
-                part('cube', f'pillar{x}_{y}', (x, y, 1.25), (.055, .055, .3))
+        cabin = part('cube', 'cabin', (0, 0, 1.28), (1, 1, 1))
+        for vertex in cabin.data.vertices:
+            upper = vertex.co.z > 0
+            vertex.co.x *= .78 if upper else .94
+            vertex.co.y *= .85 if upper else 1.35
+            vertex.co.z *= .28
+        cabin.data.materials[0].diffuse_color = (.08, .12, .16, 1)
+        part('cube', 'roof', (0, 0, 1.58), (.79, .86, .035))
         part('cube', 'seat', (-.45, -.3, .98), (.3, .4, .08))
         hinge = bpy.data.objects.new(item['id'] + '_door_hinge', None)
         bpy.context.collection.objects.link(hinge)

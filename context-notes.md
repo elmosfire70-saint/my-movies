@@ -36,3 +36,7 @@ Conv VAE는 공식 카드에서 더 가볍고 빠른 대안으로 설명됨. 기
 2026-09-14. 사용자가 Hugging Face 로그인을 완료함. 선택한 5개 파일 다운로드 완료. install_ltx25.py가 저장소 revision 메타데이터의 LFS SHA256과 실제 파일 SHA256을 대조했고 모두 통과하여 ltx25-install-report.json을 생성함. ComfyUI folder_paths를 통해 diffusion model, text encoder, 두 VAE, latent spatial upscaler가 각각 검색되는 것을 확인함. 다운로드 중 생성된 parts.json 및 중복 incomplete/lock 파일은 검증 후 정리함. ComfyUI 서버는 검증 시 실행 중이 아니어서 실제 영상 생성은 수행하지 않음.
 
 2026-09-14. 첫 프레임 고정 탑승 재생성 성공(256.590초). 0·60·123프레임에서 열린 문 상태로 시작해 뒷좌석으로 들어가는 흐름 확인. 차량 지붕과 문 왜곡은 남아 있어 승인하지 않았다. 기존 결과를 보존하고 project-anchored.json의 세 번째 숏만 교체했다. car_entry_preview_v2.mp4는 전체 372프레임·15.5초·864×480·24fps 및 스테레오 48kHz 디코드 통과.
+
+2026-09-15. 자동차 프리비즈의 빈 지붕/기둥 구조를 확인했다. H3 왜곡 원인으로 확정하지 않고 폐쇄 차실로 입력 구조를 보완한다. 프리미티브 기본, 필요한 실루엣만 저폴리 보완 규칙을 적용한다.
+
+자동차 v2 네 시점 렌더 및 PROP_001@v2 등록 완료. 3/4 이미지에서 폐쇄 차실 확인. project validate 통과(3숏, 2자산), movies.ps1 test 12개 통과. Blender 썸네일 캐시 쓰기 경고는 있었으나 blend와 7개 PNG 출력 정상. 기존 영상은 교체하지 않았다.
