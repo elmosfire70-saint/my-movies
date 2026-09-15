@@ -3,7 +3,7 @@ import argparse
 import hashlib
 import json
 import shutil
-import tempfile
+import uuid
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -34,9 +34,9 @@ def assemble(spec_path, output):
             loaded.append((group, item, source, size))
     output.parent.mkdir(parents=True, exist_ok=True)
     # 완성된 폴더만 공개하며 오류가 나면 이번 임시 결과만 정리한다.
-    with tempfile.TemporaryDirectory(prefix=".sheet-", dir=output.parent) as temp:
-        stage = Path(temp) / "version"
-        stage.mkdir()
+    stage = output.parent / f".sheet-{uuid.uuid4().hex}"
+    stage.mkdir()
+    try:
         canvas = Image.new("RGB", (cols * 1024, rows * 1024), "white")
         counters = {"panels": 0, "references": 0}
         for group, item, source, size in loaded:
@@ -61,6 +61,9 @@ def assemble(spec_path, output):
         if output.exists():
             raise FileExistsError(f"Output already exists: {output}")
         stage.rename(output)
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage)
     return output / "manifest.json"
 
 
