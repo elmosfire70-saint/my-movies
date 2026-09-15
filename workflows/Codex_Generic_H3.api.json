@@ -236,6 +236,19 @@
       "video_path": ""
     }
   },
+  "6": {
+    "class_type": "CodexPrevizVideo",
+    "inputs": {
+      "enabled": false,
+      "video_path": "",
+      "role": "Use camera movement, timing and blocking only. Replace primitive surfaces with realistic appearance.",
+      "max_frames": [
+        "1",
+        3
+      ],
+      "max_edge": 864
+    }
+  },
   "5": {
     "class_type": "CodexH3Inputs",
     "inputs": {
@@ -273,6 +286,10 @@
       ],
       "first_frame": [
         "4",
+        0
+      ],
+      "video_reference": [
+        "6",
         0
       ]
     }

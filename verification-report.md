@@ -48,3 +48,6 @@ shot01_car_v2 생성 성공. 서버 실행 403.016초(캐시 노드 없음). 864
 
 ## 범용 ComfyUI 노드.
 CodexShotSettings, CodexReferences, CodexLastFrame, CodexH3Inputs를 설치하고 서버 등록 및 UI 그래프 표시 확인. 19노드/29링크 범용 워크플로 제공. unittest test_pipeline test_project test_custom_nodes 16개 통과. 새 API 그래프의 H3 생성 성공 후 512×288·24fps·56프레임·2.333초·스테레오 32kHz 전체 디코드 통과. 기본 그래프는 이미지 선택이 필요하다. 연속 프레임 모드는 어댑터 단위 테스트와 실제 마지막 프레임 추출 테스트까지 확인했다.
+
+## 프리비즈 영상 참조.
+CodexPrevizVideo를 추가하고 H3Inputs의 선택 video_reference 포트로 연결했다. 12/24/30fps 입력의 시간 기준 24fps 변환, 크기 및 길이 제한, 비활성 경로, Video 태그 및 네이티브 ref_videos 전달 테스트를 포함해 movies.ps1 test 18개 통과. 실제 Blender 렌더 56프레임 MP4를 이미지 참조와 함께 제출해 H3 생성 성공. 결과 512×288·24fps·56프레임·2.333초·스테레오 32kHz 전체 디코드 통과. 모션 재현 정확도와 시각 품질은 별도 검토가 필요하다.

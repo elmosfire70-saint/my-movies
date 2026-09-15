@@ -15,8 +15,11 @@ def build():
     g['2'] = {'class_type': 'LoadImage', 'inputs': {'image': ''}}
     g['3'] = {'class_type': 'CodexReferences', 'inputs': {'roles': 'Subject identity and appearance.\nObject appearance.\nComposition only; replace primitive surfaces.', 'image_1': ['2', 0]}}
     g['4'] = {'class_type': 'CodexLastFrame', 'inputs': {'enabled': False, 'video_path': ''}}
+    g['6'] = {'class_type': 'CodexPrevizVideo', 'inputs': {'enabled': False, 'video_path': '',
+        'role': 'Use camera movement, timing and blocking only. Replace primitive surfaces with realistic appearance.',
+        'max_frames': ['1', 3], 'max_edge': 864}}
     g['5'] = {'class_type': 'CodexH3Inputs', 'inputs': {'clip': ['128', 0], 'vae': ['119', 0], 'audio_vae': ['120', 0],
-        'references': ['3', 0], 'prompt': ['1', 0], 'width': ['1', 1], 'height': ['1', 2], 'frames': ['1', 3], 'first_frame': ['4', 0]}}
+        'references': ['3', 0], 'prompt': ['1', 0], 'width': ['1', 1], 'height': ['1', 2], 'frames': ['1', 3], 'first_frame': ['4', 0], 'video_reference': ['6', 0]}}
     g['126']['inputs']['conditioning'] = ['5', 0]
     g['125']['inputs']['latent_image'] = ['5', 1]
     g['124']['inputs'].update(steps=['1', 4], model=['145', 0])
@@ -27,7 +30,7 @@ def build():
     for name, cls in NODE_CLASS_MAPPINGS.items():
         info[name] = {'input': cls.INPUT_TYPES(), 'output': cls.RETURN_TYPES,
                       'output_name': cls.RETURN_NAMES}
-    positions = {'1': [0, 0], '2': [0, 460], '3': [400, 450], '4': [400, 800], '5': [850, 350],
+    positions = {'1': [0, 0], '2': [0, 460], '3': [400, 450], '4': [400, 800], '5': [850, 350], '6': [850, 800],
         '127': [0, -600], '128': [400, -600], '119': [800, -600], '120': [1200, -600],
         '145': [400, -300], '129': [850, 0], '123': [850, 150], '124': [1250, 0],
         '126': [1250, 350], '125': [1650, 250], '121': [2050, 450], '122': [2050, 200],
@@ -35,7 +38,7 @@ def build():
     ui_nodes, by_id, links = [], {}, []
     for order, (key, node) in enumerate(g.items()):
         meta = info[node['class_type']]
-        height = {'1': 410, '2': 300, '3': 320, '4': 160, '5': 280, '129': 100, '123': 100, '92': 330}.get(key, 180)
+        height = {'1': 410, '2': 300, '3': 320, '4': 160, '5': 280, '6': 300, '129': 100, '123': 100, '92': 330}.get(key, 180)
         entry = {'id': int(key), 'type': node['class_type'], 'pos': positions[key], 'size': [350, height],
                  'flags': {}, 'order': order, 'mode': 0, 'properties': {'Node name for S&R': node['class_type']},
                  'inputs': [], 'outputs': [], 'widgets_values': []}
