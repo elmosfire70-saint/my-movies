@@ -54,3 +54,6 @@ CodexPrevizVideo를 추가하고 H3Inputs의 선택 video_reference 포트로 �
 
 ## 이미지 참조 enabled.
 movies.ps1 test 19개 통과. 서버 스키마 enabled 기본 true 확인. 빈 이미지 로더를 연결한 API에서 enabled=false로 영상 전용 생성 성공(20a2e013-a75f-48f7-8eee-e0f15e78e7ff). 결과 512×288·24fps·56프레임·2.333초 및 스테레오 32kHz 디코드 통과. UI 연결은 보존하고 실행 요청의 해당 이미지 입력만 제외한다.
+
+## 2026-09-19 재점검.
+movies.ps1 test 19개 통과. 사용자 노드 소스와 설치본 SHA256 일치. 현재 ComfyUI 서버는 중지, Blender 브리지는 미연결이다. 이번에는 새 영상 생성을 실행하지 않았다.
