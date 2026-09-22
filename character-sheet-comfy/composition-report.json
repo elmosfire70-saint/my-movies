@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "prompt_id": "2c631101-c9ed-4690-a4e4-f16defc86a46",
+  "size": [
+    2304,
+    1152
+  ],
+  "checks": [
+    "front-side-back-closeup order",
+    "aspect ratios",
+    "no crop",
+    "local execution"
+  ],
+  "generated_by_ai": false,
+  "output": {
+    "filename": "30c5f37240004760bc5682bda91f51ee_00001_.png",
+    "subfolder": "character-sheets\\validation",
+    "type": "output"
+  }
+}

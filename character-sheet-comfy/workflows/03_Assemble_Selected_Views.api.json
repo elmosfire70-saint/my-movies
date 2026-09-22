@@ -1,0 +1,175 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "FRONT.png"
+    },
+    "_meta": {
+      "title": "FRONT · 선택한 결과"
+    }
+  },
+  "2": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "1",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 0,
+      "height": 1152,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "FRONT · 비율 유지"
+    }
+  },
+  "3": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "SIDE.png"
+    },
+    "_meta": {
+      "title": "SIDE · 선택한 결과"
+    }
+  },
+  "4": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 0,
+      "height": 1152,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "SIDE · 비율 유지"
+    }
+  },
+  "5": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "2",
+        0
+      ],
+      "image2": [
+        "4",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "선택된 칸 연결"
+    }
+  },
+  "6": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "BACK.png"
+    },
+    "_meta": {
+      "title": "BACK · 선택한 결과"
+    }
+  },
+  "7": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "6",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 0,
+      "height": 1152,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "BACK · 비율 유지"
+    }
+  },
+  "8": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "5",
+        0
+      ],
+      "image2": [
+        "7",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "선택된 칸 연결"
+    }
+  },
+  "9": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "CLOSEUP.png"
+    },
+    "_meta": {
+      "title": "CLOSEUP · 선택한 결과"
+    }
+  },
+  "10": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "9",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 0,
+      "height": 1152,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "CLOSEUP · 비율 유지"
+    }
+  },
+  "11": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "8",
+        0
+      ],
+      "image2": [
+        "10",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "선택된 칸 연결"
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/selected_turnaround"
+    },
+    "_meta": {
+      "title": "재생성 없이 최종 합성"
+    }
+  }
+}
