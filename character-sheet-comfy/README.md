@@ -1,10 +1,10 @@
 # 로컬 얼굴·의상 턴어라운드 생성기
 
-얼굴 클로즈업과 의상 참고 사진 두 장을 입력한다. Qwen Image Edit 2511이 정면 기준 캐릭터를 만들고, 선택된 정면을 기준으로 측면·후면·얼굴 클로즈업을 만든다. 결과는 **정면 | 측면 | 후면 | 큰 얼굴** 순서의 가로 시트와 개별 PNG다. 유료 API·외부 이미지 전송·별도 커스텀 노드를 사용하지 않는다.
+얼굴 클로즈업과 의상 참고 사진 두 장을 입력한다. **Qwen Image 2.1 INT8 ConvRot**이 정면 기준 캐릭터를 만들고, 선택된 정면을 기준으로 측면·후면·얼굴 클로즈업을 만든다. 결과는 **정면 | 측면 | 후면 | 큰 얼굴** 순서의 가로 시트와 개별 PNG다. 유료 API·외부 이미지 전송·별도 커스텀 노드를 사용하지 않는다. 사용자가 확인한 비상업적 연구·평가 용도다.
 
 ## 설치
 
-실행 중인 ComfyUI에 기본 Qwen Edit Plus, CFGNorm, ImageStitch 노드가 있어야 한다. 현재 PC에는 있다. 모델 3개는 약 30.2GB다. 아래 설치기는 공식 파일을 이어받고 SHA256을 확인한 후 최종 파일명으로 바꾼다. 기존 모델은 덮어쓰지 않는다.
+실행 중인 ComfyUI에 TextEncodeQwenImage21, QwenImage21Cache, ImageStitch 노드가 있어야 한다. 현재 PC에는 있다. 2.1 생성 모델·Qwen3-VL 8B INT8 인코더·전용 RGBA VAE는 합계 약 17.3GB다. 아래 설치기는 공식 파일을 이어받고 SHA256을 확인한 후 최종 파일명으로 바꾼다. 기존 모델은 덮어쓰지 않는다.
 
 ```powershell
 & 'E:\Comfy-Desktop\ComfyUI-Installs\ComfyUI\ComfyUI\.venv\Scripts\python.exe' E:\Codex\movies\character-sheet-comfy\install_models.py 'E:\Comfy-Desktop\ComfyUI-Installs\ComfyUI\ComfyUI'
@@ -21,7 +21,9 @@
 3. `front · 지시문`에서 필요한 헤어스타일, 모자 위치, 의상 상세를 추가한다. 프롬프트는 영어로 기본 작성했지만 한국어 요구를 추가할 수 있다.
 4. 실행 후 얼굴·의상·손·신발·잘림을 확인한다. 마음에 드는 정면 PNG를 저장한다. 얼굴이나 옷이 틀리면 이 단계에서 지시문 또는 seed를 바꿔 다시 만든다.
 
-정면 기본 크기는 512×1152, 20 steps / CFG 4 / Euler / simple / flow shift 3.1이다. Lightning LoRA를 사용하지 않는 품질 우선 설정이다. 40 steps는 비교용으로 늘릴 수 있으나 무조건 더 좋은 결과를 보장하지 않는다.
+정면 기본 크기는 512×1152, **25 steps / CFG 1 / Euler / simple**이다. 2.1 참조 캐시는 auto/default를 사용한다. 공식 ComfyUI 템플릿의 25단계를 시작값으로 사용하며 40단계와 비교할 수 있으나 더 좋은 결과를 보장하지 않는다. 2511의 flow shift·CFGNorm·reference_latents_method 설정은 사용하지 않는다.
+
+첫 번째 참조는 출력 크기를 정하는 회색 캔버스다. 얼굴과 의상은 그 뒤의 참조로 전달되며, 프롬프트의 `<image2>`, `<image3>`가 각각을 가리킨다. 2단계에서는 `<image2>`가 선택한 정면, `<image3>`가 얼굴, `<image4>`가 의상이다. 생성 공간과 참조 번호를 임의로 바꾸지 않는다. 참조 사진은 비율을 유지해 최대 변 1024로 제한하고, 출력 크기는 각 EmptyImage 캔버스에서 정한다.
 
 ## 2. 선택한 정면으로 시트 만들기
 
@@ -47,7 +49,8 @@ SaveImage 기본 위치는 **ComfyUI/output/character-sheets/날짜/**다. 파�
 - 후면에 보이지 않는 재봉선·무늬는 추정이다. 정확한 상품·유니폼 후면이 필요하면 후면 의상 사진으로 해당 분기의 image3 참조를 바꾼다.
 - 신발이 없는 의상 사진은 모델이 신발을 추정한다. 손에 든 물건은 기본에서 제외한다.
 - 12GB GPU에 모델 전체가 올라가지 않으므로 RAM 오프로딩이 발생한다. 속도 및 최고 화질 순위는 보장하지 않는다. 먼저 기준 정면 한 장으로 실행 시간을 확인한다.
-- 사진 입력을 바꾸면 정면부터 다시 만든다. 고해상도 출력이 필요하면 각 EmptySD3LatentImage의 크기를 같은 배율로 늘리되 메모리 부담도 증가한다. 3단계 합성 높이도 함께 조정한다.
+- 2.1 정면 실측은 **146초(2분 26초)**였다. 512×1152, 25단계, CFG 1, 캔버스·얼굴·의상 참조 구성에서 생성·PNG 저장까지 성공했다. 이전 2511의 정면 실측은 548초였지만 설정과 참조 구성이 달라 엄밀한 비교 벤치마크는 아니다. 2.1의 측면·후면·클로즈업 전체 실 생성은 아직 미검증이다.
+- 사진 입력을 바꾸면 정면부터 다시 만든다. 고해상도 출력이 필요하면 각 EmptyImage 캔버스의 크기를 32 배수로 늘리되 메모리 부담도 증가한다. 합성용 정면 ImageScale 및 3단계 합성 높이도 함께 조정한다.
 
 ## 개발 검증
 
@@ -61,5 +64,5 @@ UI JSON은 화면에서 사용하며 `.api.json`은 자동화 제출용이다. �
 ## 설계 근거
 
 - [Carat 설명](https://carat.im/blog/character-sheet-generator)의 대표 전신 → 시트 흐름을 적용했다.
-- [ComfyUI 공식 Qwen Edit 2511 안내](https://blog.comfy.org/p/qwen-image-edit-2511-and-qwen-image)와 [공식 템플릿](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/image_qwen_image_edit_2511.json)의 참조 인코딩·flow shift·CFG 정규화 설정을 확인했다.
-- [공식 배포 모델](https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI)은 Apache 2.0으로 표시되어 있다. 창작물 이용 시 입력 사진과 의상 디자인에 대한 권리는 별도로 확인해야 한다.
+- [2.1 공식 템플릿](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/image_qwen_image_2_1_image_edit.json)의 전용 인코더·캐시·CFG 1 구성을 확인했다. 회색 캔버스를 첫 참조로 사용한 배치는 이 프로젝트의 맞춤 구성이다.
+- [공식 배포 모델](https://huggingface.co/Comfy-Org/Qwen-Image-2.1)과 [Qwen Research License](https://github.com/QwenLM/Qwen-Image-2.1/blob/main/LICENSE)를 따른다. 무료 허용 범위는 비상업적 연구·평가이며, 상업적 이용은 별도 허가 대상이다.

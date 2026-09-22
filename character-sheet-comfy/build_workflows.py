@@ -1,5 +1,6 @@
 # 얼굴·의상 참조로 정면과 턴어라운드를 만드는 표준 ComfyUI 워크플로를 생성한다.
 import json
+import re
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -24,43 +25,51 @@ class Graph:
 
 
 def loaders(g):
-    model = g.add('UNETLoader', 'Qwen Edit 2511 · FP8 mixed', 0, -450,
-                  unet_name='qwen_image_edit_2511_fp8mixed.safetensors', weight_dtype='default')
-    model = g.add('ModelSamplingAuraFlow', 'Flow shift 3.1', 370, -450, model=model, shift=3.1)
-    model = g.add('CFGNorm', 'CFG normalization', 740, -450, model=model, strength=1.0, pre_cfg=False)
+    model = g.add('UNETLoader', 'Qwen Image 2.1 · INT8 ConvRot', 0, -450,
+                  unet_name='qwen_image_2.1_int8_convrot.safetensors', weight_dtype='default')
+    model = g.add('QwenImage21Cache', '2.1 참조 캐시 · 자동 메모리 배치', 370, -450,
+                  model=model, device='auto', dtype='default')
     clip = g.add('CLIPLoader', 'Qwen vision-language encoder', 0, -200,
-                 clip_name='qwen_2.5_vl_7b_fp8_scaled.safetensors', type='qwen_image', device='default')
-    vae = g.add('VAELoader', 'Qwen VAE', 370, -200, vae_name='qwen_image_vae.safetensors')
+                 clip_name='qwen3vl_8b_int8_convrot.safetensors', type='qwen_image', device='default')
+    vae = g.add('VAELoader', 'Qwen 2.1 RGBA VAE', 370, -200, vae_name='qwen_image_2.1_vae_bf16.safetensors')
     return model, clip, vae
 
 
 def generate(g, resources, refs, prompt, label, y, width, seed):
     model, clip, vae = resources
-    images = {f'image{i+1}': ref for i, ref in enumerate(refs)}
-    conditioning = []
-    for index, text in enumerate((prompt, NEGATIVE)):
-        c = g.add('TextEncodeQwenImageEditPlus', label + (' · 지시문' if index == 0 else ' · 제외'),
-                  750, y + index * 310, clip=clip, vae=vae, prompt=text, **images)
-        c = g.add('FluxKontextMultiReferenceLatentMethod', label + ' · 참조 정렬',
-                  1130, y + index * 220, conditioning=c, reference_latents_method='index_timestep_zero')
-        conditioning.append(c)
-    latent = g.add('EmptySD3LatentImage', label + ' · 출력 크기', 1130, y + 450,
-                   width=width, height=1152, batch_size=1)
-    sampled = g.add('KSampler', label + ' · 생성', 1500, y, model=model, positive=conditioning[0],
-                    negative=conditioning[1], latent_image=latent, seed=seed, steps=20, cfg=4.0,
+    canvas = g.add('EmptyImage', label + ' · 출력 캔버스', 750, y + 400,
+                   width=width, height=1152, batch_size=1, color=0xC0C0C0)
+    images = {'images.image_1': canvas}
+    for i, ref in enumerate(refs, 2):
+        images[f'images.image_{i}'] = ref
+    prompt = re.sub(r'Picture (\d+)', lambda m: f'<image{int(m[1])+1}>', prompt)
+    prompt = ('Replace the blank gray canvas in <image1> with the following complete character image. '
+              'Use the other images only as references, not as a collage. Render an opaque image. ' + prompt +
+              ' Avoid: ' + NEGATIVE + '.')
+    encoded = g.add('TextEncodeQwenImage21', label + ' · 2.1 지시문과 참조', 1130, y,
+                    clip=clip, vae=vae, prompt=prompt, negative_prompt='', resolution=0, **images)
+    sampled = g.add('KSampler', label + ' · 생성', 1500, y, model=model, positive=encoded,
+                    negative=[encoded[0], 1], latent_image=[encoded[0], 2], seed=seed, steps=25, cfg=1.0,
                     sampler_name='euler', scheduler='simple', denoise=1.0)
     decoded = g.add('VAEDecodeTiled', label + ' · 타일 디코딩', 1870, y, samples=sampled, vae=vae,
                     tile_size=512, overlap=64, temporal_size=64, temporal_overlap=8)
+    decoded = g.add('SplitImageWithAlpha', label + ' · 불투명 RGB 시트용', 1870, y + 330, image=decoded)
     g.add('SaveImage', label + ' · 개별 PNG 저장', 2240, y, images=decoded,
           filename_prefix=f'character-sheets/%date:yyyy-MM-dd%/{label}')
     return decoded
 
 
+def reference(g, title, x, y, filename):
+    image = g.add('LoadImage', title, x, y, image=filename)
+    return g.add('ImageScaleToMaxDimension', title + ' · 참조 크기 제한', x, y + 410,
+                 image=image, upscale_method='lanczos', largest_size=1024)
+
+
 def graphs():
     anchor = Graph()
     resources = loaders(anchor)
-    face = anchor.add('LoadImage', '01 얼굴 클로즈업 · 정체성만 사용', 0, 150, image='FACE_REFERENCE.png')
-    outfit = anchor.add('LoadImage', '02 의상 참조 · 얼굴은 무시', 370, 150, image='OUTFIT_REFERENCE.png')
+    face = reference(anchor, '01 얼굴 클로즈업 · 정체성만 사용', 0, 150, 'FACE_REFERENCE.png')
+    outfit = reference(anchor, '02 의상 참조 · 얼굴은 무시', 370, 150, 'OUTFIT_REFERENCE.png')
     generate(anchor, resources, [face, outfit], STUDIO + BODY +
              'Picture 1 is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, '
              'age appearance and skin tone. Picture 2 supplies clothing, footwear, accessories and hairstyle '
@@ -72,8 +81,8 @@ def graphs():
     sheet = Graph()
     resources = loaders(sheet)
     front = sheet.add('LoadImage', '01 선택한 정면 PNG · 1단계 결과', 0, 150, image='APPROVED_FRONT.png')
-    face = sheet.add('LoadImage', '02 같은 얼굴 원본', 0, 600, image='FACE_REFERENCE.png')
-    outfit = sheet.add('LoadImage', '03 같은 의상 원본', 370, 600, image='OUTFIT_REFERENCE.png')
+    face = reference(sheet, '02 같은 얼굴 원본', 0, 600, 'FACE_REFERENCE.png')
+    outfit = reference(sheet, '03 같은 의상 원본', 370, 600, 'OUTFIT_REFERENCE.png')
     lock = ('Picture 1 is the approved full-body character: preserve its identity, hairstyle, body proportions, '
             'complete clothing, colors, accessories and shoes exactly. Picture 2 provides fine facial identity '
             'only. Picture 3 provides garment detail only; ignore the face of its wearer. '
@@ -117,6 +126,21 @@ def graphs():
             '03_Assemble_Selected_Views': compose}
 
 
+def expanded_inputs(meta, node):
+    result = {}
+    for section in ('required', 'optional'):
+        fields = {}
+        for name, definition in meta['input'].get(section, {}).items():
+            if definition[0] == 'COMFY_AUTOGROW_V3':
+                for field in node['inputs']:
+                    if field.startswith(name + '.'):
+                        fields[field] = ['IMAGE', {}]
+            else:
+                fields[name] = definition
+        result[section] = fields
+    return result
+
+
 def ui_workflow(g, info):
     nodes, by_id, links = [], {}, []
     for key, node in g.api.items():
@@ -129,7 +153,7 @@ def ui_workflow(g, info):
             entry['outputs'].append({'name': meta.get('output_name', meta['output'])[i],
                                      'type': kind, 'links': [], 'slot_index': i})
         for section in ('required', 'optional'):
-            for name, definition in meta['input'].get(section, {}).items():
+            for name, definition in expanded_inputs(meta, node).get(section, {}).items():
                 kind = definition[0]
                 opts = definition[1] if len(definition) > 1 else {}
                 value = node['inputs'].get(name)

@@ -2,7 +2,7 @@
 import json
 import unittest
 from urllib.request import urlopen
-from build_workflows import graphs, ui_workflow
+from build_workflows import graphs, ui_workflow, expanded_inputs
 
 
 class WorkflowTests(unittest.TestCase):
@@ -17,8 +17,9 @@ class WorkflowTests(unittest.TestCase):
                 for key, node in graph.api.items():
                     meta = self.info[node['class_type']]
                     self.assertFalse(meta.get('api_node', False))
-                    inputs = {**meta['input'].get('required', {}), **meta['input'].get('optional', {})}
-                    self.assertTrue(set(meta['input'].get('required', {})) <= node['inputs'].keys())
+                    schema = expanded_inputs(meta, node)
+                    inputs = {**schema['required'], **schema['optional']}
+                    self.assertTrue(set(schema['required']) <= node['inputs'].keys())
                     for field, value in node['inputs'].items():
                         self.assertIn(field, inputs)
                         kind = inputs[field][0]
@@ -44,15 +45,23 @@ class WorkflowTests(unittest.TestCase):
 
     def test_identity_and_outfit_roles(self):
         anchor, sheet, compose = graphs().values()
-        encoders = [n for n in anchor.api.values() if n['class_type'] == 'TextEncodeQwenImageEditPlus']
-        self.assertEqual(len(encoders), 2)
-        for node in encoders:
-            self.assertEqual(node['inputs']['image1'], ['6', 0])
-            self.assertEqual(node['inputs']['image2'], ['7', 0])
-        for node in sheet.api.values():
-            if node['class_type'] == 'TextEncodeQwenImageEditPlus':
-                self.assertEqual([node['inputs'][f'image{i}'] for i in (1, 2, 3)],
-                                 [['6', 0], ['7', 0], ['8', 0]])
+        def source_image(graph, link):
+            node = graph.api[link[0]]
+            while node['class_type'] == 'ImageScaleToMaxDimension':
+                node = graph.api[node['inputs']['image'][0]]
+            return node['inputs']['image']
+        for graph, expected in ((anchor, ['FACE_REFERENCE.png', 'OUTFIT_REFERENCE.png']),
+                                (sheet, ['APPROVED_FRONT.png', 'FACE_REFERENCE.png', 'OUTFIT_REFERENCE.png'])):
+            encoders = [n for n in graph.api.values() if n['class_type'] == 'TextEncodeQwenImage21']
+            self.assertEqual(len(encoders), 1 if graph is anchor else 3)
+            for node in encoders:
+                canvas = graph.api[node['inputs']['images.image_1'][0]]
+                self.assertEqual(canvas['class_type'], 'EmptyImage')
+                actual = [source_image(graph, node['inputs'][f'images.image_{i}'])
+                          for i in range(2, len(expected) + 2)]
+                self.assertEqual(actual, expected)
+                self.assertNotIn('Picture ', node['inputs']['prompt'])
+                self.assertIn('<image1>', node['inputs']['prompt'])
         self.assertEqual(sum(n['class_type'] == 'KSampler' for n in sheet.api.values()), 3)
         self.assertEqual(sum(n['class_type'] == 'SaveImage' for n in sheet.api.values()), 4)
         self.assertFalse(any(n['class_type'] == 'KSampler' for n in compose.api.values()))
@@ -69,6 +78,20 @@ class WorkflowTests(unittest.TestCase):
                 if node['class_type'] == 'ImageStitch':
                     self.assertEqual(node['inputs']['direction'], 'right')
                     self.assertFalse(node['inputs']['match_image_size'])
+
+    def test_qwen21_latent_and_sampler(self):
+        for graph in graphs().values():
+            self.assertNotIn('2511', json.dumps(graph.api))
+            for node in graph.api.values():
+                if node['class_type'] == 'KSampler':
+                    self.assertEqual(node['inputs']['cfg'], 1)
+                    self.assertEqual(node['inputs']['steps'], 25)
+                    latent = node['inputs']['latent_image']
+                    self.assertEqual(latent[1], 2)
+                    self.assertEqual(graph.api[latent[0]]['class_type'], 'TextEncodeQwenImage21')
+                if node['class_type'] == 'SaveImage' and '개별 PNG' in node['_meta']['title']:
+                    image = graph.api[node['inputs']['images'][0]]
+                    self.assertEqual(image['class_type'], 'SplitImageWithAlpha')
 
 
 if __name__ == '__main__':

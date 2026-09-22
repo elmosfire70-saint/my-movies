@@ -6,9 +6,9 @@ import shutil
 import subprocess
 
 MODELS = [
-    ('Comfy-Org/Qwen-Image-Edit_ComfyUI', 'diffusion_models/qwen_image_edit_2511_fp8mixed.safetensors', 20533762817, 'c9fdc158e46d3b61ef75f21ae866ca2fe808bf4a53643120d1c1e87c19280a4e'),
-    ('Comfy-Org/Qwen-Image_ComfyUI', 'text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors', 9384670680, 'cb5636d852a0ea6a9075ab1bef496c0db7aef13c02350571e388aea959c5c0b4'),
-    ('Comfy-Org/Qwen-Image_ComfyUI', 'vae/qwen_image_vae.safetensors', 253806246, 'a70580f0213e67967ee9c95f05bb400e8fb08307e017a924bf3441223e023d1f'),
+    ('Comfy-Org/Qwen-Image-2.1', 'diffusion_models/qwen_image_2.1_int8_convrot.safetensors', 7256783064, 'cb74113cb03faecd79611b01fd7fd642f0aa60d6f0b95086abee214d75eaa57d'),
+    ('Comfy-Org/Qwen-Image-2.1', 'text_encoders/qwen3vl_8b_int8_convrot.safetensors', 9350798360, '8bfd0f6e12abf2d2d697ecc888e5e90b0d6741d6708f05799f53afa560452e8f'),
+    ('Comfy-Org/Qwen-Image-2.1', 'vae/qwen_image_2.1_vae_bf16.safetensors', 675509688, 'bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9'),
 ]
 
 
@@ -25,7 +25,9 @@ def install(root):
     root = Path(root).resolve()
     if not (root / 'main.py').is_file():
         raise ValueError('Select the ComfyUI root containing main.py')
-    needed = sum(size for _, rel, size, _ in MODELS if not (root / 'models' / rel).exists())
+    needed = sum(max(0, size - ((root / 'models' / rel).with_suffix('.safetensors.part').stat().st_size
+                               if (root / 'models' / rel).with_suffix('.safetensors.part').exists() else 0))
+                 for _, rel, size, _ in MODELS if not (root / 'models' / rel).exists())
     if shutil.disk_usage(root).free < needed + 2_000_000_000:
         raise ValueError('Insufficient disk space')
     for repo, rel, size, digest in MODELS:
@@ -40,7 +42,7 @@ def install(root):
         subprocess.run(['curl.exe', '--fail', '--location', '--retry', '4', '--connect-timeout', '30',
                         '--speed-time', '120', '--speed-limit', '1024', '--continue-at', '-',
                         '--output', str(part), '--silent', '--show-error',
-                        f'https://huggingface.co/{repo}/resolve/main/split_files/{rel}'], check=True)
+                        f'https://huggingface.co/{repo}/resolve/main/{rel}'], check=True)
         verify(part, size, digest)
         part.rename(target)
         print(f'SHA256 verified: {target.name}', flush=True)
