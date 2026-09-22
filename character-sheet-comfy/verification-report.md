@@ -12,6 +12,16 @@
 - 실제 생성 RGBA의 알파 범위 244~255를 확인해 최종 그래프에 표준 RGB 분리 노드를 추가했다. 최종 그래프를 서버에 재제출하여 생성 노드 1~12 캐시 재사용 및 RGB 저장 성공 확인. prompt_id `b2615df9-4243-42b6-928b-ef14527b93aa`. `front-rgb.png`가 RGB / 512×1152이고 기존 생성 이미지의 RGB 픽셀과 정확히 같은지 Pillow assertion으로 검사해 통과했다. 변경 후 단위 테스트 4개 및 설치 파일 해시 일치를 다시 확인했다.
 - 2.1의 측면·후면·클로즈업 전체 실 생성은 아직 미검증이다. 이전 2511 정면 548초와 설정이 다르므로 146초와의 차이를 모델 자체 속도 향상 배율로 단정하지 않는다.
 
+## 2.1 턴어라운드 실 생성 검증
+
+- `python output/character-sheets/QWEN21_VALIDATION/run.py submit-side` 및 `status-side` 성공. 측면 결과 512×1152 RGB, Qwen 2.1, 25 steps / CFG 1.0, prompt_id `21755d16-96d3-4767-a4fc-755e82135152`. 서버 기록 기준 약 244초.
+- 앞서 시작된 다중 시점 작업의 출력 폴더에서 후면 512×1152 RGB를 회수했다. 화면 방향과 모자·짧은 머리·스카프·군복·신발을 육안 확인했다. ComfyUI가 재시작되어 해당 작업의 history가 없어 후면 prompt_id와 처리 시간을 확인할 수 없다.
+- 얼굴 확대 지시를 강화해도 Qwen 2.1이 승인 정면의 전신 구도를 반복했다. `closeup-27-0.png`에 이 동작을 보존하고, 선택된 얼굴 확대는 정면 패널의 머리·얼굴·상반신을 자르고 Lanczos로 확대해 구성했다. 따라서 확대 패널은 재생성이 아닌 동일 픽셀 기반 크롭이다.
+- `python output/character-sheets/QWEN21_VALIDATION/run.py submit-compose` 및 `status-compose` 성공. 실제 ComfyUI 합성 워크플로가 패널을 보정 생성 없이 정면→왼쪽 측면→후면→얼굴 확대 순으로 연결했다. 최종 PNG는 RGB 2304×1152이며 비율을 유지했다. prompt_id `cff72fa8-e45d-4d4f-8be9-b57ee35e48ad`.
+- `output/character-sheets/MILITARY_FACE_001/v003/`에 선택 패널, 시트, 입력 참조, API 요청, 완료 history, 실패한 확대 생성 예시와 manifest를 저장했다. v001·v002는 보존했다.
+- 육안 검토에서 전신 패널의 시점·복장·신발은 확인했다. 얼굴 특징과 제복 패치의 세부 일치성은 보장되지 않는다. 후면의 가려진 복장 세부는 추정이다.
+- 실행한 체크. `python -m py_compile output/character-sheets/QWEN21_VALIDATION/run.py`, `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`, 그리고 최종 파일 크기·색상모드·SHA256 및 manifest 경로 대조.
+
 아래는 교체 전 2511 모델의 검증 기록이다.
 
 ## 구현 및 설치
