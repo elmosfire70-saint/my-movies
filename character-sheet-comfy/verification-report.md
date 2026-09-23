@@ -1,5 +1,15 @@
 # 검증 보고
 
+## 베레모와 일반 모자 분기 개선
+
+- 정면 지시에서 의상 원본의 모자 종류를 먼저 구분한다. 베레모는 낮고 비대칭인 가장자리가 한쪽 눈썹의 바깥 윗부분에 닿거나 살짝 겹치도록, 일반 모자는 챙을 두 눈썹 가까이에 두되 둘 다 가리지 않도록, 모자가 없으면 추가하지 않도록 작성했다. 측면은 참된 90도 시점을 우선하며 정면에서 정한 모자 형태와 낮은 위치를 유지한다.
+- 첫 전체 생성 `submit-beret`/`status-beret`, prompt_id `16418425-6c7a-4800-8875-be6e6b52f0b4`는 서버에서는 성공했으나 측면이 정면으로 나와 결과로 채택하지 않았다. 측면 프롬프트에서 눈썹 접촉 설명을 줄이고 90도 옆모습을 강조했다.
+- `python output/character-sheets/ONE_CLICK_VALIDATION/run.py submit-beret-front`/`status-beret-front`로 강화한 정면 프롬프트를 단독 확인했다. prompt_id `6d9986ad-4a5d-4f80-a693-770d9b81086f`.
+- `python output/character-sheets/ONE_CLICK_VALIDATION/run.py submit-beret-v2`/`status-beret-v2`로 전체 시트를 다시 생성했다. prompt_id `f9ae816b-90b4-46fd-85e4-aa0049dfb9e0`, 서버 기록상 **433.020초**, 완료 상태 `success`. 정면·왼쪽 90도 측면·후면·확대가 각각 올바른 시점이고 모자·복장이 이어지는지 육안 확인했다. 다만 확대에서 베레모와 한쪽 눈썹 사이에 좁은 틈이 남아 **정확한 접촉은 미달**이다.
+- 결과를 `output/character-sheets/MILITARY_FACE_001/v007/`에 새 버전으로 보존했다. `character-sheet.json` 및 선택형 01·02 UI 워크플로를 ComfyUI API로 갱신하고 GET SHA256 일치를 확인했다. 이전 저장본은 `output/character-sheets/ONE_CLICK_VALIDATION/before-beret-*`에 보존했다.
+- `python character-sheet-comfy/build_workflows.py` 성공, `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`에서 네 테스트 통과. 일반 모자 사진으로 실제 생성은 수행하지 않았으므로 일반 모자 분기의 시각 품질은 미검증이다.
+- v007의 참조·개별 패널·시트 SHA256을 manifest와 대조하고 Pillow로 시트의 네 칸이 개별 PNG와 픽셀 단위로 일치하는지 검사해 통과했다. `python -m py_compile output/character-sheets/ONE_CLICK_VALIDATION/run.py output/character-sheets/ONE_CLICK_VALIDATION/package_beret.py output/character-sheets/ONE_CLICK_VALIDATION/deploy_beret.py`와 `git diff --check`도 통과했다.
+
 ## 베레모 착용 위치와 얼굴·의상 결합 개선
 
 - 정면 프롬프트에서 얼굴 원본은 얼굴형·눈썹·눈·코·입·피부색에, 의상 원본은 베레모·스카프·제복 재단·패치 위치·바지·신발에 사용하도록 역할을 구분했다. 베레모 띠를 눈썹 바로 위에 맞추고 머리카락을 띠 아래에 자연스럽게 배치하도록 지시했다. 측면은 같은 모자 크기·기울기·띠 높이를, 후면은 귀 위의 띠와 앞면 휘장 비노출을 지시했다.
