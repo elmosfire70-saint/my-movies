@@ -67,8 +67,12 @@ def reference(g, title, x, y, filename):
 
 def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
     lock = ('Picture 1 is the approved full-body character: preserve its identity, hairstyle, body proportions, '
-            'complete clothing, colors, accessories and shoes exactly. Picture 2 provides fine facial identity '
-            'only. Picture 3 provides garment detail only; ignore the face of its wearer. '
+            'complete clothing, colors, accessories and shoes. Picture 2 provides fine facial identity only. '
+            'Picture 3 provides garment detail only; ignore the face of its wearer. Keep every garment piece on '
+            'the same part of the body and do not mirror or duplicate patches. If the approved character wears '
+            'a beret, keep the same fitted size, crown shape, tilt, side drape and narrow gap between its band '
+            'and eyebrows when the head is rotated. The band stays snug on the head, not perched higher or '
+            'pulled over the eyebrows. Keep the front insignia on the front of the beret. '
             'Do not redesign, add accessories, change age or change expression. ')
     side = generate(g, resources, [front, face, outfit], STUDIO + BODY + lock +
                     'Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders '
@@ -77,6 +81,10 @@ def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
     rear_lock = ('Picture 1 shows the approved character from the FRONT. Use it to match the same body proportions, '
                  'hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character '
                  '180 degrees in three-dimensional space rather than copying the front garment surface onto the back. '
+                 'If the character wears a beret, keep its crown size, soft fold and fitted band at the same '
+                 'anatomical height as the approved front; from behind the band passes just above the ears and '
+                 'the short hair remains visible below it. The insignia is on the hidden front of the beret, '
+                 'not on its back. '
                  'Front chest badges, front zipper and other front-only details remain on the hidden front. '
                  'If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden '
                  'front; from behind show only the scarf wrap at the back of the neck. The rear garment shows '
@@ -103,13 +111,22 @@ def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
 
 def graphs():
     front_prompt = (STUDIO + BODY +
-                    'Picture 1 is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, '
-                    'age appearance and skin tone. Picture 2 supplies clothing, footwear and accessories, including '
-                    'headwear. If the selected outfit wearer has a hat, put that same hat on the person from Picture 1 '
-                    'and arrange their own hair naturally beneath it. Ignore the identity of the outfit wearer. Dress the person '
-                    'from Picture 1 in the complete outfit from Picture 2. Straight front view facing the camera. '
-                    'Keep garment colors, cut, fastenings and details. If footwear is unseen use simple matching shoes. '
-                    'If multiple people are in Picture 2 use the central person only. Preserve natural facial detail.')
+                    'Picture 1 is the only source for this person\'s facial identity. Preserve the head shape, '
+                    'forehead, eyebrows, eye shape and spacing, nose, mouth, skin tone, apparent age and visible '
+                    'hairline; ignore the clothing and background in Picture 1. Picture 2 is the clothing source. '
+                    'If several people appear in Picture 2, use only the central wearer. Study the complete outfit '
+                    'carefully: headwear, scarf and knot, collar, garment cut and fabric, fastenings, chest and sleeve '
+                    'patch positions, pockets, trouser shape and footwear. Transfer each visible item to the same '
+                    'anatomical location on the person from Picture 1, with realistic fabric fit and no mirrored '
+                    'or duplicated badges. Ignore the outfit wearer\'s face, sunglasses, pose and background. '
+                    'If Picture 2 has a beret, reproduce its color, soft crown, tilt, side drape, band and front '
+                    'insignia. Fit it snugly to the head from Picture 1: the lower edge of the band sits just a few '
+                    'millimeters above the tops of both eyebrows, leaving only a thin strip of forehead while the '
+                    'eyebrows and eyes stay fully visible. Do not perch the beret high or pull it over the eyebrows. '
+                    'Arrange the original hair naturally under and beside the band. For other headwear, use the '
+                    'same realistic fit and preserve its reference shape. Straight front view facing the camera. '
+                    'The scarf knot and hanging tails stay on the chest, with front patches only on the front. '
+                    'If footwear is unseen use simple matching shoes. Preserve natural facial detail.')
     anchor = Graph()
     resources = loaders(anchor)
     face = reference(anchor, '01 얼굴 클로즈업 · 정체성만 사용', 0, 150, 'FACE_REFERENCE.png')

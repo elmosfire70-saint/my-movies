@@ -1,5 +1,14 @@
 # 검증 보고
 
+## 베레모 착용 위치와 얼굴·의상 결합 개선
+
+- 정면 프롬프트에서 얼굴 원본은 얼굴형·눈썹·눈·코·입·피부색에, 의상 원본은 베레모·스카프·제복 재단·패치 위치·바지·신발에 사용하도록 역할을 구분했다. 베레모 띠를 눈썹 바로 위에 맞추고 머리카락을 띠 아래에 자연스럽게 배치하도록 지시했다. 측면은 같은 모자 크기·기울기·띠 높이를, 후면은 귀 위의 띠와 앞면 휘장 비노출을 지시했다.
+- `python character-sheet-comfy/build_workflows.py` 성공. 14·32·12·33개 노드 그래프 재생성. `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`에서 4개 테스트 통과.
+- `python output/character-sheets/ONE_CLICK_VALIDATION/run.py submit-hat`과 `status-hat`으로 v005의 두 참조 사진을 사용해 새 그래프를 실제 실행했다. prompt_id `66ccb045-649a-4328-8679-80254b0d7d2c`, 서버 실행 시작·완료 기록 차이 **403.809초**, status `success`.
+- `output/character-sheets/MILITARY_FACE_001/v006/sheet.png` 및 개별 패널, 참조 PNG, API 요청·이력, 해시·실제 크기가 담긴 manifest를 새 버전으로 보존했다. 시트는 RGB 2304×1152다. 육안으로 정면의 베레모가 눈썹에 더 가깝고 눈·눈썹을 가리지 않는 점, 측면의 모자·복장 연속성, 후면의 앞장식 비복제를 확인했다. 패치 글자·문양과 얼굴의 정확한 동일성은 보장하지 않는다.
+- ComfyUI `character-sheet.json`, 선택형 `01_Face_Outfit_Anchor.json`, `02_Character_Turnaround.json`을 이전 JSON 백업 후 API로 갱신했다. GET으로 읽은 저장본 SHA256이 생성된 UI JSON과 일치함을 확인했다. 백업은 `output/character-sheets/ONE_CLICK_VALIDATION/before-hat-*`에 있다.
+- v006 manifest의 참조·패널·시트 SHA256과 실제 파일을 대조하고, Pillow로 합성 시트의 각 칸이 해당 개별 PNG와 픽셀 단위로 같은지 검사해 통과했다. `python -m py_compile output/character-sheets/ONE_CLICK_VALIDATION/package_hat.py output/character-sheets/ONE_CLICK_VALIDATION/deploy_hat.py output/character-sheets/ONE_CLICK_VALIDATION/run.py`와 `git diff --check`도 통과했다.
+
 ## 현재 배포 모델. Qwen Image 2.1
 
 - 생성 모델·텍스트 인코더·VAE 세 파일 다운로드 및 SHA256 검증 통과. 합계 17,283,091,112바이트.
