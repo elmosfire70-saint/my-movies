@@ -17,10 +17,10 @@ class Graph:
     def __init__(self):
         self.api, self.layout = {}, {}
 
-    def add(self, kind, title, x, y, **inputs):
+    def add(self, kind, title, pos_x, pos_y, **inputs):
         key = str(len(self.api) + 1)
         self.api[key] = {'class_type': kind, 'inputs': inputs, '_meta': {'title': title}}
-        self.layout[key] = [x, y]
+        self.layout[key] = [pos_x, pos_y]
         return [key, 0]
 
 
@@ -65,32 +65,15 @@ def reference(g, title, x, y, filename):
                  image=image, upscale_method='lanczos', largest_size=1024)
 
 
-def graphs():
-    anchor = Graph()
-    resources = loaders(anchor)
-    face = reference(anchor, '01 얼굴 클로즈업 · 정체성만 사용', 0, 150, 'FACE_REFERENCE.png')
-    outfit = reference(anchor, '02 의상 참조 · 얼굴은 무시', 370, 150, 'OUTFIT_REFERENCE.png')
-    generate(anchor, resources, [face, outfit], STUDIO + BODY +
-             'Picture 1 is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, '
-             'age appearance and skin tone. Picture 2 supplies clothing, footwear, accessories and hairstyle '
-             'only when explicitly part of its headwear; ignore the identity of its wearer. Dress the person '
-             'from Picture 1 in the complete outfit from Picture 2. Straight front view facing the camera. '
-             'Keep garment colors, cut, fastenings and details. If footwear is unseen use simple matching shoes. '
-             'If multiple people are in Picture 2 use the central person only. Preserve natural facial detail.',
-             'front', 150, 512, 20260922)
-    sheet = Graph()
-    resources = loaders(sheet)
-    front = sheet.add('LoadImage', '01 선택한 정면 PNG · 1단계 결과', 0, 150, image='APPROVED_FRONT.png')
-    face = reference(sheet, '02 같은 얼굴 원본', 0, 600, 'FACE_REFERENCE.png')
-    outfit = reference(sheet, '03 같은 의상 원본', 370, 600, 'OUTFIT_REFERENCE.png')
+def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
     lock = ('Picture 1 is the approved full-body character: preserve its identity, hairstyle, body proportions, '
             'complete clothing, colors, accessories and shoes exactly. Picture 2 provides fine facial identity '
             'only. Picture 3 provides garment detail only; ignore the face of its wearer. '
             'Do not redesign, add accessories, change age or change expression. ')
-    side = generate(sheet, resources, [front, face, outfit], STUDIO + BODY + lock +
+    side = generate(g, resources, [front, face, outfit], STUDIO + BODY + lock +
                     'Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders '
                     'aligned in profile. No three-quarter view. Match the head-to-foot size of Picture 1.',
-                    'side', 150, 512, 20260923)
+                    'side', y, 512, 20260923)
     rear_lock = ('Picture 1 shows the approved character from the FRONT. Use it to match the same body proportions, '
                  'hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character '
                  '180 degrees in three-dimensional space rather than copying the front garment surface onto the back. '
@@ -98,14 +81,46 @@ def graphs():
                  'If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden '
                  'front; from behind show only the scarf wrap at the back of the neck. The rear garment shows '
                  'continuous fabric and plausible rear seams. ')
-    back = generate(sheet, resources, [front], STUDIO + BODY + rear_lock +
+    back = generate(g, resources, [front], STUDIO + BODY + rear_lock +
                     'Strict 180-degree rear view, looking directly away, back of head visible, no face visible. '
                     'Infer unseen rear garment construction conservatively; do not duplicate front decorations. '
-                    'Match the head-to-foot size of Picture 1.', 'back', 950, 512, 20260924)
-    close = generate(sheet, resources, [front, face, outfit], STUDIO + lock +
-                     'Front-facing head-and-shoulders close-up of the SAME character, whole head and hair or '
-                     'headwear within frame. Match collar and hairstyle to Picture 1. Eyes visible, natural '
-                     'neutral expression. No beautification, no face reshaping.', 'closeup', 1750, 768, 20260925)
+                    'Match the head-to-foot size of Picture 1.', 'back', y + 800, 512, 20260924)
+    if crop_closeup:
+        cropped = g.add('ImageCrop', '얼굴 확대 · 생성 정면에서 자르기', 2240, y + 1600,
+                        image=front, width=240, height=360, x=136, y=65)
+        close = g.add('ImageScale', '얼굴 확대 · 비율 유지', 2620, y + 1600, image=cropped,
+                      upscale_method='lanczos', width=0, height=1152, crop='disabled')
+        g.add('SaveImage', 'closeup · 개별 PNG 저장', 2990, y + 1600, images=close,
+              filename_prefix='character-sheets/%date:yyyy-MM-dd%/closeup')
+    else:
+        close = generate(g, resources, [front, face, outfit], STUDIO + lock +
+                         'Front-facing head-and-shoulders close-up of the SAME character, whole head and hair or '
+                         'headwear within frame. Match collar and hairstyle to Picture 1. Eyes visible, natural '
+                         'neutral expression. No beautification, no face reshaping.',
+                         'closeup', y + 1600, 768, 20260925)
+    return side, back, close
+
+
+def graphs():
+    front_prompt = (STUDIO + BODY +
+                    'Picture 1 is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, '
+                    'age appearance and skin tone. Picture 2 supplies clothing, footwear and accessories, including '
+                    'headwear. If the selected outfit wearer has a hat, put that same hat on the person from Picture 1 '
+                    'and arrange their own hair naturally beneath it. Ignore the identity of the outfit wearer. Dress the person '
+                    'from Picture 1 in the complete outfit from Picture 2. Straight front view facing the camera. '
+                    'Keep garment colors, cut, fastenings and details. If footwear is unseen use simple matching shoes. '
+                    'If multiple people are in Picture 2 use the central person only. Preserve natural facial detail.')
+    anchor = Graph()
+    resources = loaders(anchor)
+    face = reference(anchor, '01 얼굴 클로즈업 · 정체성만 사용', 0, 150, 'FACE_REFERENCE.png')
+    outfit = reference(anchor, '02 의상 참조 · 얼굴은 무시', 370, 150, 'OUTFIT_REFERENCE.png')
+    generate(anchor, resources, [face, outfit], front_prompt, 'front', 150, 512, 20260922)
+    sheet = Graph()
+    resources = loaders(sheet)
+    front = sheet.add('LoadImage', '01 선택한 정면 PNG · 1단계 결과', 0, 150, image='APPROVED_FRONT.png')
+    face = reference(sheet, '02 같은 얼굴 원본', 0, 600, 'FACE_REFERENCE.png')
+    outfit = reference(sheet, '03 같은 의상 원본', 370, 600, 'OUTFIT_REFERENCE.png')
+    side, back, close = turnaround_views(sheet, resources, front, face, outfit, 150)
     front_scaled = sheet.add('ImageScale', '정면 높이 정렬 · 비율 유지', 2240, -250,
                              image=front, upscale_method='lanczos', width=0, height=1152, crop='disabled')
     combined = front_scaled
@@ -129,8 +144,21 @@ def graphs():
                                     spacing_width=0, spacing_color='white')
     compose.add('SaveImage', '재생성 없이 최종 합성', 1600, 760, images=combined,
                  filename_prefix='character-sheets/%date:yyyy-MM-dd%/selected_turnaround')
+    one_click = Graph()
+    resources = loaders(one_click)
+    face = reference(one_click, '01 얼굴 원본 · 인물 특징', 0, 150, 'FACE_REFERENCE.png')
+    outfit = reference(one_click, '02 의상 원본 · 복장 특징', 370, 150, 'OUTFIT_REFERENCE.png')
+    front = generate(one_click, resources, [face, outfit], front_prompt, 'front', 150, 512, 20260922)
+    side, back, close = turnaround_views(one_click, resources, front, face, outfit, 950, crop_closeup=True)
+    combined = front
+    for index, part in enumerate((side, back, close)):
+        combined = one_click.add('ImageStitch', '정면 → 측면 → 후면 → 얼굴', 3000 + index * 370, 950,
+                                 image1=combined, image2=part, direction='right', match_image_size=False,
+                                 spacing_width=0, spacing_color='white')
+    one_click.add('SaveImage', '완성된 캐릭터 시트', 4110, 950, images=combined,
+                  filename_prefix='character-sheets/%date:yyyy-MM-dd%/character-sheet')
     return {'01_Face_Outfit_Anchor': anchor, '02_Character_Turnaround': sheet,
-            '03_Assemble_Selected_Views': compose}
+            '03_Assemble_Selected_Views': compose, '04_Character_Sheet_One_Click': one_click}
 
 
 def expanded_inputs(meta, node):

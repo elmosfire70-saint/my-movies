@@ -1,0 +1,1988 @@
+{
+  "last_node_id": 33,
+  "last_link_id": 52,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "title": "Qwen Image 2.1 · INT8 ConvRot",
+      "pos": [
+        0,
+        -450
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen_image_2.1_int8_convrot.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "QwenImage21Cache",
+      "title": "2.1 참조 캐시 · 자동 메모리 배치",
+      "pos": [
+        370,
+        -450
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "QwenImage21Cache",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            9,
+            23,
+            35
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "auto",
+        "default"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "CLIPLoader",
+      "title": "Qwen vision-language encoder",
+      "pos": [
+        0,
+        -200
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4,
+            17,
+            31
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen3vl_8b_int8_convrot.safetensors",
+        "qwen_image",
+        "default"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "title": "Qwen 2.1 RGBA VAE",
+      "pos": [
+        370,
+        -200
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8,
+            14,
+            22,
+            28,
+            34,
+            40
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen_image_2.1_vae_bf16.safetensors"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "LoadImage",
+      "title": "01 얼굴 원본 · 인물 특징",
+      "pos": [
+        0,
+        150
+      ],
+      "size": [
+        345,
+        380
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": [
+        "FACE_REFERENCE.png",
+        "image"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ImageScaleToMaxDimension",
+      "title": "01 얼굴 원본 · 인물 특징 · 참조 크기 제한",
+      "pos": [
+        0,
+        560
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScaleToMaxDimension",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6,
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        1024
+      ]
+    },
+    {
+      "id": 7,
+      "type": "LoadImage",
+      "title": "02 의상 원본 · 복장 특징",
+      "pos": [
+        370,
+        150
+      ],
+      "size": [
+        345,
+        380
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": [
+        "OUTFIT_REFERENCE.png",
+        "image"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ImageScaleToMaxDimension",
+      "title": "02 의상 원본 · 복장 특징 · 참조 크기 제한",
+      "pos": [
+        370,
+        560
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScaleToMaxDimension",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            7,
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        1024
+      ]
+    },
+    {
+      "id": 9,
+      "type": "EmptyImage",
+      "title": "front · 출력 캔버스",
+      "pos": [
+        750,
+        550
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "EmptyImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        1152,
+        1,
+        12632256
+      ]
+    },
+    {
+      "id": 10,
+      "type": "TextEncodeQwenImage21",
+      "title": "front · 2.1 지시문과 참조",
+      "pos": [
+        1130,
+        150
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImage21",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        },
+        {
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "images.image_2",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "name": "images.image_3",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            12
+          ],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, age appearance and skin tone. <image3> supplies clothing, footwear and accessories, including headwear. If the selected outfit wearer has a hat, put that same hat on the person from <image2> and arrange their own hair naturally beneath it. Ignore the identity of the outfit wearer. Dress the person from <image2> in the complete outfit from <image3>. Straight front view facing the camera. Keep garment colors, cut, fastenings and details. If footwear is unseen use simple matching shoes. If multiple people are in <image3> use the central person only. Preserve natural facial detail. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "",
+        0
+      ]
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "title": "front · 생성",
+      "pos": [
+        1500,
+        150
+      ],
+      "size": [
+        345,
+        340
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 9
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 10
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            13
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20260922,
+        "fixed",
+        25,
+        1.0,
+        "euler",
+        "simple",
+        1.0
+      ]
+    },
+    {
+      "id": 12,
+      "type": "VAEDecodeTiled",
+      "title": "front · 타일 디코딩",
+      "pos": [
+        1870,
+        150
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 13
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            15
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        64,
+        64,
+        8
+      ]
+    },
+    {
+      "id": 13,
+      "type": "SplitImageWithAlpha",
+      "title": "front · 불투명 RGB 시트용",
+      "pos": [
+        1870,
+        480
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SplitImageWithAlpha",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            16,
+            19,
+            33,
+            43,
+            46
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "SaveImage",
+      "title": "front · 개별 PNG 저장",
+      "pos": [
+        2240,
+        150
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "character-sheets/%date:yyyy-MM-dd%/front"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "EmptyImage",
+      "title": "side · 출력 캔버스",
+      "pos": [
+        750,
+        1350
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "EmptyImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        1152,
+        1,
+        12632256
+      ]
+    },
+    {
+      "id": 16,
+      "type": "TextEncodeQwenImage21",
+      "title": "side · 2.1 지시문과 참조",
+      "pos": [
+        1130,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImage21",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 17
+        },
+        {
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "images.image_2",
+          "type": "IMAGE",
+          "link": 19
+        },
+        {
+          "name": "images.image_3",
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "name": "images.image_4",
+          "type": "IMAGE",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            24
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            25
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            26
+          ],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved full-body character: preserve its identity, hairstyle, body proportions, complete clothing, colors, accessories and shoes exactly. <image3> provides fine facial identity only. <image4> provides garment detail only; ignore the face of its wearer. Do not redesign, add accessories, change age or change expression. Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders aligned in profile. No three-quarter view. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "",
+        0
+      ]
+    },
+    {
+      "id": 17,
+      "type": "KSampler",
+      "title": "side · 생성",
+      "pos": [
+        1500,
+        950
+      ],
+      "size": [
+        345,
+        340
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 23
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 24
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 25
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            27
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20260923,
+        "fixed",
+        25,
+        1.0,
+        "euler",
+        "simple",
+        1.0
+      ]
+    },
+    {
+      "id": 18,
+      "type": "VAEDecodeTiled",
+      "title": "side · 타일 디코딩",
+      "pos": [
+        1870,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 27
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            29
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        64,
+        64,
+        8
+      ]
+    },
+    {
+      "id": 19,
+      "type": "SplitImageWithAlpha",
+      "title": "side · 불투명 RGB 시트용",
+      "pos": [
+        1870,
+        1280
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SplitImageWithAlpha",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            30,
+            47
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 20,
+      "type": "SaveImage",
+      "title": "side · 개별 PNG 저장",
+      "pos": [
+        2240,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "character-sheets/%date:yyyy-MM-dd%/side"
+      ]
+    },
+    {
+      "id": 21,
+      "type": "EmptyImage",
+      "title": "back · 출력 캔버스",
+      "pos": [
+        750,
+        2150
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "EmptyImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            32
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        1152,
+        1,
+        12632256
+      ]
+    },
+    {
+      "id": 22,
+      "type": "TextEncodeQwenImage21",
+      "title": "back · 2.1 지시문과 참조",
+      "pos": [
+        1130,
+        1750
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImage21",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 31
+        },
+        {
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 32
+        },
+        {
+          "name": "images.image_2",
+          "type": "IMAGE",
+          "link": 33
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 34
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            36
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            37
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            38
+          ],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> shows the approved character from the FRONT. Use it to match the same body proportions, hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character 180 degrees in three-dimensional space rather than copying the front garment surface onto the back. Front chest badges, front zipper and other front-only details remain on the hidden front. If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden front; from behind show only the scarf wrap at the back of the neck. The rear garment shows continuous fabric and plausible rear seams. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; do not duplicate front decorations. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "",
+        0
+      ]
+    },
+    {
+      "id": 23,
+      "type": "KSampler",
+      "title": "back · 생성",
+      "pos": [
+        1500,
+        1750
+      ],
+      "size": [
+        345,
+        340
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 35
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 36
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 37
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 38
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            39
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20260924,
+        "fixed",
+        25,
+        1.0,
+        "euler",
+        "simple",
+        1.0
+      ]
+    },
+    {
+      "id": 24,
+      "type": "VAEDecodeTiled",
+      "title": "back · 타일 디코딩",
+      "pos": [
+        1870,
+        1750
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 39
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 40
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            41
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        64,
+        64,
+        8
+      ]
+    },
+    {
+      "id": 25,
+      "type": "SplitImageWithAlpha",
+      "title": "back · 불투명 RGB 시트용",
+      "pos": [
+        1870,
+        2080
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SplitImageWithAlpha",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 41
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            42,
+            49
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 26,
+      "type": "SaveImage",
+      "title": "back · 개별 PNG 저장",
+      "pos": [
+        2240,
+        1750
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 42
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "character-sheets/%date:yyyy-MM-dd%/back"
+      ]
+    },
+    {
+      "id": 27,
+      "type": "ImageCrop",
+      "title": "얼굴 확대 · 생성 정면에서 자르기",
+      "pos": [
+        2240,
+        2550
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageCrop",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 43
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            44
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        240,
+        360,
+        136,
+        65
+      ]
+    },
+    {
+      "id": 28,
+      "type": "ImageScale",
+      "title": "얼굴 확대 · 비율 유지",
+      "pos": [
+        2620,
+        2550
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScale",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 44
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            45,
+            51
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        0,
+        1152,
+        "disabled"
+      ]
+    },
+    {
+      "id": 29,
+      "type": "SaveImage",
+      "title": "closeup · 개별 PNG 저장",
+      "pos": [
+        2990,
+        2550
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 45
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "character-sheets/%date:yyyy-MM-dd%/closeup"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "ImageStitch",
+      "title": "정면 → 측면 → 후면 → 얼굴",
+      "pos": [
+        3000,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageStitch",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 46
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 47
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            48
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "right",
+        false,
+        0,
+        "white"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "ImageStitch",
+      "title": "정면 → 측면 → 후면 → 얼굴",
+      "pos": [
+        3370,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageStitch",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 48
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 49
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            50
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "right",
+        false,
+        0,
+        "white"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "ImageStitch",
+      "title": "정면 → 측면 → 후면 → 얼굴",
+      "pos": [
+        3740,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageStitch",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 50
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 51
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            52
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "right",
+        false,
+        0,
+        "white"
+      ]
+    },
+    {
+      "id": 33,
+      "type": "SaveImage",
+      "title": "완성된 캐릭터 시트",
+      "pos": [
+        4110,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 52
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "character-sheets/%date:yyyy-MM-dd%/character-sheet"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      5,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      3,
+      7,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ],
+    [
+      4,
+      3,
+      0,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      9,
+      0,
+      10,
+      1,
+      "IMAGE"
+    ],
+    [
+      6,
+      6,
+      0,
+      10,
+      2,
+      "IMAGE"
+    ],
+    [
+      7,
+      8,
+      0,
+      10,
+      3,
+      "IMAGE"
+    ],
+    [
+      8,
+      4,
+      0,
+      10,
+      4,
+      "VAE"
+    ],
+    [
+      9,
+      2,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      11,
+      10,
+      1,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      10,
+      2,
+      11,
+      3,
+      "LATENT"
+    ],
+    [
+      13,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      14,
+      4,
+      0,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      15,
+      12,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      16,
+      13,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ],
+    [
+      17,
+      3,
+      0,
+      16,
+      0,
+      "CLIP"
+    ],
+    [
+      18,
+      15,
+      0,
+      16,
+      1,
+      "IMAGE"
+    ],
+    [
+      19,
+      13,
+      0,
+      16,
+      2,
+      "IMAGE"
+    ],
+    [
+      20,
+      6,
+      0,
+      16,
+      3,
+      "IMAGE"
+    ],
+    [
+      21,
+      8,
+      0,
+      16,
+      4,
+      "IMAGE"
+    ],
+    [
+      22,
+      4,
+      0,
+      16,
+      5,
+      "VAE"
+    ],
+    [
+      23,
+      2,
+      0,
+      17,
+      0,
+      "MODEL"
+    ],
+    [
+      24,
+      16,
+      0,
+      17,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      25,
+      16,
+      1,
+      17,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      26,
+      16,
+      2,
+      17,
+      3,
+      "LATENT"
+    ],
+    [
+      27,
+      17,
+      0,
+      18,
+      0,
+      "LATENT"
+    ],
+    [
+      28,
+      4,
+      0,
+      18,
+      1,
+      "VAE"
+    ],
+    [
+      29,
+      18,
+      0,
+      19,
+      0,
+      "IMAGE"
+    ],
+    [
+      30,
+      19,
+      0,
+      20,
+      0,
+      "IMAGE"
+    ],
+    [
+      31,
+      3,
+      0,
+      22,
+      0,
+      "CLIP"
+    ],
+    [
+      32,
+      21,
+      0,
+      22,
+      1,
+      "IMAGE"
+    ],
+    [
+      33,
+      13,
+      0,
+      22,
+      2,
+      "IMAGE"
+    ],
+    [
+      34,
+      4,
+      0,
+      22,
+      3,
+      "VAE"
+    ],
+    [
+      35,
+      2,
+      0,
+      23,
+      0,
+      "MODEL"
+    ],
+    [
+      36,
+      22,
+      0,
+      23,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      37,
+      22,
+      1,
+      23,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      38,
+      22,
+      2,
+      23,
+      3,
+      "LATENT"
+    ],
+    [
+      39,
+      23,
+      0,
+      24,
+      0,
+      "LATENT"
+    ],
+    [
+      40,
+      4,
+      0,
+      24,
+      1,
+      "VAE"
+    ],
+    [
+      41,
+      24,
+      0,
+      25,
+      0,
+      "IMAGE"
+    ],
+    [
+      42,
+      25,
+      0,
+      26,
+      0,
+      "IMAGE"
+    ],
+    [
+      43,
+      13,
+      0,
+      27,
+      0,
+      "IMAGE"
+    ],
+    [
+      44,
+      27,
+      0,
+      28,
+      0,
+      "IMAGE"
+    ],
+    [
+      45,
+      28,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      46,
+      13,
+      0,
+      30,
+      0,
+      "IMAGE"
+    ],
+    [
+      47,
+      19,
+      0,
+      30,
+      1,
+      "IMAGE"
+    ],
+    [
+      48,
+      30,
+      0,
+      31,
+      0,
+      "IMAGE"
+    ],
+    [
+      49,
+      25,
+      0,
+      31,
+      1,
+      "IMAGE"
+    ],
+    [
+      50,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      51,
+      28,
+      0,
+      32,
+      1,
+      "IMAGE"
+    ],
+    [
+      52,
+      32,
+      0,
+      33,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        70,
+        500
+      ]
+    }
+  },
+  "version": 0.4
+}

@@ -1,0 +1,564 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "Qwen Image 2.1 · INT8 ConvRot"
+    }
+  },
+  "2": {
+    "class_type": "QwenImage21Cache",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "device": "auto",
+      "dtype": "default"
+    },
+    "_meta": {
+      "title": "2.1 참조 캐시 · 자동 메모리 배치"
+    }
+  },
+  "3": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "Qwen vision-language encoder"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+    },
+    "_meta": {
+      "title": "Qwen 2.1 RGBA VAE"
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "FACE_REFERENCE.png"
+    },
+    "_meta": {
+      "title": "01 얼굴 원본 · 인물 특징"
+    }
+  },
+  "6": {
+    "class_type": "ImageScaleToMaxDimension",
+    "inputs": {
+      "image": [
+        "5",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
+    },
+    "_meta": {
+      "title": "01 얼굴 원본 · 인물 특징 · 참조 크기 제한"
+    }
+  },
+  "7": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "OUTFIT_REFERENCE.png"
+    },
+    "_meta": {
+      "title": "02 의상 원본 · 복장 특징"
+    }
+  },
+  "8": {
+    "class_type": "ImageScaleToMaxDimension",
+    "inputs": {
+      "image": [
+        "7",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
+    },
+    "_meta": {
+      "title": "02 의상 원본 · 복장 특징 · 참조 크기 제한"
+    }
+  },
+  "9": {
+    "class_type": "EmptyImage",
+    "inputs": {
+      "width": 512,
+      "height": 1152,
+      "batch_size": 1,
+      "color": 12632256
+    },
+    "_meta": {
+      "title": "front · 출력 캔버스"
+    }
+  },
+  "10": {
+    "class_type": "TextEncodeQwenImage21",
+    "inputs": {
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the sole facial identity reference: preserve facial proportions, eyes, nose, mouth, age appearance and skin tone. <image3> supplies clothing, footwear and accessories, including headwear. If the selected outfit wearer has a hat, put that same hat on the person from <image2> and arrange their own hair naturally beneath it. Ignore the identity of the outfit wearer. Dress the person from <image2> in the complete outfit from <image3>. Straight front view facing the camera. Keep garment colors, cut, fastenings and details. If footwear is unseen use simple matching shoes. If multiple people are in <image3> use the central person only. Preserve natural facial detail. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+      "negative_prompt": "",
+      "resolution": 0,
+      "images.image_1": [
+        "9",
+        0
+      ],
+      "images.image_2": [
+        "6",
+        0
+      ],
+      "images.image_3": [
+        "8",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "front · 2.1 지시문과 참조"
+    }
+  },
+  "11": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "10",
+        1
+      ],
+      "latent_image": [
+        "10",
+        2
+      ],
+      "seed": 20260922,
+      "steps": 25,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "front · 생성"
+    }
+  },
+  "12": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "front · 타일 디코딩"
+    }
+  },
+  "13": {
+    "class_type": "SplitImageWithAlpha",
+    "inputs": {
+      "image": [
+        "12",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "front · 불투명 RGB 시트용"
+    }
+  },
+  "14": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "13",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/front"
+    },
+    "_meta": {
+      "title": "front · 개별 PNG 저장"
+    }
+  },
+  "15": {
+    "class_type": "EmptyImage",
+    "inputs": {
+      "width": 512,
+      "height": 1152,
+      "batch_size": 1,
+      "color": 12632256
+    },
+    "_meta": {
+      "title": "side · 출력 캔버스"
+    }
+  },
+  "16": {
+    "class_type": "TextEncodeQwenImage21",
+    "inputs": {
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved full-body character: preserve its identity, hairstyle, body proportions, complete clothing, colors, accessories and shoes exactly. <image3> provides fine facial identity only. <image4> provides garment detail only; ignore the face of its wearer. Do not redesign, add accessories, change age or change expression. Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders aligned in profile. No three-quarter view. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+      "negative_prompt": "",
+      "resolution": 0,
+      "images.image_1": [
+        "15",
+        0
+      ],
+      "images.image_2": [
+        "13",
+        0
+      ],
+      "images.image_3": [
+        "6",
+        0
+      ],
+      "images.image_4": [
+        "8",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "side · 2.1 지시문과 참조"
+    }
+  },
+  "17": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "16",
+        0
+      ],
+      "negative": [
+        "16",
+        1
+      ],
+      "latent_image": [
+        "16",
+        2
+      ],
+      "seed": 20260923,
+      "steps": 25,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "side · 생성"
+    }
+  },
+  "18": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "17",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "side · 타일 디코딩"
+    }
+  },
+  "19": {
+    "class_type": "SplitImageWithAlpha",
+    "inputs": {
+      "image": [
+        "18",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "side · 불투명 RGB 시트용"
+    }
+  },
+  "20": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "19",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/side"
+    },
+    "_meta": {
+      "title": "side · 개별 PNG 저장"
+    }
+  },
+  "21": {
+    "class_type": "EmptyImage",
+    "inputs": {
+      "width": 512,
+      "height": 1152,
+      "batch_size": 1,
+      "color": 12632256
+    },
+    "_meta": {
+      "title": "back · 출력 캔버스"
+    }
+  },
+  "22": {
+    "class_type": "TextEncodeQwenImage21",
+    "inputs": {
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> shows the approved character from the FRONT. Use it to match the same body proportions, hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character 180 degrees in three-dimensional space rather than copying the front garment surface onto the back. Front chest badges, front zipper and other front-only details remain on the hidden front. If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden front; from behind show only the scarf wrap at the back of the neck. The rear garment shows continuous fabric and plausible rear seams. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; do not duplicate front decorations. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+      "negative_prompt": "",
+      "resolution": 0,
+      "images.image_1": [
+        "21",
+        0
+      ],
+      "images.image_2": [
+        "13",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "back · 2.1 지시문과 참조"
+    }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "22",
+        0
+      ],
+      "negative": [
+        "22",
+        1
+      ],
+      "latent_image": [
+        "22",
+        2
+      ],
+      "seed": 20260924,
+      "steps": 25,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "back · 생성"
+    }
+  },
+  "24": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "back · 타일 디코딩"
+    }
+  },
+  "25": {
+    "class_type": "SplitImageWithAlpha",
+    "inputs": {
+      "image": [
+        "24",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "back · 불투명 RGB 시트용"
+    }
+  },
+  "26": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "25",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/back"
+    },
+    "_meta": {
+      "title": "back · 개별 PNG 저장"
+    }
+  },
+  "27": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": [
+        "13",
+        0
+      ],
+      "width": 240,
+      "height": 360,
+      "x": 136,
+      "y": 65
+    },
+    "_meta": {
+      "title": "얼굴 확대 · 생성 정면에서 자르기"
+    }
+  },
+  "28": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "27",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 0,
+      "height": 1152,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "얼굴 확대 · 비율 유지"
+    }
+  },
+  "29": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "28",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/closeup"
+    },
+    "_meta": {
+      "title": "closeup · 개별 PNG 저장"
+    }
+  },
+  "30": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "13",
+        0
+      ],
+      "image2": [
+        "19",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "정면 → 측면 → 후면 → 얼굴"
+    }
+  },
+  "31": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "30",
+        0
+      ],
+      "image2": [
+        "25",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "정면 → 측면 → 후면 → 얼굴"
+    }
+  },
+  "32": {
+    "class_type": "ImageStitch",
+    "inputs": {
+      "image1": [
+        "31",
+        0
+      ],
+      "image2": [
+        "28",
+        0
+      ],
+      "direction": "right",
+      "match_image_size": false,
+      "spacing_width": 0,
+      "spacing_color": "white"
+    },
+    "_meta": {
+      "title": "정면 → 측면 → 후면 → 얼굴"
+    }
+  },
+  "33": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "32",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/character-sheet"
+    },
+    "_meta": {
+      "title": "완성된 캐릭터 시트"
+    }
+  }
+}

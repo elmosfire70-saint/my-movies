@@ -31,6 +31,14 @@
 - `submit-compose-fixed` 및 `status-compose-fixed`로 앞·측면·수정된 후면·얼굴 확대를 재합성했다. 결과는 `output/character-sheets/MILITARY_FACE_001/v004/sheet.png`, RGB 2304×1152다. prompt_id `57448362-2a21-43c4-a97d-0541757b47af`.
 - 설치된 `02_Character_Turnaround.json`의 SHA256이 소스 파일과 일치한다. 교체 전 설치 파일은 `output/character-sheets/QWEN21_VALIDATION/previous-workflows/02_Character_Turnaround.before-rear-fix-20260923.json`에 보관했다. v003 결과는 덮어쓰지 않았다.
 
+## `character-sheet` 두 입력 기본 흐름 검증
+
+- 기존 ComfyUI 저장본은 정면 전신·얼굴 원본·의상 원본의 세 LoadImage를 요구했다. 새 `04_Character_Sheet_One_Click`은 얼굴·의상 두 LoadImage만 사용한다. 내부에서 정면 512×1152를 먼저 생성하고 측면·후면 참조로 연결한다. 얼굴 확대는 생성 정면을 240×360으로 자른 뒤 비율을 유지해 768×1152로 확대한다.
+- `python character-sheet-comfy/build_workflows.py`로 14·32·12·33개 노드의 네 UI/API 그래프를 생성했다. `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`에서 네 테스트가 통과했다. 두 입력 역할, 내부 정면의 후속 참조 연결, 후면의 정면 단일 참조, 크롭 연결, 실제 서버 스키마와 UI 링크를 확인했다.
+- `python output/character-sheets/ONE_CLICK_VALIDATION/run.py submit-final`과 `status-final`로 얼굴·의상 두 사진만 업로드해 실제 전체 그래프를 실행했다. prompt_id `00e521c4-bc36-42a2-a1e3-42e544ab5383`, 서버 기록 기준 약 405초. 앞선 1차 실행은 약 431초에 완료됐지만 모자가 빠지고 확대 컷의 머리 윗부분이 잘려 프롬프트와 크롭을 수정했다.
+- 최종 결과는 `output/character-sheets/MILITARY_FACE_001/v005/sheet.png`, RGB 2304×1152다. 정면에 베레모와 군복·신발이 있으며 측면·후면에도 유지된다. 후면 스카프 꼬리 복제와 확대 컷 머리 잘림은 육안으로 보이지 않았다. 얼굴·패치의 정확한 동일성이나 보이지 않는 후면 의상 세부는 보장하지 않는다.
+- ComfyUI `workflows/character-sheet.json`을 새 두 입력 그래프로 교체하고 GET 응답의 SHA256이 소스 UI JSON과 같음을 확인했다. 저장된 UI JSON에는 LoadImage가 두 개뿐이다. 이전 저장본은 `output/character-sheets/ONE_CLICK_VALIDATION/character-sheet.before-two-input.json`에 보관했다. 정면 프롬프트를 공유하는 선택형 `01_Face_Outfit_Anchor.json`도 새 모자 지시로 갱신했다.
+
 아래는 교체 전 2511 모델의 검증 기록이다.
 
 ## 구현 및 설치

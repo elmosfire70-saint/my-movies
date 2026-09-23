@@ -44,7 +44,11 @@ class WorkflowTests(unittest.TestCase):
                     self.assertEqual(kind, nodes[source]['outputs'][out]['type'])
 
     def test_identity_and_outfit_roles(self):
-        anchor, sheet, compose = graphs().values()
+        workflows = graphs()
+        anchor = workflows['01_Face_Outfit_Anchor']
+        sheet = workflows['02_Character_Turnaround']
+        compose = workflows['03_Assemble_Selected_Views']
+        one_click = workflows['04_Character_Sheet_One_Click']
         def source_image(graph, link):
             node = graph.api[link[0]]
             while node['class_type'] == 'ImageScaleToMaxDimension':
@@ -69,6 +73,23 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(sum(n['class_type'] == 'KSampler' for n in sheet.api.values()), 3)
         self.assertEqual(sum(n['class_type'] == 'SaveImage' for n in sheet.api.values()), 4)
         self.assertFalse(any(n['class_type'] == 'KSampler' for n in compose.api.values()))
+        load_images = [n['inputs']['image'] for n in one_click.api.values() if n['class_type'] == 'LoadImage']
+        self.assertEqual(load_images, ['FACE_REFERENCE.png', 'OUTFIT_REFERENCE.png'])
+        encoders = {n['_meta']['title'].split(' · ')[0]: n for n in one_click.api.values()
+                    if n['class_type'] == 'TextEncodeQwenImage21'}
+        self.assertEqual(set(encoders), {'front', 'side', 'back'})
+        self.assertEqual([source_image(one_click, encoders['front']['inputs'][f'images.image_{i}'])
+                          for i in (2, 3)], load_images)
+        front_save = next(n for n in one_click.api.values()
+                          if n['class_type'] == 'SaveImage' and n['_meta']['title'].startswith('front ·'))
+        front_rgb = front_save['inputs']['images']
+        for label in ('side', 'back'):
+            self.assertEqual(encoders[label]['inputs']['images.image_2'], front_rgb)
+        self.assertEqual(len([k for k in encoders['back']['inputs'] if k.startswith('images.image_')]), 2)
+        self.assertEqual(sum(n['class_type'] == 'KSampler' for n in one_click.api.values()), 3)
+        crop = next(n for n in one_click.api.values() if n['class_type'] == 'ImageCrop')
+        self.assertEqual(crop['inputs']['image'], front_rgb)
+        self.assertEqual(crop['inputs']['width'] * 3, crop['inputs']['height'] * 2)
 
     def test_locked_seeds_and_layout(self):
         for graph in graphs().values():
@@ -84,7 +105,7 @@ class WorkflowTests(unittest.TestCase):
                     self.assertFalse(node['inputs']['match_image_size'])
 
     def test_qwen21_latent_and_sampler(self):
-        for graph in graphs().values():
+        for name, graph in graphs().items():
             self.assertNotIn('2511', json.dumps(graph.api))
             for node in graph.api.values():
                 if node['class_type'] == 'KSampler':
@@ -95,7 +116,10 @@ class WorkflowTests(unittest.TestCase):
                     self.assertEqual(graph.api[latent[0]]['class_type'], 'TextEncodeQwenImage21')
                 if node['class_type'] == 'SaveImage' and '개별 PNG' in node['_meta']['title']:
                     image = graph.api[node['inputs']['images'][0]]
-                    self.assertEqual(image['class_type'], 'SplitImageWithAlpha')
+                    expected = ('ImageScale' if node['_meta']['title'].startswith('closeup ·')
+                                and name == '04_Character_Sheet_One_Click'
+                                else 'SplitImageWithAlpha')
+                    self.assertEqual(image['class_type'], expected)
 
 
 if __name__ == '__main__':
