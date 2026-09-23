@@ -1,0 +1,105 @@
+{
+  "workflow_count": 6,
+  "workflows": {
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\character-sheet.json": [
+      "qwen3vl_8b_int8_convrot.safetensors",
+      "qwen_image_2.1_int8_convrot.safetensors",
+      "qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\01_Face_Outfit_Anchor.json": [
+      "qwen3vl_8b_int8_convrot.safetensors",
+      "qwen_image_2.1_int8_convrot.safetensors",
+      "qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\02_Character_Turnaround.json": [
+      "qwen3vl_8b_int8_convrot.safetensors",
+      "qwen_image_2.1_int8_convrot.safetensors",
+      "qwen_image_2.1_vae_bf16.safetensors"
+    ],
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\03_Assemble_Selected_Views.json": [],
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json": [
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "minimax_h3_video_vae_fp16.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors"
+    ],
+    "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json": [
+      "minimax_h3_audio_vae_fp32.safetensors",
+      "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "minimax_h3_video_vae_fp16.safetensors",
+      "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors"
+    ]
+  },
+  "models": [
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\diffusion_models\\minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+      "bytes": 20970379616,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\diffusion_models\\qwen_image_2.1_int8_convrot.safetensors",
+      "bytes": 7256783064,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\character-sheet.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\01_Face_Outfit_Anchor.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\02_Character_Turnaround.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\loras\\minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+      "bytes": 1956193000,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\text_encoders\\qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "bytes": 15687142551,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\text_encoders\\qwen3vl_8b_int8_convrot.safetensors",
+      "bytes": 9350798360,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\character-sheet.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\01_Face_Outfit_Anchor.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\02_Character_Turnaround.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\vae\\minimax_h3_audio_vae_fp32.safetensors",
+      "bytes": 605254808,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\vae\\minimax_h3_video_vae_fp16.safetensors",
+      "bytes": 5207808496,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Codex_Generic_H3.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\minimax_h3_r2v.json"
+      ]
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\vae\\qwen_image_2.1_vae_bf16.safetensors",
+      "bytes": 675509688,
+      "saved_workflows": [
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\character-sheet.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\01_Face_Outfit_Anchor.json",
+        "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\user\\default\\workflows\\Character_Sheet_Local\\02_Character_Turnaround.json"
+      ]
+    }
+  ],
+  "unresolved_models": {}
+}

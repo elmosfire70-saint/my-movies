@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-09-23T13:20:47.2940208+09:00",
+  "saved_workflows_checked": 6,
+  "deleted": [
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\diffusion_models\\minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "bytes": 20970379616
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\text_encoders\\qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "bytes": 9384670680
+    },
+    {
+      "path": "E:\\Comfy-Desktop\\ComfyUI-Installs\\ComfyUI\\ComfyUI\\models\\vae\\qwen_image_vae.safetensors",
+      "bytes": 253806246
+    },
+    {
+      "path": "J:\\LTX2.5\\diffusion_models\\ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+      "bytes": 21504034224
+    },
+    {
+      "path": "J:\\LTX2.5\\latent_upscale_models\\ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors",
+      "bytes": 995778752
+    },
+    {
+      "path": "J:\\LTX2.5\\text_encoders\\gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+      "bytes": 15372969374
+    },
+    {
+      "path": "J:\\LTX2.5\\vae\\ltx-2.5-audio-vae-bf16.safetensors",
+      "bytes": 364866540
+    },
+    {
+      "path": "J:\\LTX2.5\\vae\\ltx-2.5-video-vae-conv-bf16.safetensors",
+      "bytes": 1452269922
+    }
+  ],
+  "deleted_bytes": 70298775354.0
+}
