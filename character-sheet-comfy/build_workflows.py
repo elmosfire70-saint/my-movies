@@ -91,9 +91,16 @@ def graphs():
                     'Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders '
                     'aligned in profile. No three-quarter view. Match the head-to-foot size of Picture 1.',
                     'side', 150, 512, 20260923)
-    back = generate(sheet, resources, [front, face, outfit], STUDIO + BODY + lock +
+    rear_lock = ('Picture 1 shows the approved character from the FRONT. Use it to match the same body proportions, '
+                 'hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character '
+                 '180 degrees in three-dimensional space rather than copying the front garment surface onto the back. '
+                 'Front chest badges, front zipper and other front-only details remain on the hidden front. '
+                 'If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden '
+                 'front; from behind show only the scarf wrap at the back of the neck. The rear garment shows '
+                 'continuous fabric and plausible rear seams. ')
+    back = generate(sheet, resources, [front], STUDIO + BODY + rear_lock +
                     'Strict 180-degree rear view, looking directly away, back of head visible, no face visible. '
-                    'Infer unseen rear garment construction conservatively; add no new emblems or pockets. '
+                    'Infer unseen rear garment construction conservatively; do not duplicate front decorations. '
                     'Match the head-to-foot size of Picture 1.', 'back', 950, 512, 20260924)
     close = generate(sheet, resources, [front, face, outfit], STUDIO + lock +
                      'Front-facing head-and-shoulders close-up of the SAME character, whole head and hair or '

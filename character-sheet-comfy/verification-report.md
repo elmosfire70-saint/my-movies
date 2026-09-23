@@ -22,6 +22,15 @@
 - 육안 검토에서 전신 패널의 시점·복장·신발은 확인했다. 얼굴 특징과 제복 패치의 세부 일치성은 보장되지 않는다. 후면의 가려진 복장 세부는 추정이다.
 - 실행한 체크. `python -m py_compile output/character-sheets/QWEN21_VALIDATION/run.py`, `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`, 그리고 최종 파일 크기·색상모드·SHA256 및 manifest 경로 대조.
 
+## 후면 앞장식 복제 수정 검증
+
+- v003 후면에서 앞가슴 스카프 꼬리와 원형 문양이 등에도 복제된 문제를 확인했다. 원인은 후면에도 공통 `lock` 지시를 적용해 장식까지 정확히 보존하라고 한 점과 정면 의상 사진을 중복 시각 참조한 점이다.
+- 후면에 별도 지시문을 사용한다. 승인 정면에서 체형·헤어·모자·옷 종류·색·신발만 참고하고, 앞가슴 장식은 보이지 않는 앞면에 남기며 목 뒤에는 스카프를 두른 부분만 보이도록 했다. 후면 분기의 시각 참조는 승인 정면 한 장이다.
+- `python character-sheet-comfy/build_workflows.py`로 세 UI/API 워크플로를 재생성하고, `python -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v`에서 4개 테스트가 통과했다. 후면 인코더의 참조 슬롯이 캔버스·승인 정면 두 개뿐인지 검증한다.
+- `python output/character-sheets/QWEN21_VALIDATION/run.py submit-back-fixed` 및 `status-back-fixed` 성공. 후면 512×1152 RGB, 25 steps / CFG 1, prompt_id `53f093c2-ad5b-450e-b8ea-a842403c97eb`. 서버 기록 기준 약 111초. 육안으로 등 중앙의 스카프 꼬리·문양이 사라지고 목 뒤의 스카프 띠만 남은 것을 확인했다. 동일 몸통 영역의 붉은 픽셀 수는 v003 4,669개에서 v004 80개로 감소했다. 이 수치는 색상 임계값으로 측정한 보조 지표다.
+- `submit-compose-fixed` 및 `status-compose-fixed`로 앞·측면·수정된 후면·얼굴 확대를 재합성했다. 결과는 `output/character-sheets/MILITARY_FACE_001/v004/sheet.png`, RGB 2304×1152다. prompt_id `57448362-2a21-43c4-a97d-0541757b47af`.
+- 설치된 `02_Character_Turnaround.json`의 SHA256이 소스 파일과 일치한다. 교체 전 설치 파일은 `output/character-sheets/QWEN21_VALIDATION/previous-workflows/02_Character_Turnaround.before-rear-fix-20260923.json`에 보관했다. v003 결과는 덮어쓰지 않았다.
+
 아래는 교체 전 2511 모델의 검증 기록이다.
 
 ## 구현 및 설치

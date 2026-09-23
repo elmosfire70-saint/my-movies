@@ -1,6 +1,6 @@
 {
   "last_node_id": 32,
-  "last_link_id": 53,
+  "last_link_id": 51,
   "nodes": [
     {
       "id": 1,
@@ -69,8 +69,8 @@
           "type": "MODEL",
           "links": [
             10,
-            24,
-            38
+            22,
+            36
           ],
           "slot_index": 0
         }
@@ -107,7 +107,7 @@
           "links": [
             4,
             18,
-            32
+            30
           ],
           "slot_index": 0
         }
@@ -145,10 +145,10 @@
           "links": [
             9,
             15,
-            23,
-            29,
-            37,
-            43
+            21,
+            27,
+            35,
+            41
           ],
           "slot_index": 0
         }
@@ -184,8 +184,8 @@
           "links": [
             6,
             20,
-            34,
-            46
+            32,
+            44
           ],
           "slot_index": 0
         },
@@ -274,8 +274,7 @@
           "type": "IMAGE",
           "links": [
             7,
-            21,
-            35
+            33
           ],
           "slot_index": 0
         }
@@ -358,8 +357,7 @@
           "type": "IMAGE",
           "links": [
             8,
-            22,
-            36
+            34
           ],
           "slot_index": 0
         }
@@ -630,7 +628,7 @@
           "type": "IMAGE",
           "links": [
             17,
-            48
+            46
           ],
           "slot_index": 0
         },
@@ -754,19 +752,9 @@
           "link": 20
         },
         {
-          "name": "images.image_3",
-          "type": "IMAGE",
-          "link": 21
-        },
-        {
-          "name": "images.image_4",
-          "type": "IMAGE",
-          "link": 22
-        },
-        {
           "name": "vae",
           "type": "VAE",
-          "link": 23
+          "link": 21
         }
       ],
       "outputs": [
@@ -774,7 +762,7 @@
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
-            25
+            23
           ],
           "slot_index": 0
         },
@@ -782,7 +770,7 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            26
+            24
           ],
           "slot_index": 1
         },
@@ -790,13 +778,13 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            27
+            25
           ],
           "slot_index": 2
         }
       ],
       "widgets_values": [
-        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved full-body character: preserve its identity, hairstyle, body proportions, complete clothing, colors, accessories and shoes exactly. <image3> provides fine facial identity only. <image4> provides garment detail only; ignore the face of its wearer. Do not redesign, add accessories, change age or change expression. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; add no new emblems or pockets. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> shows the approved character from the FRONT. Use it to match the same body proportions, hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character 180 degrees in three-dimensional space rather than copying the front garment surface onto the back. Front chest badges, front zipper and other front-only details remain on the hidden front. If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden front; from behind show only the scarf wrap at the back of the neck. The rear garment shows continuous fabric and plausible rear seams. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; do not duplicate front decorations. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
         "",
         0
       ]
@@ -824,22 +812,22 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 24
+          "link": 22
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 25
+          "link": 23
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 26
+          "link": 24
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 27
+          "link": 25
         }
       ],
       "outputs": [
@@ -847,7 +835,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            28
+            26
           ],
           "slot_index": 0
         }
@@ -885,12 +873,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 28
+          "link": 26
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 29
+          "link": 27
         }
       ],
       "outputs": [
@@ -898,7 +886,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            30
+            28
           ],
           "slot_index": 0
         }
@@ -933,7 +921,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 30
+          "link": 28
         }
       ],
       "outputs": [
@@ -941,8 +929,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            31,
-            50
+            29,
+            48
           ],
           "slot_index": 0
         },
@@ -978,7 +966,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 31
+          "link": 29
         }
       ],
       "outputs": [
@@ -1018,7 +1006,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            33
+            31
           ],
           "slot_index": 0
         }
@@ -1053,32 +1041,32 @@
         {
           "name": "clip",
           "type": "CLIP",
-          "link": 32
+          "link": 30
         },
         {
           "name": "images.image_1",
           "type": "IMAGE",
-          "link": 33
+          "link": 31
         },
         {
           "name": "images.image_2",
           "type": "IMAGE",
-          "link": 34
+          "link": 32
         },
         {
           "name": "images.image_3",
           "type": "IMAGE",
-          "link": 35
+          "link": 33
         },
         {
           "name": "images.image_4",
           "type": "IMAGE",
-          "link": 36
+          "link": 34
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 37
+          "link": 35
         }
       ],
       "outputs": [
@@ -1086,7 +1074,7 @@
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
-            39
+            37
           ],
           "slot_index": 0
         },
@@ -1094,7 +1082,7 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            40
+            38
           ],
           "slot_index": 1
         },
@@ -1102,7 +1090,7 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            41
+            39
           ],
           "slot_index": 2
         }
@@ -1136,22 +1124,22 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 38
+          "link": 36
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 39
+          "link": 37
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 40
+          "link": 38
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 41
+          "link": 39
         }
       ],
       "outputs": [
@@ -1159,7 +1147,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            42
+            40
           ],
           "slot_index": 0
         }
@@ -1197,12 +1185,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 42
+          "link": 40
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 43
+          "link": 41
         }
       ],
       "outputs": [
@@ -1210,7 +1198,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            44
+            42
           ],
           "slot_index": 0
         }
@@ -1245,7 +1233,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 44
+          "link": 42
         }
       ],
       "outputs": [
@@ -1253,8 +1241,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            45,
-            52
+            43,
+            50
           ],
           "slot_index": 0
         },
@@ -1290,7 +1278,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 45
+          "link": 43
         }
       ],
       "outputs": [
@@ -1328,7 +1316,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 46
+          "link": 44
         }
       ],
       "outputs": [
@@ -1336,7 +1324,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            47
+            45
           ],
           "slot_index": 0
         }
@@ -1362,6 +1350,54 @@
       ],
       "flags": {},
       "order": 28,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageStitch",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 45
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 46
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            47
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "right",
+        false,
+        0,
+        "white"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "ImageStitch",
+      "title": "정면 → 측면 → 후면 → 얼굴",
+      "pos": [
+        3000,
+        400
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 29,
       "mode": 0,
       "properties": {
         "Node name for S&R": "ImageStitch",
@@ -1397,11 +1433,11 @@
       ]
     },
     {
-      "id": 30,
+      "id": 31,
       "type": "ImageStitch",
       "title": "정면 → 측면 → 후면 → 얼굴",
       "pos": [
-        3000,
+        3370,
         400
       ],
       "size": [
@@ -1409,7 +1445,7 @@
         290
       ],
       "flags": {},
-      "order": 29,
+      "order": 30,
       "mode": 0,
       "properties": {
         "Node name for S&R": "ImageStitch",
@@ -1445,54 +1481,6 @@
       ]
     },
     {
-      "id": 31,
-      "type": "ImageStitch",
-      "title": "정면 → 측면 → 후면 → 얼굴",
-      "pos": [
-        3370,
-        400
-      ],
-      "size": [
-        345,
-        290
-      ],
-      "flags": {},
-      "order": 30,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "ImageStitch",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [
-        {
-          "name": "image1",
-          "type": "IMAGE",
-          "link": 51
-        },
-        {
-          "name": "image2",
-          "type": "IMAGE",
-          "link": 52
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            53
-          ],
-          "slot_index": 0
-        }
-      ],
-      "widgets_values": [
-        "right",
-        false,
-        0,
-        "white"
-      ]
-    },
-    {
       "id": 32,
       "type": "SaveImage",
       "title": "최종 턴어라운드 시트",
@@ -1515,7 +1503,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 53
+          "link": 51
         }
       ],
       "outputs": [
@@ -1694,30 +1682,14 @@
     ],
     [
       21,
-      7,
+      4,
       0,
       17,
       3,
-      "IMAGE"
-    ],
-    [
-      22,
-      9,
-      0,
-      17,
-      4,
-      "IMAGE"
-    ],
-    [
-      23,
-      4,
-      0,
-      17,
-      5,
       "VAE"
     ],
     [
-      24,
+      22,
       2,
       0,
       18,
@@ -1725,7 +1697,7 @@
       "MODEL"
     ],
     [
-      25,
+      23,
       17,
       0,
       18,
@@ -1733,7 +1705,7 @@
       "CONDITIONING"
     ],
     [
-      26,
+      24,
       17,
       1,
       18,
@@ -1741,7 +1713,7 @@
       "CONDITIONING"
     ],
     [
-      27,
+      25,
       17,
       2,
       18,
@@ -1749,7 +1721,7 @@
       "LATENT"
     ],
     [
-      28,
+      26,
       18,
       0,
       19,
@@ -1757,7 +1729,7 @@
       "LATENT"
     ],
     [
-      29,
+      27,
       4,
       0,
       19,
@@ -1765,7 +1737,7 @@
       "VAE"
     ],
     [
-      30,
+      28,
       19,
       0,
       20,
@@ -1773,7 +1745,7 @@
       "IMAGE"
     ],
     [
-      31,
+      29,
       20,
       0,
       21,
@@ -1781,7 +1753,7 @@
       "IMAGE"
     ],
     [
-      32,
+      30,
       3,
       0,
       23,
@@ -1789,7 +1761,7 @@
       "CLIP"
     ],
     [
-      33,
+      31,
       22,
       0,
       23,
@@ -1797,7 +1769,7 @@
       "IMAGE"
     ],
     [
-      34,
+      32,
       5,
       0,
       23,
@@ -1805,7 +1777,7 @@
       "IMAGE"
     ],
     [
-      35,
+      33,
       7,
       0,
       23,
@@ -1813,7 +1785,7 @@
       "IMAGE"
     ],
     [
-      36,
+      34,
       9,
       0,
       23,
@@ -1821,7 +1793,7 @@
       "IMAGE"
     ],
     [
-      37,
+      35,
       4,
       0,
       23,
@@ -1829,7 +1801,7 @@
       "VAE"
     ],
     [
-      38,
+      36,
       2,
       0,
       24,
@@ -1837,7 +1809,7 @@
       "MODEL"
     ],
     [
-      39,
+      37,
       23,
       0,
       24,
@@ -1845,7 +1817,7 @@
       "CONDITIONING"
     ],
     [
-      40,
+      38,
       23,
       1,
       24,
@@ -1853,7 +1825,7 @@
       "CONDITIONING"
     ],
     [
-      41,
+      39,
       23,
       2,
       24,
@@ -1861,7 +1833,7 @@
       "LATENT"
     ],
     [
-      42,
+      40,
       24,
       0,
       25,
@@ -1869,7 +1841,7 @@
       "LATENT"
     ],
     [
-      43,
+      41,
       4,
       0,
       25,
@@ -1877,7 +1849,7 @@
       "VAE"
     ],
     [
-      44,
+      42,
       25,
       0,
       26,
@@ -1885,7 +1857,7 @@
       "IMAGE"
     ],
     [
-      45,
+      43,
       26,
       0,
       27,
@@ -1893,7 +1865,7 @@
       "IMAGE"
     ],
     [
-      46,
+      44,
       5,
       0,
       28,
@@ -1901,7 +1873,7 @@
       "IMAGE"
     ],
     [
-      47,
+      45,
       28,
       0,
       29,
@@ -1909,7 +1881,7 @@
       "IMAGE"
     ],
     [
-      48,
+      46,
       14,
       0,
       29,
@@ -1917,7 +1889,7 @@
       "IMAGE"
     ],
     [
-      49,
+      47,
       29,
       0,
       30,
@@ -1925,7 +1897,7 @@
       "IMAGE"
     ],
     [
-      50,
+      48,
       20,
       0,
       30,
@@ -1933,7 +1905,7 @@
       "IMAGE"
     ],
     [
-      51,
+      49,
       30,
       0,
       31,
@@ -1941,7 +1913,7 @@
       "IMAGE"
     ],
     [
-      52,
+      50,
       26,
       0,
       31,
@@ -1949,7 +1921,7 @@
       "IMAGE"
     ],
     [
-      53,
+      51,
       31,
       0,
       32,

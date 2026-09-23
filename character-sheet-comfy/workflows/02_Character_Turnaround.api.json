@@ -243,7 +243,7 @@
         "4",
         0
       ],
-      "prompt": "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved full-body character: preserve its identity, hairstyle, body proportions, complete clothing, colors, accessories and shoes exactly. <image3> provides fine facial identity only. <image4> provides garment detail only; ignore the face of its wearer. Do not redesign, add accessories, change age or change expression. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; add no new emblems or pockets. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+      "prompt": "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> shows the approved character from the FRONT. Use it to match the same body proportions, hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character 180 degrees in three-dimensional space rather than copying the front garment surface onto the back. Front chest badges, front zipper and other front-only details remain on the hidden front. If a scarf has a knot and long tails on the chest, those tails and any emblem remain on the hidden front; from behind show only the scarf wrap at the back of the neck. The rear garment shows continuous fabric and plausible rear seams. Strict 180-degree rear view, looking directly away, back of head visible, no face visible. Infer unseen rear garment construction conservatively; do not duplicate front decorations. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
       "negative_prompt": "",
       "resolution": 0,
       "images.image_1": [
@@ -252,14 +252,6 @@
       ],
       "images.image_2": [
         "5",
-        0
-      ],
-      "images.image_3": [
-        "7",
-        0
-      ],
-      "images.image_4": [
-        "9",
         0
       ]
     },

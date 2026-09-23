@@ -57,9 +57,13 @@ class WorkflowTests(unittest.TestCase):
             for node in encoders:
                 canvas = graph.api[node['inputs']['images.image_1'][0]]
                 self.assertEqual(canvas['class_type'], 'EmptyImage')
+                expected_refs = (['APPROVED_FRONT.png'] if node['_meta']['title'].startswith('back ·')
+                                 else expected)
                 actual = [source_image(graph, node['inputs'][f'images.image_{i}'])
-                          for i in range(2, len(expected) + 2)]
-                self.assertEqual(actual, expected)
+                          for i in range(2, len(expected_refs) + 2)]
+                self.assertEqual(actual, expected_refs)
+                self.assertEqual(len([key for key in node['inputs'] if key.startswith('images.image_')]),
+                                 len(expected_refs) + 1)
                 self.assertNotIn('Picture ', node['inputs']['prompt'])
                 self.assertIn('<image1>', node['inputs']['prompt'])
         self.assertEqual(sum(n['class_type'] == 'KSampler' for n in sheet.api.values()), 3)
