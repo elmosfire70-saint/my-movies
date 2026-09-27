@@ -72,10 +72,21 @@ ComfyUI 사용자 워크플로에서 `character-sheet`를 열거나 `workflows/0
 & 'E:\Comfy-Desktop\ComfyUI-Installs\ComfyUI\ComfyUI\.venv\Scripts\python.exe' -m unittest discover -s character-sheet-comfy -p 'test_*.py' -v
 ```
 
-UI JSON은 화면에서 사용하며 `.api.json`은 자동화 제출용이다. 예시 파일명은 입력 사진을 선택하기 전에는 존재하지 않으므로 그대로 큐에 제출하지 않는다.
+UI JSON은 화면에서 사용하며 `.api.json`은 자동화 제출용이다. API 제출 시 SaveImage의 `%date:yyyy-MM-dd%`는 실제 날짜 문자열로 먼저 바꾼다. 날짜 치환은 브라우저에서 처리하므로 API가 자동 처리하지 않는다. 예시 파일명은 입력 사진을 선택하기 전에는 존재하지 않으므로 그대로 큐에 제출하지 않는다.
 
 ## 설계 근거
 
 - [Carat 설명](https://carat.im/blog/character-sheet-generator)의 대표 전신 → 시트 흐름을 적용했다.
 - [2.1 공식 템플릿](https://github.com/Comfy-Org/workflow_templates/blob/main/templates/image_qwen_image_2_1_image_edit.json)의 전용 인코더·캐시·CFG 1 구성을 확인했다. 회색 캔버스를 첫 참조로 사용한 배치는 이 프로젝트의 맞춤 구성이다.
 - [공식 배포 모델](https://huggingface.co/Comfy-Org/Qwen-Image-2.1)과 [Qwen Research License](https://github.com/QwenLM/Qwen-Image-2.1/blob/main/LICENSE)를 따른다. 무료 허용 범위는 비상업적 연구·평가이며, 상업적 이용은 별도 허가 대상이다.
+
+## 선택형 베레모 국소 보정.
+
+ComfyUI의 `character-sheet-beret-fit`을 열고 01 또는 기본 `character-sheet`에서 생성한 **512×1152 정면 PNG**를 넣는다. 한 번 실행한 결과를 `02_Character_Turnaround`의 선택한 정면 입력으로 사용한다. 기본 `character-sheet`의 얼굴·의상 두 입력 흐름은 그대로다.
+
+- 머리를 확대해 모자만 편집하고 눈·얼굴 중심을 보호하는 마스크로 원래 정면에 합성한다. 의상과 합성 영역 밖은 원본 픽셀을 보존한다.
+- 기본 지시문은 검은 베레모와 화면 왼쪽으로 처진 형태에 맞춘 것이다. 다른 방향·색상은 보정 지시문을 바꾼다. 일반 모자는 기본 워크플로의 조건부 지시문을 사용한다.
+- 머리 위치가 다른 사진은 머리 크롭과 최종 합성 좌표, 얼굴 보호 마스크 위치를 함께 맞춘다. 512×1152라도 머리 위치가 다르면 조정이 필요하다.
+- 반복 보정은 질감을 손상시킬 수 있어 원래 정면에서 한 번 적용한다. 정확한 눈썹 접촉은 보장하지 않는다. 기본 정면의 이마·헤어라인 보존 충돌은 제거했고, TRUE PROFILE 지시는 측면에만 적용했다.
+
+측면과 후면은 승인 정면만 참조한다. 정면 원본 참조를 중복 연결하면 몸통이 정면으로 남을 수 있어 측면에서 제거했다. 생성된 측면은 머리뿐 아니라 어깨·골반·신발도 옆을 향하는지 확인한다.

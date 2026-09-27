@@ -1,0 +1,313 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "qwen_image_2.1_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "Qwen Image 2.1 · INT8 ConvRot"
+    }
+  },
+  "2": {
+    "class_type": "QwenImage21Cache",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "device": "auto",
+      "dtype": "default"
+    },
+    "_meta": {
+      "title": "2.1 참조 캐시 · 자동 메모리 배치"
+    }
+  },
+  "3": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_8b_int8_convrot.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "Qwen vision-language encoder"
+    }
+  },
+  "4": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+    },
+    "_meta": {
+      "title": "Qwen 2.1 RGBA VAE"
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "APPROVED_FRONT.png"
+    },
+    "_meta": {
+      "title": "01 생성된 정면 512×1152"
+    }
+  },
+  "6": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": [
+        "5",
+        0
+      ],
+      "x": 136,
+      "y": 65,
+      "width": 240,
+      "height": 240
+    },
+    "_meta": {
+      "title": "02 머리 영역 · 위치 조정"
+    }
+  },
+  "7": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "6",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 768,
+      "height": 768,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "03 머리 확대"
+    }
+  },
+  "8": {
+    "class_type": "TextEncodeQwenImage21",
+    "inputs": {
+      "clip": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "prompt": "Edit only the black beret in this portrait. Translate the whole beret DOWN by 80 pixels without resizing it. Its lower band must rest directly on the eyebrow hairs at the OUTER THIRD of the eyebrow on the LEFT side of the image, slightly overlapping their top edge. There must be ZERO bare skin between the band and that part of the eyebrow. Keep both eyes entirely unobstructed. Keep the exact face, eyebrow positions, head size, camera framing, clothing and background fixed. Do not move the face or lower the eyebrows. Preserve the beret design, folded silhouette and badge. Fill the vacated area above the moved beret with the same background.",
+      "negative_prompt": "",
+      "resolution": 0,
+      "images.image_1": [
+        "7",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "04 베레모 보정 지시 · 한 번만 적용"
+    }
+  },
+  "9": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "8",
+        1
+      ],
+      "latent_image": [
+        "8",
+        2
+      ],
+      "seed": 20260927,
+      "steps": 25,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "05 머리 영역 편집"
+    }
+  },
+  "10": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "06 디코딩"
+    }
+  },
+  "11": {
+    "class_type": "SplitImageWithAlpha",
+    "inputs": {
+      "image": [
+        "10",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "07 RGB"
+    }
+  },
+  "12": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "11",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 240,
+      "height": 240,
+      "crop": "disabled"
+    },
+    "_meta": {
+      "title": "08 원래 머리 크기"
+    }
+  },
+  "13": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "image": [
+        "12",
+        0
+      ],
+      "x": 0,
+      "y": 0,
+      "width": 240,
+      "height": 150
+    },
+    "_meta": {
+      "title": "09 모자·이마·관자 영역"
+    }
+  },
+  "14": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 1.0,
+      "width": 240,
+      "height": 150
+    },
+    "_meta": {
+      "title": "합성 영역"
+    }
+  },
+  "15": {
+    "class_type": "FeatherMask",
+    "inputs": {
+      "mask": [
+        "14",
+        0
+      ],
+      "left": 8,
+      "top": 8,
+      "right": 8,
+      "bottom": 8
+    },
+    "_meta": {
+      "title": "외곽 연결"
+    }
+  },
+  "16": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 1.0,
+      "width": 100,
+      "height": 42
+    },
+    "_meta": {
+      "title": "눈·코 보호 영역"
+    }
+  },
+  "17": {
+    "class_type": "FeatherMask",
+    "inputs": {
+      "mask": [
+        "16",
+        0
+      ],
+      "left": 4,
+      "top": 2,
+      "right": 4,
+      "bottom": 0
+    },
+    "_meta": {
+      "title": "보호 영역 연결"
+    }
+  },
+  "18": {
+    "class_type": "MaskComposite",
+    "inputs": {
+      "destination": [
+        "15",
+        0
+      ],
+      "source": [
+        "17",
+        0
+      ],
+      "x": 75,
+      "y": 112,
+      "operation": "subtract"
+    },
+    "_meta": {
+      "title": "10 얼굴 보호 마스크 · 구도에 맞춰 조정"
+    }
+  },
+  "19": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": [
+        "5",
+        0
+      ],
+      "source": [
+        "13",
+        0
+      ],
+      "mask": [
+        "18",
+        0
+      ],
+      "x": 136,
+      "y": 65,
+      "resize_source": false
+    },
+    "_meta": {
+      "title": "11 원본 정면에 합성 · 크롭과 같은 위치"
+    }
+  },
+  "20": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "19",
+        0
+      ],
+      "filename_prefix": "character-sheets/%date:yyyy-MM-dd%/beret-adjusted-front"
+    },
+    "_meta": {
+      "title": "12 보정 정면 PNG · 02 워크플로 입력"
+    }
+  }
+}

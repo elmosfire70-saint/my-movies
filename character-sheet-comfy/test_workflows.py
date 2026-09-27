@@ -61,7 +61,7 @@ class WorkflowTests(unittest.TestCase):
             for node in encoders:
                 canvas = graph.api[node['inputs']['images.image_1'][0]]
                 self.assertEqual(canvas['class_type'], 'EmptyImage')
-                expected_refs = (['APPROVED_FRONT.png'] if node['_meta']['title'].startswith('back ·')
+                expected_refs = (['APPROVED_FRONT.png'] if node['_meta']['title'].startswith(('side ·', 'back ·'))
                                  else expected)
                 actual = [source_image(graph, node['inputs'][f'images.image_{i}'])
                           for i in range(2, len(expected_refs) + 2)]
@@ -91,14 +91,28 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(crop['inputs']['image'], front_rgb)
         self.assertEqual(crop['inputs']['width'] * 3, crop['inputs']['height'] * 2)
 
+    def test_local_edit_preserves_original_destination(self):
+        graph = graphs()['05_Beret_Fit_Adjustment'].api
+        composite = next(n for n in graph.values() if n['class_type'] == 'ImageCompositeMasked')
+        self.assertEqual(graph[composite['inputs']['destination'][0]]['class_type'], 'LoadImage')
+        self.assertEqual(graph[composite['inputs']['mask'][0]]['inputs']['operation'], 'subtract')
+        encoder = next(n for n in graph.values() if n['class_type'] == 'TextEncodeQwenImage21')
+        self.assertEqual(graph[encoder['inputs']['images.image_1'][0]]['class_type'], 'ImageScale')
+        close = next(n for n in graphs()['02_Character_Turnaround'].api.values()
+                     if n['_meta']['title'].startswith('closeup · 2.1'))
+        self.assertNotIn('TRUE PROFILE', close['inputs']['prompt'])
+
     def test_locked_seeds_and_layout(self):
-        for graph in graphs().values():
+        for name, graph in graphs().items():
             for node in ui_workflow(graph, self.info)['nodes']:
                 if node['type'] == 'KSampler':
                     self.assertEqual(node['widgets_values'][1], 'fixed')
             for node in graph.api.values():
                 if node['class_type'] == 'ImageScale':
-                    self.assertEqual(node['inputs']['width'], 0)
+                    if name == '05_Beret_Fit_Adjustment':
+                        self.assertEqual(node['inputs']['width'], node['inputs']['height'])
+                    else:
+                        self.assertEqual(node['inputs']['width'], 0)
                     self.assertEqual(node['inputs']['crop'], 'disabled')
                 if node['class_type'] == 'ImageStitch':
                     self.assertEqual(node['inputs']['direction'], 'right')

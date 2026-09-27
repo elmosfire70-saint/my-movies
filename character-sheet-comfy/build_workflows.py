@@ -71,13 +71,20 @@ def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
             'Picture 3 provides garment detail only; ignore the face of its wearer. Keep every garment piece on '
             'the same part of the body and do not mirror or duplicate patches. If the approved character wears '
             'a beret, keep the same fitted size, crown shape, tilt, side drape and low band position while '
-            'rotating the head; show the beret in TRUE PROFILE without exposing a front-facing face. Keep the '
+            'rotating the head. Keep the '
             'front insignia on the front part of the beret. If it wears a structured cap or other non-beret hat, '
             'preserve its brim, crown and low fit. Keep the eyes clear in either case. '
             'Do not redesign, add accessories, change age or change expression. ')
-    side = generate(g, resources, [front, face, outfit], STUDIO + BODY + lock +
-                    'Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders '
-                    'aligned in profile. No three-quarter view. Match the head-to-foot size of Picture 1.',
+    side = generate(g, resources, [front], STUDIO + BODY +
+                    'Picture 1 is the approved character. Rotate the ENTIRE BODY exactly 90 degrees to face '
+                    'the LEFT edge of the image: head, neck, shoulders, chest, pelvis, knees and shoes all '
+                    'in strict lateral profile. Show only one eye; the far shoulder, arm and leg are occluded '
+                    'by the near side. The chest plane points left, never toward the camera. Both toes point '
+                    'left. This is not a front-facing body with a turned head. Preserve the same identity, '
+                    'body proportions, uniform, scarf, shoes and low fitted headwear from Picture 1. '
+                    'Rotate garment details with the body; front badges and scarf tails appear edge-on, '
+                    'not spread across a front-facing chest. Keep the same beret tilt and band height. '
+                    'Match the head-to-foot size of Picture 1. No three-quarter view.',
                     'side', y, 512, 20260923)
     rear_lock = ('Picture 1 shows the approved character from the FRONT. Use it to match the same body proportions, '
                  'hair and headwear, garment type, fabric color, sleeve details and footwear. Rotate the character '
@@ -111,11 +118,55 @@ def turnaround_views(g, resources, front, face, outfit, y, crop_closeup=False):
     return side, back, close
 
 
+def beret_adjustment():
+    g = Graph()
+    model, clip, vae = loaders(g)
+    front = g.add('LoadImage', '01 생성된 정면 512×1152', 0, 150, image='APPROVED_FRONT.png')
+    # ponytail: 기본 정면의 고정 크롭이다. 다른 구도는 크롭·합성 위치와 보호 마스크를 함께 조정한다.
+    crop = g.add('ImageCrop', '02 머리 영역 · 위치 조정', 370, 150,
+                 image=front, x=136, y=65, width=240, height=240)
+    large = g.add('ImageScale', '03 머리 확대', 740, 150, image=crop,
+                  upscale_method='lanczos', width=768, height=768, crop='disabled')
+    prompt = ('Edit only the black beret in this portrait. Translate the whole beret DOWN by 80 pixels '
+              'without resizing it. Its lower band must rest directly on the eyebrow hairs at the OUTER '
+              'THIRD of the eyebrow on the LEFT side of the image, slightly overlapping their top edge. '
+              'There must be ZERO bare skin between the band and that part of the eyebrow. Keep both eyes '
+              'entirely unobstructed. Keep the exact face, eyebrow positions, head size, camera framing, '
+              'clothing and background fixed. Do not move the face or lower the eyebrows. Preserve the beret '
+              'design, folded silhouette and badge. Fill the vacated area above the moved beret with the same background.')
+    encoded = g.add('TextEncodeQwenImage21', '04 베레모 보정 지시 · 한 번만 적용', 1110, 150,
+                    clip=clip, vae=vae, prompt=prompt, negative_prompt='', resolution=0,
+                    **{'images.image_1': large})
+    sample = g.add('KSampler', '05 머리 영역 편집', 1480, 150, model=model, positive=encoded,
+                   negative=[encoded[0], 1], latent_image=[encoded[0], 2], seed=20260927,
+                   steps=25, cfg=1.0, sampler_name='euler', scheduler='simple', denoise=1.0)
+    decoded = g.add('VAEDecodeTiled', '06 디코딩', 1850, 150, samples=sample, vae=vae,
+                    tile_size=512, overlap=64, temporal_size=64, temporal_overlap=8)
+    rgb = g.add('SplitImageWithAlpha', '07 RGB', 2220, 150, image=decoded)
+    small = g.add('ImageScale', '08 원래 머리 크기', 2590, 150, image=rgb,
+                  upscale_method='lanczos', width=240, height=240, crop='disabled')
+    patch = g.add('ImageCrop', '09 모자·이마·관자 영역', 2960, 150,
+                  image=small, x=0, y=0, width=240, height=150)
+    mask = g.add('SolidMask', '합성 영역', 1850, 600, value=1.0, width=240, height=150)
+    mask = g.add('FeatherMask', '외곽 연결', 2220, 600, mask=mask, left=8, top=8, right=8, bottom=8)
+    hole = g.add('SolidMask', '눈·코 보호 영역', 1850, 1050, value=1.0, width=100, height=42)
+    hole = g.add('FeatherMask', '보호 영역 연결', 2220, 1050, mask=hole, left=4, top=2, right=4, bottom=0)
+    mask = g.add('MaskComposite', '10 얼굴 보호 마스크 · 구도에 맞춰 조정', 2590, 600,
+                 destination=mask, source=hole, x=75, y=112, operation='subtract')
+    corrected = g.add('ImageCompositeMasked', '11 원본 정면에 합성 · 크롭과 같은 위치', 3330, 150,
+                      destination=front, source=patch, mask=mask, x=136, y=65, resize_source=False)
+    g.add('SaveImage', '12 보정 정면 PNG · 02 워크플로 입력', 3700, 150, images=corrected,
+          filename_prefix='character-sheets/%date:yyyy-MM-dd%/beret-adjusted-front')
+    return g
+
+
 def graphs():
     front_prompt = (STUDIO + BODY +
                     'Picture 1 is the only source for this person\'s facial identity. Preserve the head shape, '
-                    'forehead, eyebrows, eye shape and spacing, nose, mouth, skin tone, apparent age and visible '
-                    'hairline; ignore the clothing and background in Picture 1. Picture 2 is the clothing source. '
+                    'eyebrows, eye shape and spacing, nose, mouth, skin tone and apparent age. Headwear may cover '
+                    'the forehead and hairline: do not preserve the bare forehead area or push a hat upward to '
+                    'expose the original hairstyle. Ignore the clothing and background in Picture 1. '
+                    'Picture 2 is the clothing source. '
                     'If several people appear in Picture 2, use only the central wearer. Study the complete outfit '
                     'carefully: headwear, scarf and knot, collar, garment cut and fabric, fastenings, chest and sleeve '
                     'patch positions, pockets, trouser shape and footwear. Transfer each visible item to the same '
@@ -131,7 +182,8 @@ def graphs():
                     'instead shows a structured cap or another non-beret hat, preserve '
                     'that hat type and brim shape; wear its brim close above BOTH eyebrows without touching or '
                     'hiding either eyebrow. If Picture 2 has no hat, do not add one. Arrange the original hair '
-                    'naturally beneath the chosen headwear. Straight front view facing the camera. '
+                    'tucked beneath the chosen headwear, with no fringe lifting the band away from the brow. '
+                    'Straight front view facing the camera. '
                     'The scarf knot and hanging tails stay on the chest, with front patches only on the front. '
                     'If footwear is unseen use simple matching shoes. Preserve natural facial detail.')
     anchor = Graph()
@@ -182,7 +234,8 @@ def graphs():
     one_click.add('SaveImage', '완성된 캐릭터 시트', 4110, 950, images=combined,
                   filename_prefix='character-sheets/%date:yyyy-MM-dd%/character-sheet')
     return {'01_Face_Outfit_Anchor': anchor, '02_Character_Turnaround': sheet,
-            '03_Assemble_Selected_Views': compose, '04_Character_Sheet_One_Click': one_click}
+            '03_Assemble_Selected_Views': compose, '04_Character_Sheet_One_Click': one_click,
+            '05_Beret_Fit_Adjustment': beret_adjustment()}
 
 
 def expanded_inputs(meta, node):

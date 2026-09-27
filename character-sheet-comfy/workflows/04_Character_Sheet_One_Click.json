@@ -1,6 +1,6 @@
 {
   "last_node_id": 33,
-  "last_link_id": 52,
+  "last_link_id": 50,
   "nodes": [
     {
       "id": 1,
@@ -69,8 +69,8 @@
           "type": "MODEL",
           "links": [
             9,
-            23,
-            35
+            21,
+            33
           ],
           "slot_index": 0
         }
@@ -107,7 +107,7 @@
           "links": [
             4,
             17,
-            31
+            29
           ],
           "slot_index": 0
         }
@@ -145,10 +145,10 @@
           "links": [
             8,
             14,
-            22,
-            28,
-            34,
-            40
+            20,
+            26,
+            32,
+            38
           ],
           "slot_index": 0
         }
@@ -229,8 +229,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            6,
-            20
+            6
           ],
           "slot_index": 0
         }
@@ -312,8 +311,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            7,
-            21
+            7
           ],
           "slot_index": 0
         }
@@ -433,7 +431,7 @@
         }
       ],
       "widgets_values": [
-        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the only source for this person's facial identity. Preserve the head shape, forehead, eyebrows, eye shape and spacing, nose, mouth, skin tone, apparent age and visible hairline; ignore the clothing and background in <image2>. <image3> is the clothing source. If several people appear in <image3>, use only the central wearer. Study the complete outfit carefully: headwear, scarf and knot, collar, garment cut and fabric, fastenings, chest and sleeve patch positions, pockets, trouser shape and footwear. Transfer each visible item to the same anatomical location on the person from <image2>, with realistic fabric fit and no mirrored or duplicated badges. Ignore the outfit wearer's face, sunglasses, pose and background. Identify the headwear type in <image3> before dressing the person. If it is a soft beret, reproduce its color, crown, asymmetrical tilt, side drape, fitted band and front insignia. Seat the beret visibly LOW on the head from <image2>. On the lowered, draped side, the band edge touches or slightly overlaps the OUTER TOP of ONE eyebrow; leave no exposed forehead strip between that edge and those eyebrow hairs. Keep the rest of that eyebrow visible. On the raised side leave a small natural gap above the other visible eyebrow. Do not cover either eye or pull the whole beret evenly across both eyebrows. If <image3> instead shows a structured cap or another non-beret hat, preserve that hat type and brim shape; wear its brim close above BOTH eyebrows without touching or hiding either eyebrow. If <image3> has no hat, do not add one. Arrange the original hair naturally beneath the chosen headwear. Straight front view facing the camera. The scarf knot and hanging tails stay on the chest, with front patches only on the front. If footwear is unseen use simple matching shoes. Preserve natural facial detail. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the only source for this person's facial identity. Preserve the head shape, eyebrows, eye shape and spacing, nose, mouth, skin tone and apparent age. Headwear may cover the forehead and hairline: do not preserve the bare forehead area or push a hat upward to expose the original hairstyle. Ignore the clothing and background in <image2>. <image3> is the clothing source. If several people appear in <image3>, use only the central wearer. Study the complete outfit carefully: headwear, scarf and knot, collar, garment cut and fabric, fastenings, chest and sleeve patch positions, pockets, trouser shape and footwear. Transfer each visible item to the same anatomical location on the person from <image2>, with realistic fabric fit and no mirrored or duplicated badges. Ignore the outfit wearer's face, sunglasses, pose and background. Identify the headwear type in <image3> before dressing the person. If it is a soft beret, reproduce its color, crown, asymmetrical tilt, side drape, fitted band and front insignia. Seat the beret visibly LOW on the head from <image2>. On the lowered, draped side, the band edge touches or slightly overlaps the OUTER TOP of ONE eyebrow; leave no exposed forehead strip between that edge and those eyebrow hairs. Keep the rest of that eyebrow visible. On the raised side leave a small natural gap above the other visible eyebrow. Do not cover either eye or pull the whole beret evenly across both eyebrows. If <image3> instead shows a structured cap or another non-beret hat, preserve that hat type and brim shape; wear its brim close above BOTH eyebrows without touching or hiding either eyebrow. If <image3> has no hat, do not add one. Arrange the original hair tucked beneath the chosen headwear, with no fringe lifting the band away from the brow. Straight front view facing the camera. The scarf knot and hanging tails stay on the chest, with front patches only on the front. If footwear is unseen use simple matching shoes. Preserve natural facial detail. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
         "",
         0
       ]
@@ -580,9 +578,9 @@
           "links": [
             16,
             19,
-            33,
-            43,
-            46
+            31,
+            41,
+            44
           ],
           "slot_index": 0
         },
@@ -706,19 +704,9 @@
           "link": 19
         },
         {
-          "name": "images.image_3",
-          "type": "IMAGE",
-          "link": 20
-        },
-        {
-          "name": "images.image_4",
-          "type": "IMAGE",
-          "link": 21
-        },
-        {
           "name": "vae",
           "type": "VAE",
-          "link": 22
+          "link": 20
         }
       ],
       "outputs": [
@@ -726,7 +714,7 @@
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
-            24
+            22
           ],
           "slot_index": 0
         },
@@ -734,7 +722,7 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            25
+            23
           ],
           "slot_index": 1
         },
@@ -742,13 +730,13 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            26
+            24
           ],
           "slot_index": 2
         }
       ],
       "widgets_values": [
-        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved full-body character: preserve its identity, hairstyle, body proportions, complete clothing, colors, accessories and shoes. <image3> provides fine facial identity only. <image4> provides garment detail only; ignore the face of its wearer. Keep every garment piece on the same part of the body and do not mirror or duplicate patches. If the approved character wears a beret, keep the same fitted size, crown shape, tilt, side drape and low band position while rotating the head; show the beret in TRUE PROFILE without exposing a front-facing face. Keep the front insignia on the front part of the beret. If it wears a structured cap or other non-beret hat, preserve its brim, crown and low fit. Keep the eyes clear in either case. Do not redesign, add accessories, change age or change expression. Strict 90-degree left profile, nose pointing to the LEFT of the image, both shoulders aligned in profile. No three-quarter view. Match the head-to-foot size of <image2>. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
+        "Replace the blank gray canvas in <image1> with the following complete character image. Use the other images only as references, not as a collage. Render an opaque image. Photorealistic studio character reference. Exactly one person, plain neutral light gray background, soft even light, realistic skin and fabric. No text, no panels, no props unless part of the outfit. Entire body including head and both shoes, centered, 6 percent margin above and below, relaxed upright neutral stance, arms slightly away from torso, hands empty. Eye-level camera, natural long-lens perspective, no foreshortening. <image2> is the approved character. Rotate the ENTIRE BODY exactly 90 degrees to face the LEFT edge of the image: head, neck, shoulders, chest, pelvis, knees and shoes all in strict lateral profile. Show only one eye; the far shoulder, arm and leg are occluded by the near side. The chest plane points left, never toward the camera. Both toes point left. This is not a front-facing body with a turned head. Preserve the same identity, body proportions, uniform, scarf, shoes and low fitted headwear from <image2>. Rotate garment details with the body; front badges and scarf tails appear edge-on, not spread across a front-facing chest. Keep the same beret tilt and band height. Match the head-to-foot size of <image2>. No three-quarter view. Avoid: multiple people, duplicate person, collage, text, watermark, cropped feet, cropped head, extra limbs, deformed hands, different clothes, different identity, fisheye.",
         "",
         0
       ]
@@ -776,22 +764,22 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 23
+          "link": 21
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 24
+          "link": 22
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 25
+          "link": 23
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 26
+          "link": 24
         }
       ],
       "outputs": [
@@ -799,7 +787,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            27
+            25
           ],
           "slot_index": 0
         }
@@ -837,12 +825,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 27
+          "link": 25
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 28
+          "link": 26
         }
       ],
       "outputs": [
@@ -850,7 +838,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            29
+            27
           ],
           "slot_index": 0
         }
@@ -885,7 +873,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 29
+          "link": 27
         }
       ],
       "outputs": [
@@ -893,8 +881,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            30,
-            47
+            28,
+            45
           ],
           "slot_index": 0
         },
@@ -930,7 +918,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 30
+          "link": 28
         }
       ],
       "outputs": [
@@ -970,7 +958,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            32
+            30
           ],
           "slot_index": 0
         }
@@ -1005,22 +993,22 @@
         {
           "name": "clip",
           "type": "CLIP",
-          "link": 31
+          "link": 29
         },
         {
           "name": "images.image_1",
           "type": "IMAGE",
-          "link": 32
+          "link": 30
         },
         {
           "name": "images.image_2",
           "type": "IMAGE",
-          "link": 33
+          "link": 31
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 34
+          "link": 32
         }
       ],
       "outputs": [
@@ -1028,7 +1016,7 @@
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
-            36
+            34
           ],
           "slot_index": 0
         },
@@ -1036,7 +1024,7 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            37
+            35
           ],
           "slot_index": 1
         },
@@ -1044,7 +1032,7 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            38
+            36
           ],
           "slot_index": 2
         }
@@ -1078,22 +1066,22 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 35
+          "link": 33
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 36
+          "link": 34
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 37
+          "link": 35
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 38
+          "link": 36
         }
       ],
       "outputs": [
@@ -1101,7 +1089,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            39
+            37
           ],
           "slot_index": 0
         }
@@ -1139,12 +1127,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 39
+          "link": 37
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 40
+          "link": 38
         }
       ],
       "outputs": [
@@ -1152,7 +1140,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            41
+            39
           ],
           "slot_index": 0
         }
@@ -1187,7 +1175,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 41
+          "link": 39
         }
       ],
       "outputs": [
@@ -1195,8 +1183,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            42,
-            49
+            40,
+            47
           ],
           "slot_index": 0
         },
@@ -1232,7 +1220,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 42
+          "link": 40
         }
       ],
       "outputs": [
@@ -1270,7 +1258,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 43
+          "link": 41
         }
       ],
       "outputs": [
@@ -1278,7 +1266,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            44
+            42
           ],
           "slot_index": 0
         }
@@ -1313,7 +1301,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 44
+          "link": 42
         }
       ],
       "outputs": [
@@ -1321,8 +1309,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            45,
-            51
+            43,
+            49
           ],
           "slot_index": 0
         }
@@ -1357,7 +1345,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 45
+          "link": 43
         }
       ],
       "outputs": [
@@ -1395,6 +1383,54 @@
         {
           "name": "image1",
           "type": "IMAGE",
+          "link": 44
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 45
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            46
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "right",
+        false,
+        0,
+        "white"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "ImageStitch",
+      "title": "정면 → 측면 → 후면 → 얼굴",
+      "pos": [
+        3370,
+        950
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageStitch",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
           "link": 46
         },
         {
@@ -1421,11 +1457,11 @@
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "type": "ImageStitch",
       "title": "정면 → 측면 → 후면 → 얼굴",
       "pos": [
-        3370,
+        3740,
         950
       ],
       "size": [
@@ -1433,7 +1469,7 @@
         290
       ],
       "flags": {},
-      "order": 30,
+      "order": 31,
       "mode": 0,
       "properties": {
         "Node name for S&R": "ImageStitch",
@@ -1469,54 +1505,6 @@
       ]
     },
     {
-      "id": 32,
-      "type": "ImageStitch",
-      "title": "정면 → 측면 → 후면 → 얼굴",
-      "pos": [
-        3740,
-        950
-      ],
-      "size": [
-        345,
-        290
-      ],
-      "flags": {},
-      "order": 31,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "ImageStitch",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [
-        {
-          "name": "image1",
-          "type": "IMAGE",
-          "link": 50
-        },
-        {
-          "name": "image2",
-          "type": "IMAGE",
-          "link": 51
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            52
-          ],
-          "slot_index": 0
-        }
-      ],
-      "widgets_values": [
-        "right",
-        false,
-        0,
-        "white"
-      ]
-    },
-    {
       "id": 33,
       "type": "SaveImage",
       "title": "완성된 캐릭터 시트",
@@ -1539,7 +1527,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 52
+          "link": 50
         }
       ],
       "outputs": [
@@ -1710,30 +1698,14 @@
     ],
     [
       20,
-      6,
+      4,
       0,
       16,
       3,
-      "IMAGE"
-    ],
-    [
-      21,
-      8,
-      0,
-      16,
-      4,
-      "IMAGE"
-    ],
-    [
-      22,
-      4,
-      0,
-      16,
-      5,
       "VAE"
     ],
     [
-      23,
+      21,
       2,
       0,
       17,
@@ -1741,7 +1713,7 @@
       "MODEL"
     ],
     [
-      24,
+      22,
       16,
       0,
       17,
@@ -1749,7 +1721,7 @@
       "CONDITIONING"
     ],
     [
-      25,
+      23,
       16,
       1,
       17,
@@ -1757,7 +1729,7 @@
       "CONDITIONING"
     ],
     [
-      26,
+      24,
       16,
       2,
       17,
@@ -1765,7 +1737,7 @@
       "LATENT"
     ],
     [
-      27,
+      25,
       17,
       0,
       18,
@@ -1773,7 +1745,7 @@
       "LATENT"
     ],
     [
-      28,
+      26,
       4,
       0,
       18,
@@ -1781,7 +1753,7 @@
       "VAE"
     ],
     [
-      29,
+      27,
       18,
       0,
       19,
@@ -1789,7 +1761,7 @@
       "IMAGE"
     ],
     [
-      30,
+      28,
       19,
       0,
       20,
@@ -1797,7 +1769,7 @@
       "IMAGE"
     ],
     [
-      31,
+      29,
       3,
       0,
       22,
@@ -1805,7 +1777,7 @@
       "CLIP"
     ],
     [
-      32,
+      30,
       21,
       0,
       22,
@@ -1813,7 +1785,7 @@
       "IMAGE"
     ],
     [
-      33,
+      31,
       13,
       0,
       22,
@@ -1821,7 +1793,7 @@
       "IMAGE"
     ],
     [
-      34,
+      32,
       4,
       0,
       22,
@@ -1829,7 +1801,7 @@
       "VAE"
     ],
     [
-      35,
+      33,
       2,
       0,
       23,
@@ -1837,7 +1809,7 @@
       "MODEL"
     ],
     [
-      36,
+      34,
       22,
       0,
       23,
@@ -1845,7 +1817,7 @@
       "CONDITIONING"
     ],
     [
-      37,
+      35,
       22,
       1,
       23,
@@ -1853,7 +1825,7 @@
       "CONDITIONING"
     ],
     [
-      38,
+      36,
       22,
       2,
       23,
@@ -1861,7 +1833,7 @@
       "LATENT"
     ],
     [
-      39,
+      37,
       23,
       0,
       24,
@@ -1869,7 +1841,7 @@
       "LATENT"
     ],
     [
-      40,
+      38,
       4,
       0,
       24,
@@ -1877,7 +1849,7 @@
       "VAE"
     ],
     [
-      41,
+      39,
       24,
       0,
       25,
@@ -1885,7 +1857,7 @@
       "IMAGE"
     ],
     [
-      42,
+      40,
       25,
       0,
       26,
@@ -1893,7 +1865,7 @@
       "IMAGE"
     ],
     [
-      43,
+      41,
       13,
       0,
       27,
@@ -1901,7 +1873,7 @@
       "IMAGE"
     ],
     [
-      44,
+      42,
       27,
       0,
       28,
@@ -1909,7 +1881,7 @@
       "IMAGE"
     ],
     [
-      45,
+      43,
       28,
       0,
       29,
@@ -1917,7 +1889,7 @@
       "IMAGE"
     ],
     [
-      46,
+      44,
       13,
       0,
       30,
@@ -1925,7 +1897,7 @@
       "IMAGE"
     ],
     [
-      47,
+      45,
       19,
       0,
       30,
@@ -1933,7 +1905,7 @@
       "IMAGE"
     ],
     [
-      48,
+      46,
       30,
       0,
       31,
@@ -1941,7 +1913,7 @@
       "IMAGE"
     ],
     [
-      49,
+      47,
       25,
       0,
       31,
@@ -1949,7 +1921,7 @@
       "IMAGE"
     ],
     [
-      50,
+      48,
       31,
       0,
       32,
@@ -1957,7 +1929,7 @@
       "IMAGE"
     ],
     [
-      51,
+      49,
       28,
       0,
       32,
@@ -1965,7 +1937,7 @@
       "IMAGE"
     ],
     [
-      52,
+      50,
       32,
       0,
       33,
