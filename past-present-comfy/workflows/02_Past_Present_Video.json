@@ -1,0 +1,1122 @@
+{
+  "last_node_id": 18,
+  "last_link_id": 25,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "title": "01 선택한 두 인물 시작 장면",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        345,
+        380
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": [
+        "past-present/meeting-still_00001_.png [output]",
+        "image"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "CodexShotSettings",
+      "title": "02 동작·길이·해상도",
+      "pos": [
+        0,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexShotSettings",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            7
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            8
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "links": [
+            9
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "links": [],
+          "slot_index": 4
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 5
+        },
+        {
+          "name": "turbo_strength",
+          "type": "FLOAT",
+          "links": [],
+          "slot_index": 6
+        }
+      ],
+      "widgets_values": [
+        "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other; the child laughs softly, the adult smiles back. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speech or music. Quiet sea ambience only.",
+        576,
+        1024,
+        5.0,
+        true,
+        "past_present_2005_2026",
+        "meeting"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "CodexReferences",
+      "title": "시작 장면 외 추가 참조 없음",
+      "pos": [
+        350,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexReferences",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "references",
+          "type": "CODEX_REFS",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "",
+        false
+      ]
+    },
+    {
+      "id": 4,
+      "type": "UNETLoader",
+      "title": "H3 ref2va INT8",
+      "pos": [
+        0,
+        -500
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "LoraLoaderModelOnly",
+      "title": "H3 Turbo 4 step",
+      "pos": [
+        350,
+        -500
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            11,
+            12
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        1.0
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPLoader",
+      "title": "H3 Qwen3VL 32B",
+      "pos": [
+        0,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "VAELoader",
+      "title": "H3 영상 VAE",
+      "pos": [
+        350,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            3,
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAELoader",
+      "title": "H3 오디오 VAE",
+      "pos": [
+        700,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            4,
+            22
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "CodexH3Inputs",
+      "title": "03 첫 프레임 고정",
+      "pos": [
+        750,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexH3Inputs",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 3
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 4
+        },
+        {
+          "name": "references",
+          "type": "CODEX_REFS",
+          "link": 5
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 6,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 7,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 8,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 9,
+          "widget": {
+            "name": "frames"
+          }
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": 10
+        },
+        {
+          "name": "video_reference",
+          "type": "CODEX_VIDEO_REF",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            13
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            18
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "resolved_prompt",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 10,
+      "type": "RandomNoise",
+      "title": "고정 시드",
+      "pos": [
+        750,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            14
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20261003,
+        "fixed"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "KSamplerSelect",
+      "title": "H3 샘플러",
+      "pos": [
+        1100,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            16
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "res_multistep"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "BasicScheduler",
+      "title": "4단계 스케줄",
+      "pos": [
+        1100,
+        700
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "BasicScheduler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            17
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "simple",
+        4,
+        1.0
+      ]
+    },
+    {
+      "id": 13,
+      "type": "BasicGuider",
+      "title": "영상 가이드",
+      "pos": [
+        1100,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "BasicGuider",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 12
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            15
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "SamplerCustomAdvanced",
+      "title": "04 영상 생성",
+      "pos": [
+        1450,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 14
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 15
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 16
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 17
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            19,
+            21
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 15,
+      "type": "VAEDecode",
+      "title": "05 영상 프레임",
+      "pos": [
+        1800,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 19
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            23
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 16,
+      "type": "VAEDecodeAudio",
+      "title": "06 해변 환경음",
+      "pos": [
+        1800,
+        400
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 21
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            24
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "CreateVideo",
+      "title": "07 24fps MP4",
+      "pos": [
+        2150,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 23
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            25
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        24.0,
+        8,
+        "sRGB",
+        "none"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "SaveVideo",
+      "title": "08 최종 영상",
+      "pos": [
+        2500,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 25
+        },
+        {
+          "name": "format",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "past-present/meeting-video"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      6,
+      0,
+      9,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      7,
+      0,
+      9,
+      1,
+      "VAE"
+    ],
+    [
+      4,
+      8,
+      0,
+      9,
+      2,
+      "VAE"
+    ],
+    [
+      5,
+      3,
+      0,
+      9,
+      3,
+      "CODEX_REFS"
+    ],
+    [
+      6,
+      2,
+      0,
+      9,
+      4,
+      "STRING"
+    ],
+    [
+      7,
+      2,
+      1,
+      9,
+      5,
+      "INT"
+    ],
+    [
+      8,
+      2,
+      2,
+      9,
+      6,
+      "INT"
+    ],
+    [
+      9,
+      2,
+      3,
+      9,
+      7,
+      "INT"
+    ],
+    [
+      10,
+      1,
+      0,
+      9,
+      8,
+      "IMAGE"
+    ],
+    [
+      11,
+      5,
+      0,
+      12,
+      0,
+      "MODEL"
+    ],
+    [
+      12,
+      5,
+      0,
+      13,
+      0,
+      "MODEL"
+    ],
+    [
+      13,
+      9,
+      0,
+      13,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      14,
+      10,
+      0,
+      14,
+      0,
+      "NOISE"
+    ],
+    [
+      15,
+      13,
+      0,
+      14,
+      1,
+      "GUIDER"
+    ],
+    [
+      16,
+      11,
+      0,
+      14,
+      2,
+      "SAMPLER"
+    ],
+    [
+      17,
+      12,
+      0,
+      14,
+      3,
+      "SIGMAS"
+    ],
+    [
+      18,
+      9,
+      1,
+      14,
+      4,
+      "LATENT"
+    ],
+    [
+      19,
+      14,
+      0,
+      15,
+      0,
+      "LATENT"
+    ],
+    [
+      20,
+      7,
+      0,
+      15,
+      1,
+      "VAE"
+    ],
+    [
+      21,
+      14,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      22,
+      8,
+      0,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      23,
+      15,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      24,
+      16,
+      0,
+      17,
+      1,
+      "AUDIO"
+    ],
+    [
+      25,
+      17,
+      0,
+      18,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        70,
+        500
+      ]
+    }
+  },
+  "version": 0.4
+}
