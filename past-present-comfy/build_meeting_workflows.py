@@ -16,8 +16,8 @@ def still_graph():
     sheet = g.add('LoadImage', '01 성인 캐릭터 시트', 0, 0, image='adult-sheet.png')
     adult = g.add('ImageCrop', '02 성인 정면만', 350, 0, image=sheet,
                   x=0, y=0, width=512, height=1152)
-    adult_face = g.add('ImageCrop', '03 성인 얼굴 확대만', 350, 350, image=sheet,
-                       x=1365, y=0, width=939, height=1152)
+    adult_face = g.add('LoadImage', '03 새 성인 얼굴 원본', 350, 350,
+                       image='adult-face-new.png')
     child1 = g.add('LoadImage', '04 어린 시절 해변 사진', 0, 550, image='child-seaside.jpg')
     child2 = g.add('LoadImage', '05 어린 시절 얼굴 확대', 0, 1000, image='child-face.jpg')
     child3 = g.add('LoadImage', '06 어린 시절 다른 표정', 0, 1450, image='child-smile.jpg')
@@ -26,8 +26,11 @@ def still_graph():
     prompt = (
         'Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. '
         'Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive '
-        'military flight suit, bright red-orange scarf, black low beret with gold insignia and black shoes; '
-        '<image3> defines his face. Images <image4>, <image5>, <image6> are the SAME Korean boy aged about '
+        'military flight suit, bright red-orange scarf and black shoes; '
+        '<image3> is the authoritative reference for his facial identity and low black beret: preserve '
+        'the eye shape and spacing, brows, nose, lips, jawline, skin tone, clean-shaven face and the '
+        'beret sitting naturally close to his eyebrows. Ignore the face in <image2> if it differs. '
+        'Images <image4>, <image5>, <image6> are the SAME Korean boy aged about '
         'six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim '
         'and little blue car print. Create exactly TWO distinct people together in one coherent seaside '
         'photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s '
@@ -60,20 +63,21 @@ def still_graph():
 def video_graph():
     g = Graph()
     front = g.add('LoadImage', '01 선택한 두 인물 시작 장면', 0, 0,
-                  image='past-present/meeting-still_00001_.png [output]')
+                  image='past-present/meeting-still_00002_.png [output]')
     settings = g.add('CodexShotSettings', '02 동작·길이·해상도', 0, 430,
                      prompt=('One continuous photorealistic shot. <Picture 1> is the exact opening '
                              'frame and defines both people and the seaside. Keep the young Korean boy '
                              'on the left in the white green-trim sleeveless car shirt and his adult '
                              'self on the right in the olive flight suit, bright red scarf and low '
                              'black beret. The adult keeps one hand gently on the boy’s shoulder. '
-                             'They look at each other; the child laughs softly, the adult smiles back. '
+                             'They look at each other and exchange small natural smiles without talking. '
                              'Very subtle breathing, blinking, sea breeze moving hair and scarf. '
                              'LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no '
                              'reframing. Both people stay completely visible in the frame from start '
                              'to finish with empty space around them. Maintain their distinct ages, exact '
                              'identities, clothing, positions and anatomy. No other people, no face '
-                             'morphing, no cuts, no text, no speech or music. Quiet sea ambience only.'),
+                             'morphing, no cuts, no text, no speaking mouth movements, no lip sync, '
+                             'no dialogue.'),
                      width=576, height=1024, seconds=5.0, turbo=True,
                      project='past_present_2005_2026', shot='meeting')
     refs = g.add('CodexReferences', '시작 장면 외 추가 참조 없음', 350, 430,
@@ -105,12 +109,10 @@ def video_graph():
                     latent_image=[inputs[0], 1])
     decoded = g.add('VAEDecode', '05 영상 프레임', 1800, 0,
                     samples=sampled, vae=vae)
-    audio = g.add('VAEDecodeAudio', '06 해변 환경음', 1800, 400,
-                  samples=sampled, vae=audio_vae)
-    video = g.add('CreateVideo', '07 24fps MP4', 2150, 0,
-                  images=decoded, audio=audio, fps=24.0, bit_depth=8, color_space='sRGB')
+    video = g.add('CreateVideo', '07 무음 24fps MP4', 2150, 0,
+                  images=decoded, fps=24.0, bit_depth=8, color_space='sRGB')
     g.add('SaveVideo', '08 최종 영상', 2500, 0, video=video,
-          filename_prefix='past-present/meeting-video', format='auto', codec='auto')
+          filename_prefix='past-present/meeting-video-silent', format='auto', codec='auto')
     return g
 
 

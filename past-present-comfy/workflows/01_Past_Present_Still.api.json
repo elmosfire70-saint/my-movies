@@ -69,19 +69,12 @@
     }
   },
   "7": {
-    "class_type": "ImageCrop",
+    "class_type": "LoadImage",
     "inputs": {
-      "image": [
-        "5",
-        0
-      ],
-      "x": 1365,
-      "y": 0,
-      "width": 939,
-      "height": 1152
+      "image": "adult-face-new.png"
     },
     "_meta": {
-      "title": "03 성인 얼굴 확대만"
+      "title": "03 새 성인 얼굴 원본"
     }
   },
   "8": {
@@ -134,7 +127,7 @@
         "4",
         0
       ],
-      "prompt": "Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive military flight suit, bright red-orange scarf, black low beret with gold insignia and black shoes; <image3> defines his face. Images <image4>, <image5>, <image6> are the SAME Korean boy aged about six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim and little blue car print. Create exactly TWO distinct people together in one coherent seaside photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s height and gently places his right hand on the boy’s shoulder. The boy laughs naturally and looks toward the adult; the adult gives him a warm small smile. Medium three-quarter portrait showing both from head to at least knees, no overlapping or duplicated faces. They share the same physical ground, camera perspective, soft daylight and believable contact shadows. Behind them: calm gray-blue sea, distant hazy hills and one subtle fishing boat, like the child photographs. Candid family-photo realism, natural skin and hands, quiet nostalgic mood. Do not copy the source photo as a panel or paste an existing cutout. No third person, split screen, collage, title, subtitles, watermark or extra limbs. Render an opaque image.",
+      "prompt": "Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive military flight suit, bright red-orange scarf and black shoes; <image3> is the authoritative reference for his facial identity and low black beret: preserve the eye shape and spacing, brows, nose, lips, jawline, skin tone, clean-shaven face and the beret sitting naturally close to his eyebrows. Ignore the face in <image2> if it differs. Images <image4>, <image5>, <image6> are the SAME Korean boy aged about six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim and little blue car print. Create exactly TWO distinct people together in one coherent seaside photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s height and gently places his right hand on the boy’s shoulder. The boy laughs naturally and looks toward the adult; the adult gives him a warm small smile. Medium three-quarter portrait showing both from head to at least knees, no overlapping or duplicated faces. They share the same physical ground, camera perspective, soft daylight and believable contact shadows. Behind them: calm gray-blue sea, distant hazy hills and one subtle fishing boat, like the child photographs. Candid family-photo realism, natural skin and hands, quiet nostalgic mood. Do not copy the source photo as a panel or paste an existing cutout. No third person, split screen, collage, title, subtitles, watermark or extra limbs. Render an opaque image.",
       "negative_prompt": "",
       "resolution": 0,
       "images.image_1": [

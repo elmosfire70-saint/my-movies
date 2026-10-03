@@ -1,6 +1,6 @@
 {
-  "last_node_id": 18,
-  "last_link_id": 25,
+  "last_node_id": 17,
+  "last_link_id": 22,
   "nodes": [
     {
       "id": 1,
@@ -39,7 +39,7 @@
         }
       ],
       "widgets_values": [
-        "past-present/meeting-still_00001_.png [output]",
+        "past-present/meeting-still_00002_.png [output]",
         "image"
       ]
     },
@@ -116,7 +116,7 @@
         }
       ],
       "widgets_values": [
-        "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other; the child laughs softly, the adult smiles back. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speech or music. Quiet sea ambience only.",
+        "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other and exchange small natural smiles without talking. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue.",
         576,
         1024,
         5.0,
@@ -379,8 +379,7 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            4,
-            22
+            4
           ],
           "slot_index": 0
         }
@@ -708,8 +707,7 @@
           "name": "output",
           "type": "LATENT",
           "links": [
-            19,
-            21
+            19
           ],
           "slot_index": 0
         },
@@ -758,7 +756,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            23
+            21
           ],
           "slot_index": 0
         }
@@ -767,51 +765,8 @@
     },
     {
       "id": 16,
-      "type": "VAEDecodeAudio",
-      "title": "06 해변 환경음",
-      "pos": [
-        1800,
-        400
-      ],
-      "size": [
-        345,
-        290
-      ],
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "VAEDecodeAudio",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 21
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 22
-        }
-      ],
-      "outputs": [
-        {
-          "name": "AUDIO",
-          "type": "AUDIO",
-          "links": [
-            24
-          ],
-          "slot_index": 0
-        }
-      ],
-      "widgets_values": []
-    },
-    {
-      "id": 17,
       "type": "CreateVideo",
-      "title": "07 24fps MP4",
+      "title": "07 무음 24fps MP4",
       "pos": [
         2150,
         0
@@ -821,7 +776,7 @@
         290
       ],
       "flags": {},
-      "order": 16,
+      "order": 15,
       "mode": 0,
       "properties": {
         "Node name for S&R": "CreateVideo",
@@ -831,12 +786,12 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 23
+          "link": 21
         },
         {
           "name": "audio",
           "type": "AUDIO",
-          "link": 24
+          "link": null
         }
       ],
       "outputs": [
@@ -844,7 +799,7 @@
           "name": "VIDEO",
           "type": "VIDEO",
           "links": [
-            25
+            22
           ],
           "slot_index": 0
         }
@@ -857,7 +812,7 @@
       ]
     },
     {
-      "id": 18,
+      "id": 17,
       "type": "SaveVideo",
       "title": "08 최종 영상",
       "pos": [
@@ -869,7 +824,7 @@
         290
       ],
       "flags": {},
-      "order": 17,
+      "order": 16,
       "mode": 0,
       "properties": {
         "Node name for S&R": "SaveVideo",
@@ -879,7 +834,7 @@
         {
           "name": "video",
           "type": "VIDEO",
-          "link": 25
+          "link": 22
         },
         {
           "name": "format",
@@ -901,7 +856,7 @@
         }
       ],
       "widgets_values": [
-        "past-present/meeting-video"
+        "past-present/meeting-video-silent"
       ]
     }
   ],
@@ -1068,41 +1023,17 @@
     ],
     [
       21,
-      14,
-      0,
-      16,
-      0,
-      "LATENT"
-    ],
-    [
-      22,
-      8,
-      0,
-      16,
-      1,
-      "VAE"
-    ],
-    [
-      23,
       15,
       0,
-      17,
+      16,
       0,
       "IMAGE"
     ],
     [
-      24,
+      22,
       16,
       0,
       17,
-      1,
-      "AUDIO"
-    ],
-    [
-      25,
-      17,
-      0,
-      18,
       0,
       "VIDEO"
     ]

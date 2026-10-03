@@ -2,7 +2,7 @@
   "1": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "past-present/meeting-still_00001_.png [output]"
+      "image": "past-present/meeting-still_00002_.png [output]"
     },
     "_meta": {
       "title": "01 선택한 두 인물 시작 장면"
@@ -11,7 +11,7 @@
   "2": {
     "class_type": "CodexShotSettings",
     "inputs": {
-      "prompt": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other; the child laughs softly, the adult smiles back. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speech or music. Quiet sea ambience only.",
+      "prompt": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other and exchange small natural smiles without talking. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue.",
       "width": 576,
       "height": 1024,
       "seconds": 5.0,
@@ -224,30 +224,10 @@
     }
   },
   "16": {
-    "class_type": "VAEDecodeAudio",
-    "inputs": {
-      "samples": [
-        "14",
-        0
-      ],
-      "vae": [
-        "8",
-        0
-      ]
-    },
-    "_meta": {
-      "title": "06 해변 환경음"
-    }
-  },
-  "17": {
     "class_type": "CreateVideo",
     "inputs": {
       "images": [
         "15",
-        0
-      ],
-      "audio": [
-        "16",
         0
       ],
       "fps": 24.0,
@@ -255,17 +235,17 @@
       "color_space": "sRGB"
     },
     "_meta": {
-      "title": "07 24fps MP4"
+      "title": "07 무음 24fps MP4"
     }
   },
-  "18": {
+  "17": {
     "class_type": "SaveVideo",
     "inputs": {
       "video": [
-        "17",
+        "16",
         0
       ],
-      "filename_prefix": "past-present/meeting-video",
+      "filename_prefix": "past-present/meeting-video-silent",
       "format": "auto",
       "codec": "auto"
     },

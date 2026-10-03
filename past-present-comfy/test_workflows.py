@@ -23,11 +23,16 @@ class WorkflowTests(unittest.TestCase):
         still = still_graph().api
         encoder = next(node for node in still.values() if node['class_type'] == 'TextEncodeQwenImage21')
         self.assertEqual(len([key for key in encoder['inputs'] if key.startswith('images.image_')]), 6)
+        face = still[encoder['inputs']['images.image_3'][0]]
+        self.assertEqual(face['class_type'], 'LoadImage')
+        self.assertEqual(face['inputs']['image'], 'adult-face-new.png')
         video = video_graph().api
         inputs = next(node for node in video.values() if node['class_type'] == 'CodexH3Inputs')
         self.assertEqual(video[inputs['inputs']['first_frame'][0]]['class_type'], 'LoadImage')
         self.assertEqual(video[inputs['inputs']['references'][0]]['inputs']['enabled'], False)
         self.assertEqual(sum(node['class_type'] == 'SaveVideo' for node in video.values()), 1)
+        create = next(node for node in video.values() if node['class_type'] == 'CreateVideo')
+        self.assertNotIn('audio', create['inputs'])
 
 
 if __name__ == '__main__':
