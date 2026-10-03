@@ -1,5 +1,14 @@
 # 실제 생성 검증
 
+## 선택 배경 이미지와 enable 스위치
+
+- `python past-present-comfy/build_meeting_workflows.py` 성공. 통합 37노드, 합성 21노드, 영상 17노드.
+- `python -m unittest discover -s past-present-comfy -p 'test_*.py' -v` 3개 통과. OFF 기본값, 배경 제외 분기, 이미지·지시문의 공통 enable 연결, 배경 전용 지시 및 기존 무음 영상 연결 검사.
+- 첫 ON 작업은 실행 성공했지만 배경 교체가 불충분했다. ON 전용 지시문으로 보강한 뒤 다시 검증했다.
+- 보강한 OFF 작업 `b37a8035-6cbe-4ef2-a452-a3fcd9d1752a`와 ON 작업 `d28917bf-5b5e-42af-aeac-7efc40f880ed` 성공. 576×1024 PNG에서 OFF는 과거 사진의 바다·산, ON은 선택한 중립 회색 배경으로 바뀐 것을 육안 확인.
+- 통합 및 합성 워크플로를 ComfyUI 같은 이름으로 갱신하고 GET 바이트 일치 확인. 기존 저장본은 검증 출력 폴더에 백업했다.
+- 이번 실제 생성 검증은 합성 PNG 두 상태를 대상으로 수행했다. 영상 생성 부분은 변경하지 않았고, 오디오 입력이 없는 연결을 테스트로 확인했다.
+
 ## 2026-10-04 두 사진 통합 워크플로
 
 - `python past-present-comfy/build_meeting_workflows.py` 성공. 통합 30노드, 합성 14노드, 영상 17노드 워크플로 생성.

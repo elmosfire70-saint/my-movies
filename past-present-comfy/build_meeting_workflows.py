@@ -5,7 +5,7 @@ from pathlib import Path
 from urllib.request import urlopen
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'character-sheet-comfy'))
-from build_workflows import Graph, loaders, ui_workflow
+from build_workflows import Graph, loaders, ui_workflow as base_ui_workflow
 
 ROOT = Path(__file__).resolve().parent
 
@@ -19,6 +19,14 @@ def add_still(g):
                  image=past, upscale_method='lanczos', largest_size=1024)
     present = g.add('ImageScaleToMaxDimension', '현재 참조 · 비율 유지', 370, 600,
                     image=present, upscale_method='lanczos', largest_size=1024)
+    background = g.add('LoadImage', '03 선택 배경 사진 · enable을 켠 경우만 사용', 0, 1100,
+                       image='meeting-background-neutral.png')
+    background = g.add('ImageScaleToMaxDimension', '배경 참조 · 비율 유지', 370, 1100,
+                       image=background, upscale_method='lanczos', largest_size=1024)
+    enable = g.add('PrimitiveBoolean', 'enable · 배경 이미지 사용 ON / OFF', 750, 1100,
+                   value=False)
+    background = g.add('ComfySwitchNode', '배경 이미지 전달 · OFF는 제외', 750, 1450,
+                       switch=enable, on_true=background)
     canvas = g.add('EmptyImage', '세로 9:16 캔버스', 750, 0,
                    width=576, height=1024, batch_size=1, color=0xC7C7C7)
     prompt = (
@@ -40,18 +48,41 @@ def add_still(g):
         'Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; '
         'leave clear space around the two heads and at both sides so a slight head turn stays in frame. '
         'Match a single camera perspective, plausible age-relative scale, light direction and contact '
-        'shadows. Use the setting visible in the PAST photo as the coherent background, excluding '
-        'bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. '
+        'shadows. If a FOURTH reference image is provided, use it ONLY as the selected environment: '
+        'preserve its recognizable setting, architecture, landscape, colors, perspective and lighting. '
+        'Place both people naturally into that setting with matching scale, light and ground shadows. '
+        'The fourth image overrides the backgrounds of BOTH person photos; do not blend locations. '
+        'Ignore any people, faces, clothing, text and watermarks in the background reference; it must '
+        'never change either person’s identity or outfit. If there are only THREE reference images, '
+        'use the setting visible in the PAST photo, excluding bystanders. If no setting is visible, '
+        'use a simple softly blurred daylight outdoor background. '
         'Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people '
         'must occupy the same physical space, not pasted panels. Natural skin texture and hands, '
         'nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after '
         'divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. '
         'Render one opaque RGB scene.'
     )
-    encoded = g.add('TextEncodeQwenImage21', '07 두 시점 합성 지시', 1100, 0,
-                    clip=clip, vae=vae, prompt=prompt, negative_prompt='', resolution=0,
+    enabled_prompt = prompt.replace(
+        'If a FOURTH reference image is provided,',
+        'BACKGROUND REPLACEMENT IS ENABLED. There are exactly FOUR references. <image4> is '
+        'the mandatory background. Completely REPLACE the original backgrounds of <image2> '
+        'and <image3> with <image4>. Never retain the original ocean, mountains, room or studio '
+        'unless those appear in <image4>. A plain-color fourth image means a plain studio backdrop '
+        'of that color; do not invent an outdoor setting. For this image,')
+    enabled_prompt = enabled_prompt.replace(
+        'If there are only THREE reference images, '
+        'use the setting visible in the PAST photo, excluding bystanders. If no setting is visible, '
+        'use a simple softly blurred daylight outdoor background. ', '')
+    default_text = g.add('PrimitiveStringMultiline', '배경 OFF · 과거 사진의 장소 사용', 1100, 750,
+                         value=prompt)
+    background_text = g.add('PrimitiveStringMultiline', '배경 ON · 선택 배경으로 교체', 1100, 1100,
+                            value=enabled_prompt)
+    selected_prompt = g.add('ComfySwitchNode', '배경 상태에 맞는 합성 지시', 1100, 1450,
+                            switch=enable, on_false=default_text, on_true=background_text)
+    encoded = g.add('TextEncodeQwenImage21', '07 두 시점 합성 지시', 1500, 750,
+                    clip=clip, vae=vae, prompt=selected_prompt, negative_prompt='', resolution=0,
                     **{'images.image_1': canvas, 'images.image_2': past,
-                       'images.image_3': present})
+                       'images.image_3': present, 'images.image_4': background})
     sampled = g.add('KSampler', '08 정지 장면 생성', 1450, 0,
                     model=model, positive=encoded, negative=[encoded[0], 1],
                     latent_image=[encoded[0], 2], seed=20261003, steps=25, cfg=1.0,
@@ -144,6 +175,27 @@ def meeting_graph():
     front = add_still(g)
     add_video(g, front, offset=3000)
     return g
+
+
+def ui_workflow(g, info):
+    workflow = base_ui_workflow(g, info)
+    # 저장된 스위치의 동적 포트를 연결된 이미지·문자열 타입으로 명시한다.
+    switches = {}
+    for key, node in g.api.items():
+        if node['class_type'] == 'ComfySwitchNode':
+            source, slot = node['inputs']['on_true']
+            switches[int(key)] = info[g.api[source]['class_type']]['output'][slot]
+    for node in workflow['nodes']:
+        if node['id'] in switches:
+            for port in node['inputs'] + node['outputs']:
+                if port['type'] == 'COMFY_MATCHTYPE_V3':
+                    port['type'] = switches[node['id']]
+    for link in workflow['links']:
+        if link[1] in switches:
+            link[5] = switches[link[1]]
+        elif link[3] in switches and link[5] == 'COMFY_MATCHTYPE_V3':
+            link[5] = switches[link[3]]
+    return workflow
 
 
 def build():

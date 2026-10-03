@@ -22,7 +22,7 @@ class WorkflowTests(unittest.TestCase):
             self.assertTrue(ui['links'])
         still = still_graph().api
         encoder = next(node for node in still.values() if node['class_type'] == 'TextEncodeQwenImage21')
-        self.assertEqual(len([key for key in encoder['inputs'] if key.startswith('images.image_')]), 3)
+        self.assertEqual(len([key for key in encoder['inputs'] if key.startswith('images.image_')]), 4)
         for slot, filename in [('images.image_2', 'child-face.jpg'),
                                ('images.image_3', 'adult-face-new.png')]:
             scale = still[encoder['inputs'][slot][0]]
@@ -40,7 +40,7 @@ class WorkflowTests(unittest.TestCase):
 
     def test_two_photos_to_silent_video(self):
         graph = meeting_graph().api
-        self.assertEqual(sum(n['class_type'] == 'LoadImage' for n in graph.values()), 2)
+        self.assertEqual(sum(n['class_type'] == 'LoadImage' for n in graph.values()), 3)
         self.assertFalse(any(n['class_type'] == 'ImageCrop' for n in graph.values()))
         inputs = next(n['inputs'] for n in graph.values() if n['class_type'] == 'CodexH3Inputs')
         saved = next(n['inputs'] for n in graph.values() if n['class_type'] == 'SaveImage')
@@ -51,6 +51,27 @@ class WorkflowTests(unittest.TestCase):
         self.assertNotIn('audio', create)
         save = next(n['inputs'] for n in graph.values() if n['class_type'] == 'SaveVideo')
         self.assertEqual(graph[save['video'][0]]['class_type'], 'CreateVideo')
+
+    def test_optional_background(self):
+        for graph in (still_graph(), meeting_graph()):
+            encoder = next(n['inputs'] for n in graph.api.values()
+                           if n['class_type'] == 'TextEncodeQwenImage21')
+            switch = graph.api[encoder['images.image_4'][0]]
+            self.assertEqual(switch['class_type'], 'ComfySwitchNode')
+            enable = graph.api[switch['inputs']['switch'][0]]
+            self.assertEqual(enable['class_type'], 'PrimitiveBoolean')
+            self.assertIs(enable['inputs']['value'], False)
+            self.assertNotIn('on_false', switch['inputs'])
+            scale = graph.api[switch['inputs']['on_true'][0]]
+            self.assertEqual(scale['class_type'], 'ImageScaleToMaxDimension')
+            loader = graph.api[scale['inputs']['image'][0]]
+            self.assertEqual(loader['inputs']['image'], 'meeting-background-neutral.png')
+            self.assertNotEqual(encoder['images.image_4'], encoder['images.image_2'])
+            self.assertNotEqual(encoder['images.image_4'], encoder['images.image_3'])
+            prompt_switch = graph.api[encoder['prompt'][0]]
+            self.assertEqual(prompt_switch['inputs']['switch'], switch['inputs']['switch'])
+            on_text = graph.api[prompt_switch['inputs']['on_true'][0]]['inputs']['value']
+            self.assertIn('BACKGROUND REPLACEMENT IS ENABLED', on_text)
 
 
 if __name__ == '__main__':

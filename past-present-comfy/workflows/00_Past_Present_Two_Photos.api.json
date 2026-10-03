@@ -90,6 +90,54 @@
     }
   },
   "9": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "meeting-background-neutral.png"
+    },
+    "_meta": {
+      "title": "03 선택 배경 사진 · enable을 켠 경우만 사용"
+    }
+  },
+  "10": {
+    "class_type": "ImageScaleToMaxDimension",
+    "inputs": {
+      "image": [
+        "9",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
+    },
+    "_meta": {
+      "title": "배경 참조 · 비율 유지"
+    }
+  },
+  "11": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": false
+    },
+    "_meta": {
+      "title": "enable · 배경 이미지 사용 ON / OFF"
+    }
+  },
+  "12": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "11",
+        0
+      ],
+      "on_true": [
+        "10",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "배경 이미지 전달 · OFF는 제외"
+    }
+  },
+  "13": {
     "class_type": "EmptyImage",
     "inputs": {
       "width": 576,
@@ -101,7 +149,45 @@
       "title": "세로 9:16 캔버스"
     }
   },
-  "10": {
+  "14": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. If a FOURTH reference image is provided, use it ONLY as the selected environment: preserve its recognizable setting, architecture, landscape, colors, perspective and lighting. Place both people naturally into that setting with matching scale, light and ground shadows. The fourth image overrides the backgrounds of BOTH person photos; do not blend locations. Ignore any people, faces, clothing, text and watermarks in the background reference; it must never change either person’s identity or outfit. If there are only THREE reference images, use the setting visible in the PAST photo, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene."
+    },
+    "_meta": {
+      "title": "배경 OFF · 과거 사진의 장소 사용"
+    }
+  },
+  "15": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. BACKGROUND REPLACEMENT IS ENABLED. There are exactly FOUR references. <image4> is the mandatory background. Completely REPLACE the original backgrounds of <image2> and <image3> with <image4>. Never retain the original ocean, mountains, room or studio unless those appear in <image4>. A plain-color fourth image means a plain studio backdrop of that color; do not invent an outdoor setting. For this image, use it ONLY as the selected environment: preserve its recognizable setting, architecture, landscape, colors, perspective and lighting. Place both people naturally into that setting with matching scale, light and ground shadows. The fourth image overrides the backgrounds of BOTH person photos; do not blend locations. Ignore any people, faces, clothing, text and watermarks in the background reference; it must never change either person’s identity or outfit. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene."
+    },
+    "_meta": {
+      "title": "배경 ON · 선택 배경으로 교체"
+    }
+  },
+  "16": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "11",
+        0
+      ],
+      "on_false": [
+        "14",
+        0
+      ],
+      "on_true": [
+        "15",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "배경 상태에 맞는 합성 지시"
+    }
+  },
+  "17": {
     "class_type": "TextEncodeQwenImage21",
     "inputs": {
       "clip": [
@@ -112,11 +198,14 @@
         "4",
         0
       ],
-      "prompt": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. Use the setting visible in the PAST photo as the coherent background, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene.",
+      "prompt": [
+        "16",
+        0
+      ],
       "negative_prompt": "",
       "resolution": 0,
       "images.image_1": [
-        "9",
+        "13",
         0
       ],
       "images.image_2": [
@@ -126,13 +215,17 @@
       "images.image_3": [
         "8",
         0
+      ],
+      "images.image_4": [
+        "12",
+        0
       ]
     },
     "_meta": {
       "title": "07 두 시점 합성 지시"
     }
   },
-  "11": {
+  "18": {
     "class_type": "KSampler",
     "inputs": {
       "model": [
@@ -140,15 +233,15 @@
         0
       ],
       "positive": [
-        "10",
+        "17",
         0
       ],
       "negative": [
-        "10",
+        "17",
         1
       ],
       "latent_image": [
-        "10",
+        "17",
         2
       ],
       "seed": 20261003,
@@ -162,11 +255,11 @@
       "title": "08 정지 장면 생성"
     }
   },
-  "12": {
+  "19": {
     "class_type": "VAEDecodeTiled",
     "inputs": {
       "samples": [
-        "11",
+        "18",
         0
       ],
       "vae": [
@@ -182,11 +275,11 @@
       "title": "09 디코딩"
     }
   },
-  "13": {
+  "20": {
     "class_type": "SplitImageWithAlpha",
     "inputs": {
       "image": [
-        "12",
+        "19",
         0
       ]
     },
@@ -194,11 +287,11 @@
       "title": "10 RGB"
     }
   },
-  "14": {
+  "21": {
     "class_type": "SaveImage",
     "inputs": {
       "images": [
-        "13",
+        "20",
         0
       ],
       "filename_prefix": "past-present/two-photo-still"
@@ -207,7 +300,7 @@
       "title": "11 시작 장면 PNG"
     }
   },
-  "15": {
+  "22": {
     "class_type": "CodexShotSettings",
     "inputs": {
       "prompt": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines BOTH versions of the same person and their shared setting. The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. Preserve each face, visible age, hairstyle, clothing, headwear, relative size and seated or standing pose exactly as in the opening frame. At the beginning, hold the reunion portrait with subtle breathing and blinking. Through the middle of the shot, they slowly turn their eyes and heads slightly toward each other, making warm eye contact without hiding either face. Toward the end, the present-day version gives one tiny affectionate shoulder pat with the hand already resting there; both settle into a gentle smile. Keep the shoulder contact light and anatomically correct. No large reach, hug, walking, lifting, head rubbing or abrupt body movement. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with the original framing margins. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue, no singing, no narration, no audible laughter, no music and no sound effects. Smiles and breathing only; this is a silent reunion.",
@@ -222,7 +315,7 @@
       "title": "02 동작·길이·해상도"
     }
   },
-  "16": {
+  "23": {
     "class_type": "CodexReferences",
     "inputs": {
       "roles": "",
@@ -232,7 +325,7 @@
       "title": "시작 장면 외 추가 참조 없음"
     }
   },
-  "17": {
+  "24": {
     "class_type": "UNETLoader",
     "inputs": {
       "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
@@ -242,11 +335,11 @@
       "title": "H3 ref2va INT8"
     }
   },
-  "18": {
+  "25": {
     "class_type": "LoraLoaderModelOnly",
     "inputs": {
       "model": [
-        "17",
+        "24",
         0
       ],
       "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
@@ -256,7 +349,7 @@
       "title": "H3 Turbo 4 step"
     }
   },
-  "19": {
+  "26": {
     "class_type": "CLIPLoader",
     "inputs": {
       "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
@@ -267,7 +360,7 @@
       "title": "H3 Qwen3VL 32B"
     }
   },
-  "20": {
+  "27": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_video_vae_fp16.safetensors"
@@ -276,7 +369,7 @@
       "title": "H3 영상 VAE"
     }
   },
-  "21": {
+  "28": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
@@ -285,43 +378,43 @@
       "title": "H3 내부 조건용 VAE · 최종 음성 출력 없음"
     }
   },
-  "22": {
+  "29": {
     "class_type": "CodexH3Inputs",
     "inputs": {
       "clip": [
-        "19",
+        "26",
         0
       ],
       "vae": [
-        "20",
+        "27",
         0
       ],
       "audio_vae": [
-        "21",
+        "28",
         0
       ],
       "references": [
-        "16",
+        "23",
         0
       ],
       "prompt": [
-        "15",
+        "22",
         0
       ],
       "width": [
-        "15",
+        "22",
         1
       ],
       "height": [
-        "15",
+        "22",
         2
       ],
       "frames": [
-        "15",
+        "22",
         3
       ],
       "first_frame": [
-        "13",
+        "20",
         0
       ]
     },
@@ -329,7 +422,7 @@
       "title": "03 첫 프레임 고정"
     }
   },
-  "23": {
+  "30": {
     "class_type": "RandomNoise",
     "inputs": {
       "noise_seed": 20261003
@@ -338,7 +431,7 @@
       "title": "고정 시드"
     }
   },
-  "24": {
+  "31": {
     "class_type": "KSamplerSelect",
     "inputs": {
       "sampler_name": "res_multistep"
@@ -347,11 +440,11 @@
       "title": "H3 샘플러"
     }
   },
-  "25": {
+  "32": {
     "class_type": "BasicScheduler",
     "inputs": {
       "model": [
-        "18",
+        "25",
         0
       ],
       "scheduler": "simple",
@@ -362,15 +455,15 @@
       "title": "4단계 스케줄"
     }
   },
-  "26": {
+  "33": {
     "class_type": "BasicGuider",
     "inputs": {
       "model": [
-        "18",
+        "25",
         0
       ],
       "conditioning": [
-        "22",
+        "29",
         0
       ]
     },
@@ -378,27 +471,27 @@
       "title": "영상 가이드"
     }
   },
-  "27": {
+  "34": {
     "class_type": "SamplerCustomAdvanced",
     "inputs": {
       "noise": [
-        "23",
+        "30",
         0
       ],
       "guider": [
-        "26",
+        "33",
         0
       ],
       "sampler": [
-        "24",
+        "31",
         0
       ],
       "sigmas": [
-        "25",
+        "32",
         0
       ],
       "latent_image": [
-        "22",
+        "29",
         1
       ]
     },
@@ -406,15 +499,15 @@
       "title": "04 영상 생성"
     }
   },
-  "28": {
+  "35": {
     "class_type": "VAEDecode",
     "inputs": {
       "samples": [
-        "27",
+        "34",
         0
       ],
       "vae": [
-        "20",
+        "27",
         0
       ]
     },
@@ -422,11 +515,11 @@
       "title": "05 영상 프레임"
     }
   },
-  "29": {
+  "36": {
     "class_type": "CreateVideo",
     "inputs": {
       "images": [
-        "28",
+        "35",
         0
       ],
       "fps": 24.0,
@@ -437,11 +530,11 @@
       "title": "07 무음 24fps MP4"
     }
   },
-  "30": {
+  "37": {
     "class_type": "SaveVideo",
     "inputs": {
       "video": [
-        "29",
+        "36",
         0
       ],
       "filename_prefix": "past-present/two-photo-video-silent",

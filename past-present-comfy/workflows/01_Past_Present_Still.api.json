@@ -90,6 +90,54 @@
     }
   },
   "9": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "meeting-background-neutral.png"
+    },
+    "_meta": {
+      "title": "03 선택 배경 사진 · enable을 켠 경우만 사용"
+    }
+  },
+  "10": {
+    "class_type": "ImageScaleToMaxDimension",
+    "inputs": {
+      "image": [
+        "9",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
+    },
+    "_meta": {
+      "title": "배경 참조 · 비율 유지"
+    }
+  },
+  "11": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": false
+    },
+    "_meta": {
+      "title": "enable · 배경 이미지 사용 ON / OFF"
+    }
+  },
+  "12": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "11",
+        0
+      ],
+      "on_true": [
+        "10",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "배경 이미지 전달 · OFF는 제외"
+    }
+  },
+  "13": {
     "class_type": "EmptyImage",
     "inputs": {
       "width": 576,
@@ -101,7 +149,45 @@
       "title": "세로 9:16 캔버스"
     }
   },
-  "10": {
+  "14": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. If a FOURTH reference image is provided, use it ONLY as the selected environment: preserve its recognizable setting, architecture, landscape, colors, perspective and lighting. Place both people naturally into that setting with matching scale, light and ground shadows. The fourth image overrides the backgrounds of BOTH person photos; do not blend locations. Ignore any people, faces, clothing, text and watermarks in the background reference; it must never change either person’s identity or outfit. If there are only THREE reference images, use the setting visible in the PAST photo, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene."
+    },
+    "_meta": {
+      "title": "배경 OFF · 과거 사진의 장소 사용"
+    }
+  },
+  "15": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. BACKGROUND REPLACEMENT IS ENABLED. There are exactly FOUR references. <image4> is the mandatory background. Completely REPLACE the original backgrounds of <image2> and <image3> with <image4>. Never retain the original ocean, mountains, room or studio unless those appear in <image4>. A plain-color fourth image means a plain studio backdrop of that color; do not invent an outdoor setting. For this image, use it ONLY as the selected environment: preserve its recognizable setting, architecture, landscape, colors, perspective and lighting. Place both people naturally into that setting with matching scale, light and ground shadows. The fourth image overrides the backgrounds of BOTH person photos; do not blend locations. Ignore any people, faces, clothing, text and watermarks in the background reference; it must never change either person’s identity or outfit. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene."
+    },
+    "_meta": {
+      "title": "배경 ON · 선택 배경으로 교체"
+    }
+  },
+  "16": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "11",
+        0
+      ],
+      "on_false": [
+        "14",
+        0
+      ],
+      "on_true": [
+        "15",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "배경 상태에 맞는 합성 지시"
+    }
+  },
+  "17": {
     "class_type": "TextEncodeQwenImage21",
     "inputs": {
       "clip": [
@@ -112,11 +198,14 @@
         "4",
         0
       ],
-      "prompt": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. Use the setting visible in the PAST photo as the coherent background, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene.",
+      "prompt": [
+        "16",
+        0
+      ],
       "negative_prompt": "",
       "resolution": 0,
       "images.image_1": [
-        "9",
+        "13",
         0
       ],
       "images.image_2": [
@@ -126,13 +215,17 @@
       "images.image_3": [
         "8",
         0
+      ],
+      "images.image_4": [
+        "12",
+        0
       ]
     },
     "_meta": {
       "title": "07 두 시점 합성 지시"
     }
   },
-  "11": {
+  "18": {
     "class_type": "KSampler",
     "inputs": {
       "model": [
@@ -140,15 +233,15 @@
         0
       ],
       "positive": [
-        "10",
+        "17",
         0
       ],
       "negative": [
-        "10",
+        "17",
         1
       ],
       "latent_image": [
-        "10",
+        "17",
         2
       ],
       "seed": 20261003,
@@ -162,11 +255,11 @@
       "title": "08 정지 장면 생성"
     }
   },
-  "12": {
+  "19": {
     "class_type": "VAEDecodeTiled",
     "inputs": {
       "samples": [
-        "11",
+        "18",
         0
       ],
       "vae": [
@@ -182,11 +275,11 @@
       "title": "09 디코딩"
     }
   },
-  "13": {
+  "20": {
     "class_type": "SplitImageWithAlpha",
     "inputs": {
       "image": [
-        "12",
+        "19",
         0
       ]
     },
@@ -194,11 +287,11 @@
       "title": "10 RGB"
     }
   },
-  "14": {
+  "21": {
     "class_type": "SaveImage",
     "inputs": {
       "images": [
-        "13",
+        "20",
         0
       ],
       "filename_prefix": "past-present/two-photo-still"
