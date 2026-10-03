@@ -3,14 +3,14 @@ import json
 import unittest
 from urllib.request import urlopen
 
-from build_meeting_workflows import still_graph, video_graph, ui_workflow
+from build_meeting_workflows import still_graph, video_graph, meeting_graph, ui_workflow
 
 
 class WorkflowTests(unittest.TestCase):
     def test_live_links_and_roles(self):
         with urlopen('http://127.0.0.1:8188/object_info') as response:
             info = json.load(response)
-        for graph in (still_graph(), video_graph()):
+        for graph in (still_graph(), video_graph(), meeting_graph()):
             for key, node in graph.api.items():
                 self.assertIn(node['class_type'], info)
                 for value in node['inputs'].values():
@@ -22,10 +22,14 @@ class WorkflowTests(unittest.TestCase):
             self.assertTrue(ui['links'])
         still = still_graph().api
         encoder = next(node for node in still.values() if node['class_type'] == 'TextEncodeQwenImage21')
-        self.assertEqual(len([key for key in encoder['inputs'] if key.startswith('images.image_')]), 6)
-        face = still[encoder['inputs']['images.image_3'][0]]
-        self.assertEqual(face['class_type'], 'LoadImage')
-        self.assertEqual(face['inputs']['image'], 'adult-face-new.png')
+        self.assertEqual(len([key for key in encoder['inputs'] if key.startswith('images.image_')]), 3)
+        for slot, filename in [('images.image_2', 'child-face.jpg'),
+                               ('images.image_3', 'adult-face-new.png')]:
+            scale = still[encoder['inputs'][slot][0]]
+            self.assertEqual(scale['class_type'], 'ImageScaleToMaxDimension')
+            photo = still[scale['inputs']['image'][0]]
+            self.assertEqual(photo['class_type'], 'LoadImage')
+            self.assertEqual(photo['inputs']['image'], filename)
         video = video_graph().api
         inputs = next(node for node in video.values() if node['class_type'] == 'CodexH3Inputs')
         self.assertEqual(video[inputs['inputs']['first_frame'][0]]['class_type'], 'LoadImage')
@@ -33,6 +37,20 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(sum(node['class_type'] == 'SaveVideo' for node in video.values()), 1)
         create = next(node for node in video.values() if node['class_type'] == 'CreateVideo')
         self.assertNotIn('audio', create['inputs'])
+
+    def test_two_photos_to_silent_video(self):
+        graph = meeting_graph().api
+        self.assertEqual(sum(n['class_type'] == 'LoadImage' for n in graph.values()), 2)
+        self.assertFalse(any(n['class_type'] == 'ImageCrop' for n in graph.values()))
+        inputs = next(n['inputs'] for n in graph.values() if n['class_type'] == 'CodexH3Inputs')
+        saved = next(n['inputs'] for n in graph.values() if n['class_type'] == 'SaveImage')
+        self.assertEqual(inputs['first_frame'], saved['images'])
+        self.assertEqual(graph[inputs['first_frame'][0]]['class_type'], 'SplitImageWithAlpha')
+        self.assertFalse(any(n['class_type'] == 'VAEDecodeAudio' for n in graph.values()))
+        create = next(n['inputs'] for n in graph.values() if n['class_type'] == 'CreateVideo')
+        self.assertNotIn('audio', create)
+        save = next(n['inputs'] for n in graph.values() if n['class_type'] == 'SaveVideo')
+        self.assertEqual(graph[save['video'][0]]['class_type'], 'CreateVideo')
 
 
 if __name__ == '__main__':

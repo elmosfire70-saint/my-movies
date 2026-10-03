@@ -1,0 +1,1758 @@
+{
+  "last_node_id": 30,
+  "last_link_id": 38,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "title": "Qwen Image 2.1 · INT8 ConvRot",
+      "pos": [
+        0,
+        -450
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen_image_2.1_int8_convrot.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "QwenImage21Cache",
+      "title": "2.1 참조 캐시 · 자동 메모리 배치",
+      "pos": [
+        370,
+        -450
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "QwenImage21Cache",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "auto",
+        "default"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "CLIPLoader",
+      "title": "Qwen vision-language encoder",
+      "pos": [
+        0,
+        -200
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen3vl_8b_int8_convrot.safetensors",
+        "qwen_image",
+        "default"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "title": "Qwen 2.1 RGBA VAE",
+      "pos": [
+        370,
+        -200
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8,
+            14
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen_image_2.1_vae_bf16.safetensors"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "LoadImage",
+      "title": "01 과거 사진 · 한 사람",
+      "pos": [
+        0,
+        100
+      ],
+      "size": [
+        345,
+        380
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": [
+        "child-face.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "LoadImage",
+      "title": "02 현재 사진 · 같은 사람의 현재 모습",
+      "pos": [
+        0,
+        600
+      ],
+      "size": [
+        345,
+        380
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": [
+        "adult-face-new.png",
+        "image"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ImageScaleToMaxDimension",
+      "title": "과거 참조 · 비율 유지",
+      "pos": [
+        370,
+        100
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScaleToMaxDimension",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        1024
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ImageScaleToMaxDimension",
+      "title": "현재 참조 · 비율 유지",
+      "pos": [
+        370,
+        600
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScaleToMaxDimension",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        1024
+      ]
+    },
+    {
+      "id": 9,
+      "type": "EmptyImage",
+      "title": "세로 9:16 캔버스",
+      "pos": [
+        750,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "EmptyImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        576,
+        1024,
+        1,
+        13092807
+      ]
+    },
+    {
+      "id": 10,
+      "type": "TextEncodeQwenImage21",
+      "title": "07 두 시점 합성 지시",
+      "pos": [
+        1100,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImage21",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        },
+        {
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "images.image_2",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "name": "images.image_3",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            12
+          ],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. Use the setting visible in the PAST photo as the coherent background, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene.",
+        "",
+        0
+      ]
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "title": "08 정지 장면 생성",
+      "pos": [
+        1450,
+        0
+      ],
+      "size": [
+        345,
+        340
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 9
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 10
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            13
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20261003,
+        "fixed",
+        25,
+        1.0,
+        "euler",
+        "simple",
+        1.0
+      ]
+    },
+    {
+      "id": 12,
+      "type": "VAEDecodeTiled",
+      "title": "09 디코딩",
+      "pos": [
+        1800,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecodeTiled",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 13
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            15
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        512,
+        64,
+        64,
+        8
+      ]
+    },
+    {
+      "id": 13,
+      "type": "SplitImageWithAlpha",
+      "title": "10 RGB",
+      "pos": [
+        2150,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SplitImageWithAlpha",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            16,
+            26
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "SaveImage",
+      "title": "11 시작 장면 PNG",
+      "pos": [
+        2500,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "past-present/two-photo-still"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "CodexShotSettings",
+      "title": "02 동작·길이·해상도",
+      "pos": [
+        3000,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexShotSettings",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            23
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            24
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "links": [
+            25
+          ],
+          "slot_index": 3
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "links": [],
+          "slot_index": 4
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 5
+        },
+        {
+          "name": "turbo_strength",
+          "type": "FLOAT",
+          "links": [],
+          "slot_index": 6
+        }
+      ],
+      "widgets_values": [
+        "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines BOTH versions of the same person and their shared setting. The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. Preserve each face, visible age, hairstyle, clothing, headwear, relative size and seated or standing pose exactly as in the opening frame. At the beginning, hold the reunion portrait with subtle breathing and blinking. Through the middle of the shot, they slowly turn their eyes and heads slightly toward each other, making warm eye contact without hiding either face. Toward the end, the present-day version gives one tiny affectionate shoulder pat with the hand already resting there; both settle into a gentle smile. Keep the shoulder contact light and anatomically correct. No large reach, hug, walking, lifting, head rubbing or abrupt body movement. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with the original framing margins. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue, no singing, no narration, no audible laughter, no music and no sound effects. Smiles and breathing only; this is a silent reunion.",
+        576,
+        1024,
+        5.0,
+        true,
+        "past_present_two_photos",
+        "silent_meeting"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "CodexReferences",
+      "title": "시작 장면 외 추가 참조 없음",
+      "pos": [
+        3350,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexReferences",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "references",
+          "type": "CODEX_REFS",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "",
+        false
+      ]
+    },
+    {
+      "id": 17,
+      "type": "UNETLoader",
+      "title": "H3 ref2va INT8",
+      "pos": [
+        3000,
+        -500
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            17
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "LoraLoaderModelOnly",
+      "title": "H3 Turbo 4 step",
+      "pos": [
+        3350,
+        -500
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            27,
+            28
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+        1.0
+      ]
+    },
+    {
+      "id": 19,
+      "type": "CLIPLoader",
+      "title": "H3 Qwen3VL 32B",
+      "pos": [
+        3000,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "VAELoader",
+      "title": "H3 영상 VAE",
+      "pos": [
+        3350,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            19,
+            36
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ]
+    },
+    {
+      "id": 21,
+      "type": "VAELoader",
+      "title": "H3 내부 조건용 VAE · 최종 음성 출력 없음",
+      "pos": [
+        3700,
+        -250
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ]
+    },
+    {
+      "id": 22,
+      "type": "CodexH3Inputs",
+      "title": "03 첫 프레임 고정",
+      "pos": [
+        3750,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CodexH3Inputs",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 19
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 20
+        },
+        {
+          "name": "references",
+          "type": "CODEX_REFS",
+          "link": 21
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 22,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 23,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 24,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "frames",
+          "type": "INT",
+          "link": 25,
+          "widget": {
+            "name": "frames"
+          }
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": 26
+        },
+        {
+          "name": "video_reference",
+          "type": "CODEX_VIDEO_REF",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            29
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            34
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "resolved_prompt",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "widgets_values": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 23,
+      "type": "RandomNoise",
+      "title": "고정 시드",
+      "pos": [
+        3750,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        20261003,
+        "fixed"
+      ]
+    },
+    {
+      "id": 24,
+      "type": "KSamplerSelect",
+      "title": "H3 샘플러",
+      "pos": [
+        4100,
+        430
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            32
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "res_multistep"
+      ]
+    },
+    {
+      "id": 25,
+      "type": "BasicScheduler",
+      "title": "4단계 스케줄",
+      "pos": [
+        4100,
+        700
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "BasicScheduler",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            33
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "simple",
+        4,
+        1.0
+      ]
+    },
+    {
+      "id": 26,
+      "type": "BasicGuider",
+      "title": "영상 가이드",
+      "pos": [
+        4100,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "BasicGuider",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 28
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            31
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 27,
+      "type": "SamplerCustomAdvanced",
+      "title": "04 영상 생성",
+      "pos": [
+        4450,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 30
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 31
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 32
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 33
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 34
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            35
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 28,
+      "type": "VAEDecode",
+      "title": "05 영상 프레임",
+      "pos": [
+        4800,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 35
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 36
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            37
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": []
+    },
+    {
+      "id": 29,
+      "type": "CreateVideo",
+      "title": "07 무음 24fps MP4",
+      "pos": [
+        5150,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 37
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            38
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        24.0,
+        8,
+        "sRGB",
+        "none"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "SaveVideo",
+      "title": "08 최종 영상",
+      "pos": [
+        5500,
+        0
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 38
+        },
+        {
+          "name": "format",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "past-present/two-photo-video-silent"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      5,
+      0,
+      7,
+      0,
+      "IMAGE"
+    ],
+    [
+      3,
+      6,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ],
+    [
+      4,
+      3,
+      0,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      9,
+      0,
+      10,
+      1,
+      "IMAGE"
+    ],
+    [
+      6,
+      7,
+      0,
+      10,
+      2,
+      "IMAGE"
+    ],
+    [
+      7,
+      8,
+      0,
+      10,
+      3,
+      "IMAGE"
+    ],
+    [
+      8,
+      4,
+      0,
+      10,
+      4,
+      "VAE"
+    ],
+    [
+      9,
+      2,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      11,
+      10,
+      1,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      10,
+      2,
+      11,
+      3,
+      "LATENT"
+    ],
+    [
+      13,
+      11,
+      0,
+      12,
+      0,
+      "LATENT"
+    ],
+    [
+      14,
+      4,
+      0,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      15,
+      12,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      16,
+      13,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ],
+    [
+      17,
+      17,
+      0,
+      18,
+      0,
+      "MODEL"
+    ],
+    [
+      18,
+      19,
+      0,
+      22,
+      0,
+      "CLIP"
+    ],
+    [
+      19,
+      20,
+      0,
+      22,
+      1,
+      "VAE"
+    ],
+    [
+      20,
+      21,
+      0,
+      22,
+      2,
+      "VAE"
+    ],
+    [
+      21,
+      16,
+      0,
+      22,
+      3,
+      "CODEX_REFS"
+    ],
+    [
+      22,
+      15,
+      0,
+      22,
+      4,
+      "STRING"
+    ],
+    [
+      23,
+      15,
+      1,
+      22,
+      5,
+      "INT"
+    ],
+    [
+      24,
+      15,
+      2,
+      22,
+      6,
+      "INT"
+    ],
+    [
+      25,
+      15,
+      3,
+      22,
+      7,
+      "INT"
+    ],
+    [
+      26,
+      13,
+      0,
+      22,
+      8,
+      "IMAGE"
+    ],
+    [
+      27,
+      18,
+      0,
+      25,
+      0,
+      "MODEL"
+    ],
+    [
+      28,
+      18,
+      0,
+      26,
+      0,
+      "MODEL"
+    ],
+    [
+      29,
+      22,
+      0,
+      26,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      30,
+      23,
+      0,
+      27,
+      0,
+      "NOISE"
+    ],
+    [
+      31,
+      26,
+      0,
+      27,
+      1,
+      "GUIDER"
+    ],
+    [
+      32,
+      24,
+      0,
+      27,
+      2,
+      "SAMPLER"
+    ],
+    [
+      33,
+      25,
+      0,
+      27,
+      3,
+      "SIGMAS"
+    ],
+    [
+      34,
+      22,
+      1,
+      27,
+      4,
+      "LATENT"
+    ],
+    [
+      35,
+      27,
+      0,
+      28,
+      0,
+      "LATENT"
+    ],
+    [
+      36,
+      20,
+      0,
+      28,
+      1,
+      "VAE"
+    ],
+    [
+      37,
+      28,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      38,
+      29,
+      0,
+      30,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        70,
+        500
+      ]
+    }
+  },
+  "version": 0.4
+}

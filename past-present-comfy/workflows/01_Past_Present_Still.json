@@ -1,6 +1,6 @@
 {
-  "last_node_id": 16,
-  "last_link_id": 18,
+  "last_node_id": 14,
+  "last_link_id": 16,
   "nodes": [
     {
       "id": 1,
@@ -68,7 +68,7 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            11
+            9
           ],
           "slot_index": 0
         }
@@ -103,7 +103,7 @@
           "name": "CLIP",
           "type": "CLIP",
           "links": [
-            3
+            4
           ],
           "slot_index": 0
         }
@@ -139,8 +139,8 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            10,
-            16
+            8,
+            14
           ],
           "slot_index": 0
         }
@@ -152,10 +152,10 @@
     {
       "id": 5,
       "type": "LoadImage",
-      "title": "01 성인 캐릭터 시트",
+      "title": "01 과거 사진 · 한 사람",
       "pos": [
         0,
-        0
+        100
       ],
       "size": [
         345,
@@ -186,67 +186,24 @@
         }
       ],
       "widgets_values": [
-        "adult-sheet.png",
+        "child-face.jpg",
         "image"
       ]
     },
     {
       "id": 6,
-      "type": "ImageCrop",
-      "title": "02 성인 정면만",
-      "pos": [
-        350,
-        0
-      ],
-      "size": [
-        345,
-        290
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "ImageCrop",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 2
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            5
-          ],
-          "slot_index": 0
-        }
-      ],
-      "widgets_values": [
-        512,
-        1152,
-        0,
-        0
-      ]
-    },
-    {
-      "id": 7,
       "type": "LoadImage",
-      "title": "03 새 성인 얼굴 원본",
+      "title": "02 현재 사진 · 같은 사람의 현재 모습",
       "pos": [
-        350,
-        350
+        0,
+        600
       ],
       "size": [
         345,
         380
       ],
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "properties": {
         "Node name for S&R": "LoadImage",
@@ -258,7 +215,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            6
+            3
           ],
           "slot_index": 0
         },
@@ -275,25 +232,72 @@
       ]
     },
     {
-      "id": 8,
-      "type": "LoadImage",
-      "title": "04 어린 시절 해변 사진",
+      "id": 7,
+      "type": "ImageScaleToMaxDimension",
+      "title": "과거 참조 · 비율 유지",
       "pos": [
-        0,
-        550
+        370,
+        100
       ],
       "size": [
         345,
-        380
+        290
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ImageScaleToMaxDimension",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "lanczos",
+        1024
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ImageScaleToMaxDimension",
+      "title": "현재 참조 · 비율 유지",
+      "pos": [
+        370,
+        600
+      ],
+      "size": [
+        345,
+        290
       ],
       "flags": {},
       "order": 7,
       "mode": 0,
       "properties": {
-        "Node name for S&R": "LoadImage",
+        "Node name for S&R": "ImageScaleToMaxDimension",
         "cnr_id": "comfy-core"
       },
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
       "outputs": [
         {
           "name": "IMAGE",
@@ -302,103 +306,15 @@
             7
           ],
           "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [],
-          "slot_index": 1
         }
       ],
       "widgets_values": [
-        "child-seaside.jpg",
-        "image"
+        "lanczos",
+        1024
       ]
     },
     {
       "id": 9,
-      "type": "LoadImage",
-      "title": "05 어린 시절 얼굴 확대",
-      "pos": [
-        0,
-        1000
-      ],
-      "size": [
-        345,
-        380
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "LoadImage",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            8
-          ],
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [],
-          "slot_index": 1
-        }
-      ],
-      "widgets_values": [
-        "child-face.jpg",
-        "image"
-      ]
-    },
-    {
-      "id": 10,
-      "type": "LoadImage",
-      "title": "06 어린 시절 다른 표정",
-      "pos": [
-        0,
-        1450
-      ],
-      "size": [
-        345,
-        380
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "properties": {
-        "Node name for S&R": "LoadImage",
-        "cnr_id": "comfy-core"
-      },
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            9
-          ],
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [],
-          "slot_index": 1
-        }
-      ],
-      "widgets_values": [
-        "child-smile.jpg",
-        "image"
-      ]
-    },
-    {
-      "id": 11,
       "type": "EmptyImage",
       "title": "세로 9:16 캔버스",
       "pos": [
@@ -410,7 +326,7 @@
         290
       ],
       "flags": {},
-      "order": 10,
+      "order": 8,
       "mode": 0,
       "properties": {
         "Node name for S&R": "EmptyImage",
@@ -422,7 +338,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            4
+            5
           ],
           "slot_index": 0
         }
@@ -435,7 +351,7 @@
       ]
     },
     {
-      "id": 12,
+      "id": 10,
       "type": "TextEncodeQwenImage21",
       "title": "07 두 시점 합성 지시",
       "pos": [
@@ -447,7 +363,7 @@
         290
       ],
       "flags": {},
-      "order": 11,
+      "order": 9,
       "mode": 0,
       "properties": {
         "Node name for S&R": "TextEncodeQwenImage21",
@@ -457,42 +373,27 @@
         {
           "name": "clip",
           "type": "CLIP",
-          "link": 3
+          "link": 4
         },
         {
           "name": "images.image_1",
           "type": "IMAGE",
-          "link": 4
+          "link": 5
         },
         {
           "name": "images.image_2",
           "type": "IMAGE",
-          "link": 5
+          "link": 6
         },
         {
           "name": "images.image_3",
           "type": "IMAGE",
-          "link": 6
-        },
-        {
-          "name": "images.image_4",
-          "type": "IMAGE",
           "link": 7
-        },
-        {
-          "name": "images.image_5",
-          "type": "IMAGE",
-          "link": 8
-        },
-        {
-          "name": "images.image_6",
-          "type": "IMAGE",
-          "link": 9
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 10
+          "link": 8
         }
       ],
       "outputs": [
@@ -500,7 +401,7 @@
           "name": "positive",
           "type": "CONDITIONING",
           "links": [
-            12
+            10
           ],
           "slot_index": 0
         },
@@ -508,7 +409,7 @@
           "name": "negative",
           "type": "CONDITIONING",
           "links": [
-            13
+            11
           ],
           "slot_index": 1
         },
@@ -516,19 +417,19 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            14
+            12
           ],
           "slot_index": 2
         }
       ],
       "widgets_values": [
-        "Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive military flight suit, bright red-orange scarf and black shoes; <image3> is the authoritative reference for his facial identity and low black beret: preserve the eye shape and spacing, brows, nose, lips, jawline, skin tone, clean-shaven face and the beret sitting naturally close to his eyebrows. Ignore the face in <image2> if it differs. Images <image4>, <image5>, <image6> are the SAME Korean boy aged about six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim and little blue car print. Create exactly TWO distinct people together in one coherent seaside photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s height and gently places his right hand on the boy’s shoulder. The boy laughs naturally and looks toward the adult; the adult gives him a warm small smile. Medium three-quarter portrait showing both from head to at least knees, no overlapping or duplicated faces. They share the same physical ground, camera perspective, soft daylight and believable contact shadows. Behind them: calm gray-blue sea, distant hazy hills and one subtle fishing boat, like the child photographs. Candid family-photo realism, natural skin and hands, quiet nostalgic mood. Do not copy the source photo as a panel or paste an existing cutout. No third person, split screen, collage, title, subtitles, watermark or extra limbs. Render an opaque image.",
+        "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. Use the setting visible in the PAST photo as the coherent background, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene.",
         "",
         0
       ]
     },
     {
-      "id": 13,
+      "id": 11,
       "type": "KSampler",
       "title": "08 정지 장면 생성",
       "pos": [
@@ -540,7 +441,7 @@
         340
       ],
       "flags": {},
-      "order": 12,
+      "order": 10,
       "mode": 0,
       "properties": {
         "Node name for S&R": "KSampler",
@@ -550,22 +451,22 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 11
+          "link": 9
         },
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 12
+          "link": 10
         },
         {
           "name": "negative",
           "type": "CONDITIONING",
-          "link": 13
+          "link": 11
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 14
+          "link": 12
         }
       ],
       "outputs": [
@@ -573,7 +474,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            15
+            13
           ],
           "slot_index": 0
         }
@@ -589,7 +490,7 @@
       ]
     },
     {
-      "id": 14,
+      "id": 12,
       "type": "VAEDecodeTiled",
       "title": "09 디코딩",
       "pos": [
@@ -601,7 +502,7 @@
         290
       ],
       "flags": {},
-      "order": 13,
+      "order": 11,
       "mode": 0,
       "properties": {
         "Node name for S&R": "VAEDecodeTiled",
@@ -611,12 +512,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 15
+          "link": 13
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 16
+          "link": 14
         }
       ],
       "outputs": [
@@ -624,7 +525,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            17
+            15
           ],
           "slot_index": 0
         }
@@ -637,7 +538,7 @@
       ]
     },
     {
-      "id": 15,
+      "id": 13,
       "type": "SplitImageWithAlpha",
       "title": "10 RGB",
       "pos": [
@@ -649,7 +550,7 @@
         290
       ],
       "flags": {},
-      "order": 14,
+      "order": 12,
       "mode": 0,
       "properties": {
         "Node name for S&R": "SplitImageWithAlpha",
@@ -659,7 +560,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 17
+          "link": 15
         }
       ],
       "outputs": [
@@ -667,7 +568,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            18
+            16
           ],
           "slot_index": 0
         },
@@ -681,7 +582,7 @@
       "widgets_values": []
     },
     {
-      "id": 16,
+      "id": 14,
       "type": "SaveImage",
       "title": "11 시작 장면 PNG",
       "pos": [
@@ -693,7 +594,7 @@
         290
       ],
       "flags": {},
-      "order": 15,
+      "order": 13,
       "mode": 0,
       "properties": {
         "Node name for S&R": "SaveImage",
@@ -703,7 +604,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 18
+          "link": 16
         }
       ],
       "outputs": [
@@ -715,7 +616,7 @@
         }
       ],
       "widgets_values": [
-        "past-present/meeting-still"
+        "past-present/two-photo-still"
       ]
     }
   ],
@@ -732,135 +633,119 @@
       2,
       5,
       0,
-      6,
+      7,
       0,
       "IMAGE"
     ],
     [
       3,
+      6,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ],
+    [
+      4,
       3,
       0,
-      12,
+      10,
       0,
       "CLIP"
     ],
     [
-      4,
-      11,
+      5,
+      9,
       0,
-      12,
+      10,
       1,
       "IMAGE"
     ],
     [
-      5,
       6,
+      7,
       0,
-      12,
+      10,
       2,
       "IMAGE"
     ],
     [
-      6,
       7,
+      8,
       0,
-      12,
+      10,
       3,
       "IMAGE"
     ],
     [
-      7,
       8,
-      0,
-      12,
-      4,
-      "IMAGE"
-    ],
-    [
-      8,
-      9,
-      0,
-      12,
-      5,
-      "IMAGE"
-    ],
-    [
-      9,
-      10,
-      0,
-      12,
-      6,
-      "IMAGE"
-    ],
-    [
-      10,
       4,
       0,
-      12,
-      7,
+      10,
+      4,
       "VAE"
     ],
     [
-      11,
+      9,
       2,
       0,
-      13,
+      11,
       0,
       "MODEL"
     ],
     [
-      12,
-      12,
+      10,
+      10,
       0,
-      13,
+      11,
       1,
       "CONDITIONING"
     ],
     [
-      13,
-      12,
+      11,
+      10,
       1,
-      13,
+      11,
       2,
       "CONDITIONING"
     ],
     [
-      14,
       12,
+      10,
       2,
-      13,
+      11,
       3,
       "LATENT"
     ],
     [
-      15,
       13,
+      11,
       0,
-      14,
+      12,
       0,
       "LATENT"
     ],
     [
-      16,
+      14,
       4,
       0,
-      14,
+      12,
       1,
       "VAE"
     ],
     [
-      17,
-      14,
-      0,
       15,
+      12,
+      0,
+      13,
       0,
       "IMAGE"
     ],
     [
-      18,
-      15,
-      0,
       16,
+      13,
+      0,
+      14,
       0,
       "IMAGE"
     ]

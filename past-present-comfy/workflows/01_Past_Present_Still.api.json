@@ -46,65 +46,50 @@
   "5": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "adult-sheet.png"
+      "image": "child-face.jpg"
     },
     "_meta": {
-      "title": "01 성인 캐릭터 시트"
+      "title": "01 과거 사진 · 한 사람"
     }
   },
   "6": {
-    "class_type": "ImageCrop",
-    "inputs": {
-      "image": [
-        "5",
-        0
-      ],
-      "x": 0,
-      "y": 0,
-      "width": 512,
-      "height": 1152
-    },
-    "_meta": {
-      "title": "02 성인 정면만"
-    }
-  },
-  "7": {
     "class_type": "LoadImage",
     "inputs": {
       "image": "adult-face-new.png"
     },
     "_meta": {
-      "title": "03 새 성인 얼굴 원본"
+      "title": "02 현재 사진 · 같은 사람의 현재 모습"
+    }
+  },
+  "7": {
+    "class_type": "ImageScaleToMaxDimension",
+    "inputs": {
+      "image": [
+        "5",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
+    },
+    "_meta": {
+      "title": "과거 참조 · 비율 유지"
     }
   },
   "8": {
-    "class_type": "LoadImage",
+    "class_type": "ImageScaleToMaxDimension",
     "inputs": {
-      "image": "child-seaside.jpg"
+      "image": [
+        "6",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "largest_size": 1024
     },
     "_meta": {
-      "title": "04 어린 시절 해변 사진"
+      "title": "현재 참조 · 비율 유지"
     }
   },
   "9": {
-    "class_type": "LoadImage",
-    "inputs": {
-      "image": "child-face.jpg"
-    },
-    "_meta": {
-      "title": "05 어린 시절 얼굴 확대"
-    }
-  },
-  "10": {
-    "class_type": "LoadImage",
-    "inputs": {
-      "image": "child-smile.jpg"
-    },
-    "_meta": {
-      "title": "06 어린 시절 다른 표정"
-    }
-  },
-  "11": {
     "class_type": "EmptyImage",
     "inputs": {
       "width": 576,
@@ -116,7 +101,7 @@
       "title": "세로 9:16 캔버스"
     }
   },
-  "12": {
+  "10": {
     "class_type": "TextEncodeQwenImage21",
     "inputs": {
       "clip": [
@@ -127,31 +112,19 @@
         "4",
         0
       ],
-      "prompt": "Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive military flight suit, bright red-orange scarf and black shoes; <image3> is the authoritative reference for his facial identity and low black beret: preserve the eye shape and spacing, brows, nose, lips, jawline, skin tone, clean-shaven face and the beret sitting naturally close to his eyebrows. Ignore the face in <image2> if it differs. Images <image4>, <image5>, <image6> are the SAME Korean boy aged about six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim and little blue car print. Create exactly TWO distinct people together in one coherent seaside photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s height and gently places his right hand on the boy’s shoulder. The boy laughs naturally and looks toward the adult; the adult gives him a warm small smile. Medium three-quarter portrait showing both from head to at least knees, no overlapping or duplicated faces. They share the same physical ground, camera perspective, soft daylight and believable contact shadows. Behind them: calm gray-blue sea, distant hazy hills and one subtle fishing boat, like the child photographs. Candid family-photo realism, natural skin and hands, quiet nostalgic mood. Do not copy the source photo as a panel or paste an existing cutout. No third person, split screen, collage, title, subtitles, watermark or extra limbs. Render an opaque image.",
+      "prompt": "Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. <image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one version from each reference. Preserve each version independently: visible age, face shape, eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not average their faces, swap identities, turn both into children, or make both the same age. Each person retains their OWN clothing, headwear and accessories from their OWN reference. Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively from its visible neckline, fabric and colors; do not invent elaborate unseen details. Create a warm reunion portrait with the two versions close together. If the younger version is a child, the present-day version kneels or sits at a comfortable height beside them. Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. Both faces are initially near frontal and clearly visible, with soft natural smiles. Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; leave clear space around the two heads and at both sides so a slight head turn stays in frame. Match a single camera perspective, plausible age-relative scale, light direction and contact shadows. Use the setting visible in the PAST photo as the coherent background, excluding bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people must occupy the same physical space, not pasted panels. Natural skin texture and hands, nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. Render one opaque RGB scene.",
       "negative_prompt": "",
       "resolution": 0,
       "images.image_1": [
-        "11",
-        0
-      ],
-      "images.image_2": [
-        "6",
-        0
-      ],
-      "images.image_3": [
-        "7",
-        0
-      ],
-      "images.image_4": [
-        "8",
-        0
-      ],
-      "images.image_5": [
         "9",
         0
       ],
-      "images.image_6": [
-        "10",
+      "images.image_2": [
+        "7",
+        0
+      ],
+      "images.image_3": [
+        "8",
         0
       ]
     },
@@ -159,7 +132,7 @@
       "title": "07 두 시점 합성 지시"
     }
   },
-  "13": {
+  "11": {
     "class_type": "KSampler",
     "inputs": {
       "model": [
@@ -167,15 +140,15 @@
         0
       ],
       "positive": [
-        "12",
+        "10",
         0
       ],
       "negative": [
-        "12",
+        "10",
         1
       ],
       "latent_image": [
-        "12",
+        "10",
         2
       ],
       "seed": 20261003,
@@ -189,11 +162,11 @@
       "title": "08 정지 장면 생성"
     }
   },
-  "14": {
+  "12": {
     "class_type": "VAEDecodeTiled",
     "inputs": {
       "samples": [
-        "13",
+        "11",
         0
       ],
       "vae": [
@@ -209,11 +182,11 @@
       "title": "09 디코딩"
     }
   },
-  "15": {
+  "13": {
     "class_type": "SplitImageWithAlpha",
     "inputs": {
       "image": [
-        "14",
+        "12",
         0
       ]
     },
@@ -221,14 +194,14 @@
       "title": "10 RGB"
     }
   },
-  "16": {
+  "14": {
     "class_type": "SaveImage",
     "inputs": {
       "images": [
-        "15",
+        "13",
         0
       ],
-      "filename_prefix": "past-present/meeting-still"
+      "filename_prefix": "past-present/two-photo-still"
     },
     "_meta": {
       "title": "11 시작 장면 PNG"

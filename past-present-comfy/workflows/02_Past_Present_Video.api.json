@@ -2,7 +2,7 @@
   "1": {
     "class_type": "LoadImage",
     "inputs": {
-      "image": "past-present/meeting-still_00002_.png [output]"
+      "image": "past-present/two-photo-still_00001_.png [output]"
     },
     "_meta": {
       "title": "01 선택한 두 인물 시작 장면"
@@ -11,13 +11,13 @@
   "2": {
     "class_type": "CodexShotSettings",
     "inputs": {
-      "prompt": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines both people and the seaside. Keep the young Korean boy on the left in the white green-trim sleeveless car shirt and his adult self on the right in the olive flight suit, bright red scarf and low black beret. The adult keeps one hand gently on the boy’s shoulder. They look at each other and exchange small natural smiles without talking. Very subtle breathing, blinking, sea breeze moving hair and scarf. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with empty space around them. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue.",
+      "prompt": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines BOTH versions of the same person and their shared setting. The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. Preserve each face, visible age, hairstyle, clothing, headwear, relative size and seated or standing pose exactly as in the opening frame. At the beginning, hold the reunion portrait with subtle breathing and blinking. Through the middle of the shot, they slowly turn their eyes and heads slightly toward each other, making warm eye contact without hiding either face. Toward the end, the present-day version gives one tiny affectionate shoulder pat with the hand already resting there; both settle into a gentle smile. Keep the shoulder contact light and anatomically correct. No large reach, hug, walking, lifting, head rubbing or abrupt body movement. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with the original framing margins. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue, no singing, no narration, no audible laughter, no music and no sound effects. Smiles and breathing only; this is a silent reunion.",
       "width": 576,
       "height": 1024,
       "seconds": 5.0,
       "turbo": true,
-      "project": "past_present_2005_2026",
-      "shot": "meeting"
+      "project": "past_present_two_photos",
+      "shot": "silent_meeting"
     },
     "_meta": {
       "title": "02 동작·길이·해상도"
@@ -83,7 +83,7 @@
       "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
     },
     "_meta": {
-      "title": "H3 오디오 VAE"
+      "title": "H3 내부 조건용 VAE · 최종 음성 출력 없음"
     }
   },
   "9": {
@@ -245,7 +245,7 @@
         "16",
         0
       ],
-      "filename_prefix": "past-present/meeting-video-silent",
+      "filename_prefix": "past-present/two-photo-video-silent",
       "format": "auto",
       "codec": "auto"
     },

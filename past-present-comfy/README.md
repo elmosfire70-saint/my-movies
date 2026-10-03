@@ -1,9 +1,19 @@
-# 과거와 현재의 만남 영상 사용법
+# 과거 사진과 현재 사진으로 만남 영상 만들기
 
-ComfyUI 워크플로 목록의 `Past_Present_Meeting` 폴더에서 `01_Past_Present_Still`을 먼저 실행한다. 입력은 성인 군복 시트, 새 성인 얼굴 사진, 2005년 아이 사진 세 장으로 설정돼 있다. 정지 장면을 확인한 다음 `02_Past_Present_Video`의 첫 이미지에 선택한 정지 장면 PNG를 넣고 실행한다.
+ComfyUI 워크플로 목록에서 `Past_Present_Meeting/00_Past_Present_Two_Photos`를 연다. 다음 두 노드에 사진을 업로드하고 실행을 누르면 시작 장면 PNG와 무음 MP4가 자동으로 저장된다.
 
-첫 워크플로는 성인 시트의 첫 칸에서 전신 군복을 잘라 사용하고, 별도의 성인 얼굴 사진을 얼굴 기준으로 사용한다. 다른 레이아웃의 시트로 바꾸면 전신 ImageCrop 좌표를 맞춰야 한다. 두 번째 워크플로는 시작 이미지를 첫 프레임으로 고정하고 MiniMax H3 Turbo 4단계로 약 5초 영상을 만든다. 영상 출력의 오디오 입력을 비워 대사가 없는 무음 MP4로 저장한다.
+1. **01 과거 사진 · 한 사람**에 어린 시절 또는 과거 사진을 넣는다. 한 사람의 얼굴이 선명한 사진이 좋고, 상반신·의상·배경이 함께 보이면 복원에 도움이 된다.
+2. **02 현재 사진 · 같은 사람의 현재 모습**에 현재 사진을 넣는다. 정면이나 약한 측면 얼굴과 원하는 의상이 보이는 사진을 권장한다. 캐릭터 시트 대신 한 사람만 나온 사진을 사용한다.
+3. **실행**을 누른다. Qwen Image 2.1이 두 모습을 한 장면으로 합성하고, H3가 그 결과를 첫 프레임으로 받아 약 5초의 영상을 만든다. 중간 이미지를 다시 업로드할 필요가 없다.
 
-두 번째 워크플로의 첫 이미지 기본값은 이번에 생성한 `past-present/meeting-still_00002_.png [output]`이다. 새 시작 장면을 생성했다면 LoadImage를 그 결과로 변경한다. ComfyUI 기본 출력 폴더에서 `past-present/meeting-still_*.png`와 `past-present/meeting-video-silent_*.mp4`를 찾을 수 있다. 선택된 결과는 `E:\Codex\movies\output\past-present-20261003\v003\meeting-video.mp4`다. 이전 버전은 비교용으로 보존했다.
+과거 모습은 왼쪽, 현재 모습은 오른쪽에 배치한다. 배경은 과거 사진을 우선하고, 현재 모습이 곁에서 어깨에 손을 얹은 채 두 사람이 시선을 주고받고 미소 짓도록 지시했다. 성별·군복·해변은 고정하지 않는다. 단체 사진은 사용할 사람만 잘라 넣는다. 얼굴 사진만 넣으면 보이지 않는 몸과 의상은 모델이 추정한다.
 
-실행 검사는 `python past-present-comfy/build_meeting_workflows.py`와 `python -m unittest discover -s past-present-comfy -p 'test_*.py' -v`다. 사진 속 아이와 생성 성인이 실제 동일인임을 검증하는 기능은 없다. 영상의 얼굴·손·의상 연속성을 육안으로 확인한다.
+기본 입력은 이전 작업의 `child-face.jpg`와 `adult-face-new.png` 예제다. 다른 인물로 만들 때는 **두 노드 모두** 바꾼다. `07 두 시점 합성 지시`에서 장면을 수정하고, `02 동작·길이·해상도`에서 움직임을 수정한다. 기본 출력은 576×1024, 24fps, 약 5초다. 합성 캔버스와 영상 해상도는 함께 변경한다.
+
+음성·대사·음악·효과음을 모두 제거한 무음 출력이다. `CreateVideo`에 오디오가 연결되지 않으며 오디오 디코딩 노드도 없다. `H3 내부 조건용 VAE`는 모델 내부 처리에 필요하므로 삭제하지 않는다. 입 모양의 변화를 완전히 막는 기능은 아니므로 표정은 조금 움직일 수 있다.
+
+ComfyUI 출력 폴더의 `past-present/two-photo-still_*.png`와 `past-present/two-photo-video-silent_*.mp4`에 결과가 저장된다. 매번 새 번호로 저장한다. 얼굴·손·의상은 생성 과정에서 달라질 수 있으므로 최종 영상을 확인한다.
+
+시작 장면을 먼저 검토하려면 `01_Past_Present_Still`을 사용한다. 그 PNG를 `02_Past_Present_Video`의 첫 이미지에 넣어 실행할 수도 있다. 이 단계별 방식은 시작 장면을 확정한 후 여러 동작을 시험할 때 유용하다.
+
+검증 명령은 `python past-present-comfy/build_meeting_workflows.py`와 `python -m unittest discover -s past-present-comfy -p 'test_*.py' -v`다. 참고 쇼츠는 [과거의 자신과 만나다](https://www.youtube.com/shorts/8U6dARI1xhQ)다. 두 사진으로 한 쌍의 만남을 만든다.

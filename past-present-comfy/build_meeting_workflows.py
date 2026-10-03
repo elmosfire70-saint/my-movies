@@ -1,4 +1,4 @@
-# 어린 시절과 성인의 해변 만남 정지 장면과 H3 영상 워크플로를 만든다.
+# 과거·현재 사진 두 장으로 만남 장면과 무음 H3 영상 워크플로를 만든다.
 import json
 import sys
 from pathlib import Path
@@ -10,44 +10,48 @@ from build_workflows import Graph, loaders, ui_workflow
 ROOT = Path(__file__).resolve().parent
 
 
-def still_graph():
-    g = Graph()
+def add_still(g):
     model, clip, vae = loaders(g)
-    sheet = g.add('LoadImage', '01 성인 캐릭터 시트', 0, 0, image='adult-sheet.png')
-    adult = g.add('ImageCrop', '02 성인 정면만', 350, 0, image=sheet,
-                  x=0, y=0, width=512, height=1152)
-    adult_face = g.add('LoadImage', '03 새 성인 얼굴 원본', 350, 350,
-                       image='adult-face-new.png')
-    child1 = g.add('LoadImage', '04 어린 시절 해변 사진', 0, 550, image='child-seaside.jpg')
-    child2 = g.add('LoadImage', '05 어린 시절 얼굴 확대', 0, 1000, image='child-face.jpg')
-    child3 = g.add('LoadImage', '06 어린 시절 다른 표정', 0, 1450, image='child-smile.jpg')
+    past = g.add('LoadImage', '01 과거 사진 · 한 사람', 0, 100, image='child-face.jpg')
+    present = g.add('LoadImage', '02 현재 사진 · 같은 사람의 현재 모습', 0, 600,
+                    image='adult-face-new.png')
+    past = g.add('ImageScaleToMaxDimension', '과거 참조 · 비율 유지', 370, 100,
+                 image=past, upscale_method='lanczos', largest_size=1024)
+    present = g.add('ImageScaleToMaxDimension', '현재 참조 · 비율 유지', 370, 600,
+                    image=present, upscale_method='lanczos', largest_size=1024)
     canvas = g.add('EmptyImage', '세로 9:16 캔버스', 750, 0,
                    width=576, height=1024, batch_size=1, color=0xC7C7C7)
     prompt = (
-        'Replace the blank canvas in <image1> with ONE realistic vertical cinematic photograph. '
-        'Images <image2> and <image3> are the SAME young adult man: <image2> defines his full olive '
-        'military flight suit, bright red-orange scarf and black shoes; '
-        '<image3> is the authoritative reference for his facial identity and low black beret: preserve '
-        'the eye shape and spacing, brows, nose, lips, jawline, skin tone, clean-shaven face and the '
-        'beret sitting naturally close to his eyebrows. Ignore the face in <image2> if it differs. '
-        'Images <image4>, <image5>, <image6> are the SAME Korean boy aged about '
-        'six in 2005; preserve his smiling face, short black hair, white sleeveless shirt with green trim '
-        'and little blue car print. Create exactly TWO distinct people together in one coherent seaside '
-        'photograph: the boy on the left and his older self on the right. The adult crouches to the boy’s '
-        'height and gently places his right hand on the boy’s shoulder. The boy laughs naturally and '
-        'looks toward the adult; the adult gives him a warm small smile. Medium three-quarter portrait '
-        'showing both from head to at least knees, no overlapping or duplicated faces. They share the '
-        'same physical ground, camera perspective, soft daylight and believable contact shadows. '
-        'Behind them: calm gray-blue sea, distant hazy hills and one subtle fishing boat, like the child '
-        'photographs. Candid family-photo realism, natural skin and hands, quiet nostalgic mood. '
-        'Do not copy the source photo as a panel or paste an existing cutout. No third person, '
-        'split screen, collage, title, subtitles, watermark or extra limbs. Render an opaque image.'
+        'Replace the blank canvas in <image1> with ONE photorealistic vertical 9:16 photograph of '
+        'a person meeting their younger self. <image2> is the PAST reference, placed on the LEFT. '
+        '<image3> is the PRESENT reference, placed on the RIGHT. Render exactly two people, one '
+        'version from each reference. Preserve each version independently: visible age, face shape, '
+        'eyes and brows, nose, lips, skin tone, hairstyle, body proportions and expression. Do not '
+        'average their faces, swap identities, turn both into children, or make both the same age. '
+        'Each person retains their OWN clothing, headwear and accessories from their OWN reference. '
+        'Do not transfer clothes or headwear between people or invent a uniform. Preserve headwear '
+        'fit and direction. If a reference is a portrait, infer unseen body and clothing conservatively '
+        'from its visible neckline, fabric and colors; do not invent elaborate unseen details. '
+        'Create a warm reunion portrait with the two versions close together. If the younger version '
+        'is a child, the present-day version kneels or sits at a comfortable height beside them. '
+        'Otherwise both stand or sit naturally side by side. The present-day version rests one relaxed '
+        'hand lightly on the younger version’s outer shoulder. Keep the hand away from faces. '
+        'Both faces are initially near frontal and clearly visible, with soft natural smiles. '
+        'Use a medium-wide composition showing both heads, shoulders, hands and at least their knees; '
+        'leave clear space around the two heads and at both sides so a slight head turn stays in frame. '
+        'Match a single camera perspective, plausible age-relative scale, light direction and contact '
+        'shadows. Use the setting visible in the PAST photo as the coherent background, excluding '
+        'bystanders. If no setting is visible, use a simple softly blurred daylight outdoor background. '
+        'Ignore cutout transparency, borders and studio backdrops in the PRESENT photo. The people '
+        'must occupy the same physical space, not pasted panels. Natural skin texture and hands, '
+        'nostalgic family-photo atmosphere. No additional people, split screen, collage, before/after '
+        'divider, age labels, captions, speech bubbles, subtitles, watermark or extra limbs. '
+        'Render one opaque RGB scene.'
     )
     encoded = g.add('TextEncodeQwenImage21', '07 두 시점 합성 지시', 1100, 0,
                     clip=clip, vae=vae, prompt=prompt, negative_prompt='', resolution=0,
-                    **{'images.image_1': canvas, 'images.image_2': adult,
-                       'images.image_3': adult_face, 'images.image_4': child1,
-                       'images.image_5': child2, 'images.image_6': child3})
+                    **{'images.image_1': canvas, 'images.image_2': past,
+                       'images.image_3': present})
     sampled = g.add('KSampler', '08 정지 장면 생성', 1450, 0,
                     model=model, positive=encoded, negative=[encoded[0], 1],
                     latent_image=[encoded[0], 2], seed=20261003, steps=25, cfg=1.0,
@@ -56,30 +60,40 @@ def still_graph():
                     vae=vae, tile_size=512, overlap=64, temporal_size=64, temporal_overlap=8)
     rgb = g.add('SplitImageWithAlpha', '10 RGB', 2150, 0, image=decoded)
     g.add('SaveImage', '11 시작 장면 PNG', 2500, 0, images=rgb,
-          filename_prefix='past-present/meeting-still')
+          filename_prefix='past-present/two-photo-still')
+    return rgb
+
+
+def still_graph():
+    g = Graph()
+    add_still(g)
     return g
 
 
-def video_graph():
-    g = Graph()
-    front = g.add('LoadImage', '01 선택한 두 인물 시작 장면', 0, 0,
-                  image='past-present/meeting-still_00002_.png [output]')
+def add_video(g, front, offset=0):
+    start = len(g.layout)
     settings = g.add('CodexShotSettings', '02 동작·길이·해상도', 0, 430,
                      prompt=('One continuous photorealistic shot. <Picture 1> is the exact opening '
-                             'frame and defines both people and the seaside. Keep the young Korean boy '
-                             'on the left in the white green-trim sleeveless car shirt and his adult '
-                             'self on the right in the olive flight suit, bright red scarf and low '
-                             'black beret. The adult keeps one hand gently on the boy’s shoulder. '
-                             'They look at each other and exchange small natural smiles without talking. '
-                             'Very subtle breathing, blinking, sea breeze moving hair and scarf. '
+                             'frame and defines BOTH versions of the same person and their shared setting. '
+                             'The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. '
+                             'Preserve each face, visible age, hairstyle, clothing, headwear, relative size '
+                             'and seated or standing pose exactly as in the opening frame. '
+                             'At the beginning, hold the reunion portrait with subtle breathing and blinking. '
+                             'Through the middle of the shot, they slowly turn their eyes and heads slightly '
+                             'toward each other, making warm eye contact without hiding either face. '
+                             'Toward the end, the present-day version gives one tiny affectionate shoulder '
+                             'pat with the hand already resting there; both settle into a gentle smile. '
+                             'Keep the shoulder contact light and anatomically correct. No large reach, '
+                             'hug, walking, lifting, head rubbing or abrupt body movement. '
                              'LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no '
                              'reframing. Both people stay completely visible in the frame from start '
-                             'to finish with empty space around them. Maintain their distinct ages, exact '
+                             'to finish with the original framing margins. Maintain their distinct ages, exact '
                              'identities, clothing, positions and anatomy. No other people, no face '
                              'morphing, no cuts, no text, no speaking mouth movements, no lip sync, '
-                             'no dialogue.'),
+                             'no dialogue, no singing, no narration, no audible laughter, no music and '
+                             'no sound effects. Smiles and breathing only; this is a silent reunion.'),
                      width=576, height=1024, seconds=5.0, turbo=True,
-                     project='past_present_2005_2026', shot='meeting')
+                     project='past_present_two_photos', shot='silent_meeting')
     refs = g.add('CodexReferences', '시작 장면 외 추가 참조 없음', 350, 430,
                  roles='', enabled=False)
     model = g.add('UNETLoader', 'H3 ref2va INT8', 0, -500,
@@ -92,7 +106,7 @@ def video_graph():
                  type='minimax', device='default')
     vae = g.add('VAELoader', 'H3 영상 VAE', 350, -250,
                 vae_name='minimax_h3_video_vae_fp16.safetensors')
-    audio_vae = g.add('VAELoader', 'H3 오디오 VAE', 700, -250,
+    audio_vae = g.add('VAELoader', 'H3 내부 조건용 VAE · 최종 음성 출력 없음', 700, -250,
                       vae_name='minimax_h3_audio_vae_fp32.safetensors')
     inputs = g.add('CodexH3Inputs', '03 첫 프레임 고정', 750, 0,
                    clip=clip, vae=vae, audio_vae=audio_vae, references=refs,
@@ -112,7 +126,23 @@ def video_graph():
     video = g.add('CreateVideo', '07 무음 24fps MP4', 2150, 0,
                   images=decoded, fps=24.0, bit_depth=8, color_space='sRGB')
     g.add('SaveVideo', '08 최종 영상', 2500, 0, video=video,
-          filename_prefix='past-present/meeting-video-silent', format='auto', codec='auto')
+          filename_prefix='past-present/two-photo-video-silent', format='auto', codec='auto')
+    for key in list(g.layout)[start:]:
+        g.layout[key][0] += offset
+
+
+def video_graph():
+    g = Graph()
+    front = g.add('LoadImage', '01 선택한 두 인물 시작 장면', 0, 0,
+                  image='past-present/two-photo-still_00001_.png [output]')
+    add_video(g, front)
+    return g
+
+
+def meeting_graph():
+    g = Graph()
+    front = add_still(g)
+    add_video(g, front, offset=3000)
     return g
 
 
@@ -121,7 +151,8 @@ def build():
         info = json.load(response)
     output = ROOT / 'workflows'
     output.mkdir(exist_ok=True)
-    for name, graph in [('01_Past_Present_Still', still_graph()),
+    for name, graph in [('00_Past_Present_Two_Photos', meeting_graph()),
+                        ('01_Past_Present_Still', still_graph()),
                         ('02_Past_Present_Video', video_graph())]:
         (output / (name + '.api.json')).write_text(
             json.dumps(graph.api, ensure_ascii=False, indent=2), encoding='utf-8')
