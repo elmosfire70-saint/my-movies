@@ -1,0 +1,74 @@
+[
+  {
+    "repo": "Comfy-Org/Qwen-Image-2.1",
+    "revision": "cb504a4090723e43f17ad01cec0359490e2de613",
+    "file": "diffusion_models/qwen_image_2.1_int8_convrot.safetensors",
+    "size": 7256783064,
+    "expected": "cb74113cb03faecd79611b01fd7fd642f0aa60d6f0b95086abee214d75eaa57d",
+    "actual": "cb74113cb03faecd79611b01fd7fd642f0aa60d6f0b95086abee214d75eaa57d",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/Qwen-Image-2.1",
+    "revision": "cb504a4090723e43f17ad01cec0359490e2de613",
+    "file": "text_encoders/qwen3vl_8b_int8_convrot.safetensors",
+    "size": 9350798360,
+    "expected": "8bfd0f6e12abf2d2d697ecc888e5e90b0d6741d6708f05799f53afa560452e8f",
+    "actual": "8bfd0f6e12abf2d2d697ecc888e5e90b0d6741d6708f05799f53afa560452e8f",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/Qwen-Image-2.1",
+    "revision": "cb504a4090723e43f17ad01cec0359490e2de613",
+    "file": "vae/qwen_image_2.1_vae_bf16.safetensors",
+    "size": 675509688,
+    "expected": "bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9",
+    "actual": "bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/MiniMax-H3",
+    "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+    "file": "diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+    "size": 20970379616,
+    "expected": "9255f52b6677845ad238f20dfaafa94727053694127ab7f255c048f0f9365779",
+    "actual": "9255f52b6677845ad238f20dfaafa94727053694127ab7f255c048f0f9365779",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/MiniMax-H3",
+    "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+    "file": "loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+    "size": 1956193000,
+    "expected": "5b9ab5ade15d0775676d01a907268a69a1468dc6033b3b0d3ded5502f3ebb84c",
+    "actual": "5b9ab5ade15d0775676d01a907268a69a1468dc6033b3b0d3ded5502f3ebb84c",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/MiniMax-H3",
+    "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+    "file": "text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+    "size": 15687142551,
+    "expected": "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6",
+    "actual": "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/MiniMax-H3",
+    "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+    "file": "vae/minimax_h3_audio_vae_fp32.safetensors",
+    "size": 605254808,
+    "expected": "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48",
+    "actual": "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48",
+    "matches": true
+  },
+  {
+    "repo": "Comfy-Org/MiniMax-H3",
+    "revision": "e5eb578a89295337b8ff433a035929ce0279e0b6",
+    "file": "vae/minimax_h3_video_vae_fp16.safetensors",
+    "size": 5207808496,
+    "expected": "7c1f131492e7eddacaac9069a61b81bdd39de5cc96561e677c5eab1cdce5e522",
+    "actual": "7c1f131492e7eddacaac9069a61b81bdd39de5cc96561e677c5eab1cdce5e522",
+    "matches": true
+  }
+]
