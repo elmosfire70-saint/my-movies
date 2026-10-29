@@ -125,13 +125,19 @@ def add_video(g, front, offset=0):
                              'no sound effects. Smiles and breathing only; this is a silent reunion.'),
                      width=576, height=1024, seconds=5.0, turbo=True,
                      project='past_present_two_photos', shot='silent_meeting')
+    base_prompt = g.api[settings[0]]['inputs']['prompt']
+    gentle = g.add('PrimitiveStringMultiline', '동작 A · 시선 교환과 미소', 0, 1000,
+                   value=base_prompt.replace('Toward the end, the present-day version gives one tiny affectionate shoulder pat with the hand already resting there; both settle into a gentle smile. ', 'Toward the end, both settle into a gentle smile while keeping their hands still. '))
+    pat = g.add('PrimitiveBoolean', '동작 B · 가벼운 어깨 토닥임 enable', 350, 1000, value=True)
+    motion = g.add('ComfySwitchNode', '영상 동작 선택', 700, 1000,
+                   switch=pat, on_false=gentle, on_true=settings)
     refs = g.add('CodexReferences', '시작 장면 외 추가 참조 없음', 350, 430,
                  roles='', enabled=False)
     model = g.add('UNETLoader', 'H3 ref2va INT8', 0, -500,
                   unet_name='minimax_h3_ref2va_pruned_int8_convrot.safetensors', weight_dtype='default')
     model = g.add('LoraLoaderModelOnly', 'H3 Turbo 4 step', 350, -500,
                   model=model, lora_name='minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors',
-                  strength_model=1.0)
+                  strength_model=[settings[0], 6])
     clip = g.add('CLIPLoader', 'H3 Qwen3VL 32B', 0, -250,
                  clip_name='qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors',
                  type='minimax', device='default')
@@ -141,12 +147,12 @@ def add_video(g, front, offset=0):
                       vae_name='minimax_h3_audio_vae_fp32.safetensors')
     inputs = g.add('CodexH3Inputs', '03 첫 프레임 고정', 750, 0,
                    clip=clip, vae=vae, audio_vae=audio_vae, references=refs,
-                   prompt=settings, width=[settings[0], 1], height=[settings[0], 2],
+                   prompt=motion, width=[settings[0], 1], height=[settings[0], 2],
                    frames=[settings[0], 3], first_frame=front)
     noise = g.add('RandomNoise', '고정 시드', 750, 430, noise_seed=20261003)
     sampler = g.add('KSamplerSelect', 'H3 샘플러', 1100, 430, sampler_name='res_multistep')
     sigmas = g.add('BasicScheduler', '4단계 스케줄', 1100, 700,
-                   model=model, scheduler='simple', steps=4, denoise=1.0)
+                   model=model, scheduler='simple', steps=[settings[0], 4], denoise=1.0)
     guider = g.add('BasicGuider', '영상 가이드', 1100, 0,
                    model=model, conditioning=inputs)
     sampled = g.add('SamplerCustomAdvanced', '04 영상 생성', 1450, 0,
@@ -157,7 +163,7 @@ def add_video(g, front, offset=0):
     video = g.add('CreateVideo', '07 무음 24fps MP4', 2150, 0,
                   images=decoded, fps=24.0, bit_depth=8, color_space='sRGB')
     g.add('SaveVideo', '08 최종 영상', 2500, 0, video=video,
-          filename_prefix='past-present/two-photo-video-silent', format='auto', codec='auto')
+          filename_prefix=[settings[0], 5], format='auto', codec='auto')
     for key in list(g.layout)[start:]:
         g.layout[key][0] += offset
 
@@ -174,6 +180,9 @@ def meeting_graph():
     g = Graph()
     front = add_still(g)
     add_video(g, front, offset=3000)
+    settings = next(k for k,n in g.api.items() if n['class_type'] == 'CodexShotSettings')
+    canvas = next(n for n in g.api.values() if n['class_type'] == 'EmptyImage')
+    canvas['inputs'].update(width=[settings, 1], height=[settings, 2])
     return g
 
 

@@ -15,8 +15,15 @@ class WorkflowTests(unittest.TestCase):
                 self.assertIn(node['class_type'], info)
                 for value in node['inputs'].values():
                     if isinstance(value, list):
-                        self.assertLess(int(value[0]), int(key))
+                        self.assertIn(value[0], graph.api)
                         self.assertLess(value[1], len(info[graph.api[value[0]]['class_type']]['output']))
+            def visit(key, path):
+                self.assertNotIn(key, path, 'Graph must not contain cycles')
+                for value in graph.api[key]['inputs'].values():
+                    if isinstance(value, list):
+                        visit(value[0], path | {key})
+            for key in graph.api:
+                visit(key, set())
             ui = ui_workflow(graph, info)
             self.assertEqual(len(ui['nodes']), len(graph.api))
             self.assertTrue(ui['links'])

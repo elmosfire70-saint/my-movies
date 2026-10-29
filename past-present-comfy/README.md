@@ -18,3 +18,5 @@ ComfyUI 출력 폴더의 `past-present/two-photo-still_*.png`와 `past-present/t
 시작 장면을 먼저 검토하려면 `01_Past_Present_Still`을 사용한다. 그 PNG를 `02_Past_Present_Video`의 첫 이미지에 넣어 실행할 수도 있다. 이 단계별 방식은 시작 장면을 확정한 후 여러 동작을 시험할 때 유용하다.
 
 검증 명령은 `python past-present-comfy/build_meeting_workflows.py`와 `python -m unittest discover -s past-present-comfy -p 'test_*.py' -v`다. 참고 쇼츠는 [과거의 자신과 만나다](https://www.youtube.com/shorts/8U6dARI1xhQ)다. 두 사진으로 한 쌍의 만남을 만든다.
+
+동작 B enable이 true이면 어깨 토닥임, false이면 시선 교환과 미소를 사용한다. Turbo는 실제 LoRA 강도와 스텝에 연결되며 기본 true는 기존 4스텝이다. false의 20스텝 모드는 별도 영상 품질 검증 전이다. 통합 워크플로의 해상도는 ShotSettings에서 함께 제어한다. 영상 저장 경로는 codex/project/shot 접두사를 따른다. 이미지와 영상 시드는 각각 KSampler와 RandomNoise에서 변경한다.

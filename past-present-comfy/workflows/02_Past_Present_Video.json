@@ -1,6 +1,6 @@
 {
-  "last_node_id": 17,
-  "last_link_id": 22,
+  "last_node_id": 20,
+  "last_link_id": 28,
   "nodes": [
     {
       "id": 1,
@@ -27,7 +27,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            10
+            14
           ],
           "slot_index": 0
         },
@@ -68,7 +68,7 @@
           "name": "prompt",
           "type": "STRING",
           "links": [
-            6
+            3
           ],
           "slot_index": 0
         },
@@ -76,7 +76,7 @@
           "name": "width",
           "type": "INT",
           "links": [
-            7
+            11
           ],
           "slot_index": 1
         },
@@ -84,7 +84,7 @@
           "name": "height",
           "type": "INT",
           "links": [
-            8
+            12
           ],
           "slot_index": 2
         },
@@ -92,26 +92,32 @@
           "name": "frames",
           "type": "INT",
           "links": [
-            9
+            13
           ],
           "slot_index": 3
         },
         {
           "name": "steps",
           "type": "INT",
-          "links": [],
+          "links": [
+            16
+          ],
           "slot_index": 4
         },
         {
           "name": "filename_prefix",
           "type": "STRING",
-          "links": [],
+          "links": [
+            28
+          ],
           "slot_index": 5
         },
         {
           "name": "turbo_strength",
           "type": "FLOAT",
-          "links": [],
+          "links": [
+            5
+          ],
           "slot_index": 6
         }
       ],
@@ -127,6 +133,127 @@
     },
     {
       "id": 3,
+      "type": "PrimitiveStringMultiline",
+      "title": "동작 A · 시선 교환과 미소",
+      "pos": [
+        0,
+        1000
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines BOTH versions of the same person and their shared setting. The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. Preserve each face, visible age, hairstyle, clothing, headwear, relative size and seated or standing pose exactly as in the opening frame. At the beginning, hold the reunion portrait with subtle breathing and blinking. Through the middle of the shot, they slowly turn their eyes and heads slightly toward each other, making warm eye contact without hiding either face. Toward the end, both settle into a gentle smile while keeping their hands still. Keep the shoulder contact light and anatomically correct. No large reach, hug, walking, lifting, head rubbing or abrupt body movement. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with the original framing margins. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue, no singing, no narration, no audible laughter, no music and no sound effects. Smiles and breathing only; this is a silent reunion."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "PrimitiveBoolean",
+      "title": "동작 B · 가벼운 어깨 토닥임 enable",
+      "pos": [
+        350,
+        1000
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "PrimitiveBoolean",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        true
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ComfySwitchNode",
+      "title": "영상 동작 선택",
+      "pos": [
+        700,
+        1000
+      ],
+      "size": [
+        345,
+        290
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "properties": {
+        "Node name for S&R": "ComfySwitchNode",
+        "cnr_id": "comfy-core"
+      },
+      "inputs": [
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 1,
+          "widget": {
+            "name": "switch"
+          }
+        },
+        {
+          "name": "on_false",
+          "type": "STRING",
+          "link": 2
+        },
+        {
+          "name": "on_true",
+          "type": "STRING",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "STRING",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        }
+      ],
+      "widgets_values": [
+        0
+      ]
+    },
+    {
+      "id": 6,
       "type": "CodexReferences",
       "title": "시작 장면 외 추가 참조 없음",
       "pos": [
@@ -138,7 +265,7 @@
         290
       ],
       "flags": {},
-      "order": 2,
+      "order": 5,
       "mode": 0,
       "properties": {
         "Node name for S&R": "CodexReferences",
@@ -196,7 +323,7 @@
           "name": "references",
           "type": "CODEX_REFS",
           "links": [
-            5
+            9
           ],
           "slot_index": 0
         }
@@ -207,7 +334,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 7,
       "type": "UNETLoader",
       "title": "H3 ref2va INT8",
       "pos": [
@@ -219,7 +346,7 @@
         290
       ],
       "flags": {},
-      "order": 3,
+      "order": 6,
       "mode": 0,
       "properties": {
         "Node name for S&R": "UNETLoader",
@@ -231,7 +358,7 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            1
+            4
           ],
           "slot_index": 0
         }
@@ -242,7 +369,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": 8,
       "type": "LoraLoaderModelOnly",
       "title": "H3 Turbo 4 step",
       "pos": [
@@ -254,7 +381,7 @@
         290
       ],
       "flags": {},
-      "order": 4,
+      "order": 7,
       "mode": 0,
       "properties": {
         "Node name for S&R": "LoraLoaderModelOnly",
@@ -264,7 +391,15 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 1
+          "link": 4
+        },
+        {
+          "name": "strength_model",
+          "type": "FLOAT",
+          "link": 5,
+          "widget": {
+            "name": "strength_model"
+          }
         }
       ],
       "outputs": [
@@ -272,8 +407,8 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            11,
-            12
+            15,
+            17
           ],
           "slot_index": 0
         }
@@ -284,7 +419,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": 9,
       "type": "CLIPLoader",
       "title": "H3 Qwen3VL 32B",
       "pos": [
@@ -296,7 +431,7 @@
         290
       ],
       "flags": {},
-      "order": 5,
+      "order": 8,
       "mode": 0,
       "properties": {
         "Node name for S&R": "CLIPLoader",
@@ -308,7 +443,7 @@
           "name": "CLIP",
           "type": "CLIP",
           "links": [
-            2
+            6
           ],
           "slot_index": 0
         }
@@ -320,7 +455,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": 10,
       "type": "VAELoader",
       "title": "H3 영상 VAE",
       "pos": [
@@ -332,7 +467,7 @@
         290
       ],
       "flags": {},
-      "order": 6,
+      "order": 9,
       "mode": 0,
       "properties": {
         "Node name for S&R": "VAELoader",
@@ -344,8 +479,8 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            3,
-            20
+            7,
+            25
           ],
           "slot_index": 0
         }
@@ -355,7 +490,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 11,
       "type": "VAELoader",
       "title": "H3 내부 조건용 VAE · 최종 음성 출력 없음",
       "pos": [
@@ -367,7 +502,7 @@
         290
       ],
       "flags": {},
-      "order": 7,
+      "order": 10,
       "mode": 0,
       "properties": {
         "Node name for S&R": "VAELoader",
@@ -379,7 +514,7 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            4
+            8
           ],
           "slot_index": 0
         }
@@ -389,7 +524,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 12,
       "type": "CodexH3Inputs",
       "title": "03 첫 프레임 고정",
       "pos": [
@@ -401,7 +536,7 @@
         290
       ],
       "flags": {},
-      "order": 8,
+      "order": 11,
       "mode": 0,
       "properties": {
         "Node name for S&R": "CodexH3Inputs",
@@ -411,27 +546,27 @@
         {
           "name": "clip",
           "type": "CLIP",
-          "link": 2
+          "link": 6
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 3
+          "link": 7
         },
         {
           "name": "audio_vae",
           "type": "VAE",
-          "link": 4
+          "link": 8
         },
         {
           "name": "references",
           "type": "CODEX_REFS",
-          "link": 5
+          "link": 9
         },
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 6,
+          "link": 10,
           "widget": {
             "name": "prompt"
           }
@@ -439,7 +574,7 @@
         {
           "name": "width",
           "type": "INT",
-          "link": 7,
+          "link": 11,
           "widget": {
             "name": "width"
           }
@@ -447,7 +582,7 @@
         {
           "name": "height",
           "type": "INT",
-          "link": 8,
+          "link": 12,
           "widget": {
             "name": "height"
           }
@@ -455,7 +590,7 @@
         {
           "name": "frames",
           "type": "INT",
-          "link": 9,
+          "link": 13,
           "widget": {
             "name": "frames"
           }
@@ -463,7 +598,7 @@
         {
           "name": "first_frame",
           "type": "IMAGE",
-          "link": 10
+          "link": 14
         },
         {
           "name": "video_reference",
@@ -476,7 +611,7 @@
           "name": "conditioning",
           "type": "CONDITIONING",
           "links": [
-            13
+            18
           ],
           "slot_index": 0
         },
@@ -484,7 +619,7 @@
           "name": "latent",
           "type": "LATENT",
           "links": [
-            18
+            23
           ],
           "slot_index": 1
         },
@@ -503,7 +638,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 13,
       "type": "RandomNoise",
       "title": "고정 시드",
       "pos": [
@@ -515,7 +650,7 @@
         290
       ],
       "flags": {},
-      "order": 9,
+      "order": 12,
       "mode": 0,
       "properties": {
         "Node name for S&R": "RandomNoise",
@@ -527,7 +662,7 @@
           "name": "NOISE",
           "type": "NOISE",
           "links": [
-            14
+            19
           ],
           "slot_index": 0
         }
@@ -538,7 +673,7 @@
       ]
     },
     {
-      "id": 11,
+      "id": 14,
       "type": "KSamplerSelect",
       "title": "H3 샘플러",
       "pos": [
@@ -550,7 +685,7 @@
         290
       ],
       "flags": {},
-      "order": 10,
+      "order": 13,
       "mode": 0,
       "properties": {
         "Node name for S&R": "KSamplerSelect",
@@ -562,7 +697,7 @@
           "name": "SAMPLER",
           "type": "SAMPLER",
           "links": [
-            16
+            21
           ],
           "slot_index": 0
         }
@@ -572,7 +707,7 @@
       ]
     },
     {
-      "id": 12,
+      "id": 15,
       "type": "BasicScheduler",
       "title": "4단계 스케줄",
       "pos": [
@@ -584,7 +719,7 @@
         290
       ],
       "flags": {},
-      "order": 11,
+      "order": 14,
       "mode": 0,
       "properties": {
         "Node name for S&R": "BasicScheduler",
@@ -594,7 +729,15 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 11
+          "link": 15
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "link": 16,
+          "widget": {
+            "name": "steps"
+          }
         }
       ],
       "outputs": [
@@ -602,19 +745,19 @@
           "name": "SIGMAS",
           "type": "SIGMAS",
           "links": [
-            17
+            22
           ],
           "slot_index": 0
         }
       ],
       "widgets_values": [
         "simple",
-        4,
+        20,
         1.0
       ]
     },
     {
-      "id": 13,
+      "id": 16,
       "type": "BasicGuider",
       "title": "영상 가이드",
       "pos": [
@@ -626,7 +769,7 @@
         290
       ],
       "flags": {},
-      "order": 12,
+      "order": 15,
       "mode": 0,
       "properties": {
         "Node name for S&R": "BasicGuider",
@@ -636,12 +779,12 @@
         {
           "name": "model",
           "type": "MODEL",
-          "link": 12
+          "link": 17
         },
         {
           "name": "conditioning",
           "type": "CONDITIONING",
-          "link": 13
+          "link": 18
         }
       ],
       "outputs": [
@@ -649,7 +792,7 @@
           "name": "GUIDER",
           "type": "GUIDER",
           "links": [
-            15
+            20
           ],
           "slot_index": 0
         }
@@ -657,7 +800,7 @@
       "widgets_values": []
     },
     {
-      "id": 14,
+      "id": 17,
       "type": "SamplerCustomAdvanced",
       "title": "04 영상 생성",
       "pos": [
@@ -669,7 +812,7 @@
         290
       ],
       "flags": {},
-      "order": 13,
+      "order": 16,
       "mode": 0,
       "properties": {
         "Node name for S&R": "SamplerCustomAdvanced",
@@ -679,27 +822,27 @@
         {
           "name": "noise",
           "type": "NOISE",
-          "link": 14
+          "link": 19
         },
         {
           "name": "guider",
           "type": "GUIDER",
-          "link": 15
+          "link": 20
         },
         {
           "name": "sampler",
           "type": "SAMPLER",
-          "link": 16
+          "link": 21
         },
         {
           "name": "sigmas",
           "type": "SIGMAS",
-          "link": 17
+          "link": 22
         },
         {
           "name": "latent_image",
           "type": "LATENT",
-          "link": 18
+          "link": 23
         }
       ],
       "outputs": [
@@ -707,7 +850,7 @@
           "name": "output",
           "type": "LATENT",
           "links": [
-            19
+            24
           ],
           "slot_index": 0
         },
@@ -721,7 +864,7 @@
       "widgets_values": []
     },
     {
-      "id": 15,
+      "id": 18,
       "type": "VAEDecode",
       "title": "05 영상 프레임",
       "pos": [
@@ -733,7 +876,7 @@
         290
       ],
       "flags": {},
-      "order": 14,
+      "order": 17,
       "mode": 0,
       "properties": {
         "Node name for S&R": "VAEDecode",
@@ -743,12 +886,12 @@
         {
           "name": "samples",
           "type": "LATENT",
-          "link": 19
+          "link": 24
         },
         {
           "name": "vae",
           "type": "VAE",
-          "link": 20
+          "link": 25
         }
       ],
       "outputs": [
@@ -756,7 +899,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            21
+            26
           ],
           "slot_index": 0
         }
@@ -764,7 +907,7 @@
       "widgets_values": []
     },
     {
-      "id": 16,
+      "id": 19,
       "type": "CreateVideo",
       "title": "07 무음 24fps MP4",
       "pos": [
@@ -776,7 +919,7 @@
         290
       ],
       "flags": {},
-      "order": 15,
+      "order": 18,
       "mode": 0,
       "properties": {
         "Node name for S&R": "CreateVideo",
@@ -786,7 +929,7 @@
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 21
+          "link": 26
         },
         {
           "name": "audio",
@@ -799,7 +942,7 @@
           "name": "VIDEO",
           "type": "VIDEO",
           "links": [
-            22
+            27
           ],
           "slot_index": 0
         }
@@ -812,7 +955,7 @@
       ]
     },
     {
-      "id": 17,
+      "id": 20,
       "type": "SaveVideo",
       "title": "08 최종 영상",
       "pos": [
@@ -824,7 +967,7 @@
         290
       ],
       "flags": {},
-      "order": 16,
+      "order": 19,
       "mode": 0,
       "properties": {
         "Node name for S&R": "SaveVideo",
@@ -834,7 +977,15 @@
         {
           "name": "video",
           "type": "VIDEO",
-          "link": 22
+          "link": 27
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": 28,
+          "widget": {
+            "name": "filename_prefix"
+          }
         },
         {
           "name": "format",
@@ -856,7 +1007,7 @@
         }
       ],
       "widgets_values": [
-        "past-present/two-photo-video-silent"
+        "video/ComfyUI"
       ]
     }
   ],
@@ -867,175 +1018,223 @@
       0,
       5,
       0,
-      "MODEL"
+      "BOOLEAN"
     ],
     [
       2,
-      6,
+      3,
       0,
+      5,
+      1,
+      "STRING"
+    ],
+    [
+      3,
+      2,
+      0,
+      5,
+      2,
+      "STRING"
+    ],
+    [
+      4,
+      7,
+      0,
+      8,
+      0,
+      "MODEL"
+    ],
+    [
+      5,
+      2,
+      6,
+      8,
+      1,
+      "FLOAT"
+    ],
+    [
+      6,
       9,
+      0,
+      12,
       0,
       "CLIP"
     ],
     [
-      3,
       7,
+      10,
       0,
-      9,
+      12,
       1,
       "VAE"
     ],
     [
-      4,
       8,
+      11,
       0,
-      9,
+      12,
       2,
       "VAE"
     ],
     [
-      5,
-      3,
-      0,
       9,
+      6,
+      0,
+      12,
       3,
       "CODEX_REFS"
     ],
     [
-      6,
-      2,
+      10,
+      5,
       0,
-      9,
+      12,
       4,
       "STRING"
     ],
     [
-      7,
+      11,
       2,
       1,
-      9,
+      12,
       5,
       "INT"
     ],
     [
-      8,
+      12,
       2,
       2,
-      9,
+      12,
       6,
       "INT"
     ],
     [
-      9,
+      13,
       2,
       3,
-      9,
+      12,
       7,
       "INT"
     ],
     [
-      10,
+      14,
       1,
       0,
-      9,
+      12,
       8,
       "IMAGE"
     ],
     [
-      11,
-      5,
+      15,
+      8,
       0,
-      12,
-      0,
-      "MODEL"
-    ],
-    [
-      12,
-      5,
-      0,
-      13,
+      15,
       0,
       "MODEL"
     ],
     [
-      13,
-      9,
+      16,
+      2,
+      4,
+      15,
+      1,
+      "INT"
+    ],
+    [
+      17,
+      8,
       0,
-      13,
+      16,
+      0,
+      "MODEL"
+    ],
+    [
+      18,
+      12,
+      0,
+      16,
       1,
       "CONDITIONING"
     ],
     [
-      14,
-      10,
+      19,
+      13,
       0,
-      14,
+      17,
       0,
       "NOISE"
     ],
     [
-      15,
-      13,
+      20,
+      16,
       0,
-      14,
+      17,
       1,
       "GUIDER"
     ],
     [
-      16,
-      11,
-      0,
+      21,
       14,
+      0,
+      17,
       2,
       "SAMPLER"
     ],
     [
-      17,
-      12,
+      22,
+      15,
       0,
-      14,
+      17,
       3,
       "SIGMAS"
     ],
     [
-      18,
-      9,
+      23,
+      12,
       1,
-      14,
+      17,
       4,
       "LATENT"
     ],
     [
-      19,
-      14,
+      24,
+      17,
       0,
-      15,
+      18,
       0,
       "LATENT"
     ],
     [
-      20,
-      7,
+      25,
+      10,
       0,
-      15,
+      18,
       1,
       "VAE"
     ],
     [
-      21,
-      15,
+      26,
+      18,
       0,
-      16,
+      19,
       0,
       "IMAGE"
     ],
     [
-      22,
-      16,
+      27,
+      19,
       0,
-      17,
+      20,
       0,
       "VIDEO"
+    ],
+    [
+      28,
+      2,
+      5,
+      20,
+      1,
+      "STRING"
     ]
   ],
   "groups": [],

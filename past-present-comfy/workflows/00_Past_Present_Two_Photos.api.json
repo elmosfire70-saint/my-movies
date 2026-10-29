@@ -140,8 +140,14 @@
   "13": {
     "class_type": "EmptyImage",
     "inputs": {
-      "width": 576,
-      "height": 1024,
+      "width": [
+        "22",
+        1
+      ],
+      "height": [
+        "22",
+        2
+      ],
       "batch_size": 1,
       "color": 13092807
     },
@@ -316,6 +322,44 @@
     }
   },
   "23": {
+    "class_type": "PrimitiveStringMultiline",
+    "inputs": {
+      "value": "One continuous photorealistic shot. <Picture 1> is the exact opening frame and defines BOTH versions of the same person and their shared setting. The PAST version stays on the LEFT; the PRESENT version stays on the RIGHT. Preserve each face, visible age, hairstyle, clothing, headwear, relative size and seated or standing pose exactly as in the opening frame. At the beginning, hold the reunion portrait with subtle breathing and blinking. Through the middle of the shot, they slowly turn their eyes and heads slightly toward each other, making warm eye contact without hiding either face. Toward the end, both settle into a gentle smile while keeping their hands still. Keep the shoulder contact light and anatomically correct. No large reach, hug, walking, lifting, head rubbing or abrupt body movement. LOCKED WIDE CAMERA: fixed tripod, no zoom, no push-in, no pan, no reframing. Both people stay completely visible in the frame from start to finish with the original framing margins. Maintain their distinct ages, exact identities, clothing, positions and anatomy. No other people, no face morphing, no cuts, no text, no speaking mouth movements, no lip sync, no dialogue, no singing, no narration, no audible laughter, no music and no sound effects. Smiles and breathing only; this is a silent reunion."
+    },
+    "_meta": {
+      "title": "동작 A · 시선 교환과 미소"
+    }
+  },
+  "24": {
+    "class_type": "PrimitiveBoolean",
+    "inputs": {
+      "value": true
+    },
+    "_meta": {
+      "title": "동작 B · 가벼운 어깨 토닥임 enable"
+    }
+  },
+  "25": {
+    "class_type": "ComfySwitchNode",
+    "inputs": {
+      "switch": [
+        "24",
+        0
+      ],
+      "on_false": [
+        "23",
+        0
+      ],
+      "on_true": [
+        "22",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "영상 동작 선택"
+    }
+  },
+  "26": {
     "class_type": "CodexReferences",
     "inputs": {
       "roles": "",
@@ -325,7 +369,7 @@
       "title": "시작 장면 외 추가 참조 없음"
     }
   },
-  "24": {
+  "27": {
     "class_type": "UNETLoader",
     "inputs": {
       "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
@@ -335,21 +379,24 @@
       "title": "H3 ref2va INT8"
     }
   },
-  "25": {
+  "28": {
     "class_type": "LoraLoaderModelOnly",
     "inputs": {
       "model": [
-        "24",
+        "27",
         0
       ],
       "lora_name": "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
-      "strength_model": 1.0
+      "strength_model": [
+        "22",
+        6
+      ]
     },
     "_meta": {
       "title": "H3 Turbo 4 step"
     }
   },
-  "26": {
+  "29": {
     "class_type": "CLIPLoader",
     "inputs": {
       "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
@@ -360,7 +407,7 @@
       "title": "H3 Qwen3VL 32B"
     }
   },
-  "27": {
+  "30": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_video_vae_fp16.safetensors"
@@ -369,7 +416,7 @@
       "title": "H3 영상 VAE"
     }
   },
-  "28": {
+  "31": {
     "class_type": "VAELoader",
     "inputs": {
       "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
@@ -378,27 +425,27 @@
       "title": "H3 내부 조건용 VAE · 최종 음성 출력 없음"
     }
   },
-  "29": {
+  "32": {
     "class_type": "CodexH3Inputs",
     "inputs": {
       "clip": [
-        "26",
+        "29",
         0
       ],
       "vae": [
-        "27",
+        "30",
         0
       ],
       "audio_vae": [
-        "28",
+        "31",
         0
       ],
       "references": [
-        "23",
+        "26",
         0
       ],
       "prompt": [
-        "22",
+        "25",
         0
       ],
       "width": [
@@ -422,7 +469,7 @@
       "title": "03 첫 프레임 고정"
     }
   },
-  "30": {
+  "33": {
     "class_type": "RandomNoise",
     "inputs": {
       "noise_seed": 20261003
@@ -431,7 +478,7 @@
       "title": "고정 시드"
     }
   },
-  "31": {
+  "34": {
     "class_type": "KSamplerSelect",
     "inputs": {
       "sampler_name": "res_multistep"
@@ -440,30 +487,33 @@
       "title": "H3 샘플러"
     }
   },
-  "32": {
+  "35": {
     "class_type": "BasicScheduler",
     "inputs": {
       "model": [
-        "25",
+        "28",
         0
       ],
       "scheduler": "simple",
-      "steps": 4,
+      "steps": [
+        "22",
+        4
+      ],
       "denoise": 1.0
     },
     "_meta": {
       "title": "4단계 스케줄"
     }
   },
-  "33": {
+  "36": {
     "class_type": "BasicGuider",
     "inputs": {
       "model": [
-        "25",
+        "28",
         0
       ],
       "conditioning": [
-        "29",
+        "32",
         0
       ]
     },
@@ -471,27 +521,27 @@
       "title": "영상 가이드"
     }
   },
-  "34": {
+  "37": {
     "class_type": "SamplerCustomAdvanced",
     "inputs": {
       "noise": [
-        "30",
-        0
-      ],
-      "guider": [
         "33",
         0
       ],
+      "guider": [
+        "36",
+        0
+      ],
       "sampler": [
-        "31",
+        "34",
         0
       ],
       "sigmas": [
-        "32",
+        "35",
         0
       ],
       "latent_image": [
-        "29",
+        "32",
         1
       ]
     },
@@ -499,15 +549,15 @@
       "title": "04 영상 생성"
     }
   },
-  "35": {
+  "38": {
     "class_type": "VAEDecode",
     "inputs": {
       "samples": [
-        "34",
+        "37",
         0
       ],
       "vae": [
-        "27",
+        "30",
         0
       ]
     },
@@ -515,11 +565,11 @@
       "title": "05 영상 프레임"
     }
   },
-  "36": {
+  "39": {
     "class_type": "CreateVideo",
     "inputs": {
       "images": [
-        "35",
+        "38",
         0
       ],
       "fps": 24.0,
@@ -530,14 +580,17 @@
       "title": "07 무음 24fps MP4"
     }
   },
-  "37": {
+  "40": {
     "class_type": "SaveVideo",
     "inputs": {
       "video": [
-        "36",
+        "39",
         0
       ],
-      "filename_prefix": "past-present/two-photo-video-silent",
+      "filename_prefix": [
+        "22",
+        5
+      ],
       "format": "auto",
       "codec": "auto"
     },
