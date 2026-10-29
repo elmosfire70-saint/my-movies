@@ -1,0 +1,412 @@
+[
+  {
+    "seconds": 0.3171880999998393,
+    "gpu_memory_utilization": "1841, 7",
+    "ram_available": 15785762816
+  },
+  {
+    "seconds": 5.577991000000111,
+    "gpu_memory_utilization": "1823, 5",
+    "ram_available": 14480281600
+  },
+  {
+    "seconds": 10.88232120000066,
+    "gpu_memory_utilization": "2680, 4",
+    "ram_available": 12082712576
+  },
+  {
+    "seconds": 16.16627309999967,
+    "gpu_memory_utilization": "4703, 33",
+    "ram_available": 10192011264
+  },
+  {
+    "seconds": 21.471406599999682,
+    "gpu_memory_utilization": "6061, 74",
+    "ram_available": 8768286720
+  },
+  {
+    "seconds": 27.695397699999376,
+    "gpu_memory_utilization": "8417, 2",
+    "ram_available": 6226739200
+  },
+  {
+    "seconds": 33.07568320000064,
+    "gpu_memory_utilization": "10539, 29",
+    "ram_available": 3839881216
+  },
+  {
+    "seconds": 38.508186099999875,
+    "gpu_memory_utilization": "10716, 100",
+    "ram_available": 3490762752
+  },
+  {
+    "seconds": 43.807473000000755,
+    "gpu_memory_utilization": "11213, 100",
+    "ram_available": 3453177856
+  },
+  {
+    "seconds": 49.27412290000029,
+    "gpu_memory_utilization": "10058, 8",
+    "ram_available": 10420387840
+  },
+  {
+    "seconds": 54.56674849999945,
+    "gpu_memory_utilization": "10984, 94",
+    "ram_available": 8377970688
+  },
+  {
+    "seconds": 60.11906280000039,
+    "gpu_memory_utilization": "10876, 94",
+    "ram_available": 6160588800
+  },
+  {
+    "seconds": 65.43553810000049,
+    "gpu_memory_utilization": "11162, 96",
+    "ram_available": 4718206976
+  },
+  {
+    "seconds": 70.76994580000064,
+    "gpu_memory_utilization": "11176, 100",
+    "ram_available": 4637155328
+  },
+  {
+    "seconds": 76.03965079999944,
+    "gpu_memory_utilization": "11162, 100",
+    "ram_available": 4694974464
+  },
+  {
+    "seconds": 81.37280810000084,
+    "gpu_memory_utilization": "11108, 100",
+    "ram_available": 4696907776
+  },
+  {
+    "seconds": 86.63531010000042,
+    "gpu_memory_utilization": "11176, 100",
+    "ram_available": 4706607104
+  },
+  {
+    "seconds": 92.12025600000015,
+    "gpu_memory_utilization": "6111, 82",
+    "ram_available": 4027973632
+  },
+  {
+    "seconds": 97.41882090000036,
+    "gpu_memory_utilization": "6933, 10",
+    "ram_available": 2553610240
+  },
+  {
+    "seconds": 102.7382992999992,
+    "gpu_memory_utilization": "8292, 46",
+    "ram_available": 2457731072
+  },
+  {
+    "seconds": 108.13967430000048,
+    "gpu_memory_utilization": "10566, 38",
+    "ram_available": 2489319424
+  },
+  {
+    "seconds": 113.47374780000064,
+    "gpu_memory_utilization": "10981, 2",
+    "ram_available": 2251706368
+  },
+  {
+    "seconds": 118.87217760000021,
+    "gpu_memory_utilization": "11046, 31",
+    "ram_available": 2342264832
+  },
+  {
+    "seconds": 124.17285909999919,
+    "gpu_memory_utilization": "10871, 14",
+    "ram_available": 2340069376
+  },
+  {
+    "seconds": 129.75038739999945,
+    "gpu_memory_utilization": "10818, 44",
+    "ram_available": 2455474176
+  },
+  {
+    "seconds": 135.0928487000001,
+    "gpu_memory_utilization": "8585, 3",
+    "ram_available": 2265911296
+  },
+  {
+    "seconds": 140.41121179999936,
+    "gpu_memory_utilization": "6824, 2",
+    "ram_available": 2728669184
+  },
+  {
+    "seconds": 145.73209270000007,
+    "gpu_memory_utilization": "7514, 100",
+    "ram_available": 2271232000
+  },
+  {
+    "seconds": 151.05878090000078,
+    "gpu_memory_utilization": "7912, 9",
+    "ram_available": 2433724416
+  },
+  {
+    "seconds": 156.3149486000002,
+    "gpu_memory_utilization": "8521, 86",
+    "ram_available": 2194493440
+  },
+  {
+    "seconds": 161.8413115000003,
+    "gpu_memory_utilization": "9225, 100",
+    "ram_available": 2083606528
+  },
+  {
+    "seconds": 167.1343407000004,
+    "gpu_memory_utilization": "9734, 8",
+    "ram_available": 2215243776
+  },
+  {
+    "seconds": 172.4569821999994,
+    "gpu_memory_utilization": "10345, 100",
+    "ram_available": 2405437440
+  },
+  {
+    "seconds": 177.77853329999925,
+    "gpu_memory_utilization": "10952, 1",
+    "ram_available": 2792185856
+  },
+  {
+    "seconds": 183.10161700000026,
+    "gpu_memory_utilization": "11285, 100",
+    "ram_available": 2433978368
+  },
+  {
+    "seconds": 188.4526566000004,
+    "gpu_memory_utilization": "11617, 38",
+    "ram_available": 2127667200
+  },
+  {
+    "seconds": 193.85346240000035,
+    "gpu_memory_utilization": "11598, 7",
+    "ram_available": 2074685440
+  },
+  {
+    "seconds": 199.13420319999932,
+    "gpu_memory_utilization": "11597, 7",
+    "ram_available": 2056757248
+  },
+  {
+    "seconds": 204.44021369999973,
+    "gpu_memory_utilization": "11577, 87",
+    "ram_available": 2092687360
+  },
+  {
+    "seconds": 209.70740139999907,
+    "gpu_memory_utilization": "11592, 91",
+    "ram_available": 2138312704
+  },
+  {
+    "seconds": 215.0279602999999,
+    "gpu_memory_utilization": "11573, 1",
+    "ram_available": 2140270592
+  },
+  {
+    "seconds": 220.3231637000008,
+    "gpu_memory_utilization": "11593, 100",
+    "ram_available": 1966489600
+  },
+  {
+    "seconds": 225.6252461999993,
+    "gpu_memory_utilization": "11560, 100",
+    "ram_available": 2149875712
+  },
+  {
+    "seconds": 230.88478880000002,
+    "gpu_memory_utilization": "11559, 100",
+    "ram_available": 2153852928
+  },
+  {
+    "seconds": 236.1529186000007,
+    "gpu_memory_utilization": "11492, 100",
+    "ram_available": 2145300480
+  },
+  {
+    "seconds": 241.4760208000007,
+    "gpu_memory_utilization": "11562, 100",
+    "ram_available": 2084421632
+  },
+  {
+    "seconds": 246.74488259999998,
+    "gpu_memory_utilization": "11560, 100",
+    "ram_available": 2133135360
+  },
+  {
+    "seconds": 252.09237550000034,
+    "gpu_memory_utilization": "11667, 100",
+    "ram_available": 2016591872
+  },
+  {
+    "seconds": 257.5542218999999,
+    "gpu_memory_utilization": "11508, 100",
+    "ram_available": 2046468096
+  },
+  {
+    "seconds": 262.8332038000008,
+    "gpu_memory_utilization": "11462, 100",
+    "ram_available": 2137907200
+  },
+  {
+    "seconds": 268.15699329999916,
+    "gpu_memory_utilization": "11466, 100",
+    "ram_available": 2035859456
+  },
+  {
+    "seconds": 273.6960481999995,
+    "gpu_memory_utilization": "11511, 100",
+    "ram_available": 1409269760
+  },
+  {
+    "seconds": 279.10779809999985,
+    "gpu_memory_utilization": "11465, 100",
+    "ram_available": 1547157504
+  },
+  {
+    "seconds": 284.41740310000023,
+    "gpu_memory_utilization": "11503, 100",
+    "ram_available": 1711202304
+  },
+  {
+    "seconds": 289.6864265000004,
+    "gpu_memory_utilization": "11466, 100",
+    "ram_available": 1684799488
+  },
+  {
+    "seconds": 295.04340629999933,
+    "gpu_memory_utilization": "11480, 100",
+    "ram_available": 1986502656
+  },
+  {
+    "seconds": 300.3055024999994,
+    "gpu_memory_utilization": "11478, 100",
+    "ram_available": 2134986752
+  },
+  {
+    "seconds": 305.5668592999991,
+    "gpu_memory_utilization": "11480, 97",
+    "ram_available": 2124341248
+  },
+  {
+    "seconds": 310.86619450000035,
+    "gpu_memory_utilization": "11480, 100",
+    "ram_available": 1786105856
+  },
+  {
+    "seconds": 316.16409270000077,
+    "gpu_memory_utilization": "11478, 100",
+    "ram_available": 2130759680
+  },
+  {
+    "seconds": 321.4839644999993,
+    "gpu_memory_utilization": "11480, 100",
+    "ram_available": 2136989696
+  },
+  {
+    "seconds": 326.7642083999999,
+    "gpu_memory_utilization": "11478, 100",
+    "ram_available": 2130010112
+  },
+  {
+    "seconds": 332.0395418999997,
+    "gpu_memory_utilization": "11487, 100",
+    "ram_available": 2146684928
+  },
+  {
+    "seconds": 337.31885200000033,
+    "gpu_memory_utilization": "11478, 100",
+    "ram_available": 2084691968
+  },
+  {
+    "seconds": 342.5769039000006,
+    "gpu_memory_utilization": "11479, 100",
+    "ram_available": 2133020672
+  },
+  {
+    "seconds": 347.8364134000003,
+    "gpu_memory_utilization": "11502, 100",
+    "ram_available": 2089574400
+  },
+  {
+    "seconds": 353.1682598999996,
+    "gpu_memory_utilization": "11479, 100",
+    "ram_available": 2026348544
+  },
+  {
+    "seconds": 358.47704180000073,
+    "gpu_memory_utilization": "11480, 100",
+    "ram_available": 2110394368
+  },
+  {
+    "seconds": 363.77265459999944,
+    "gpu_memory_utilization": "11479, 100",
+    "ram_available": 2127855616
+  },
+  {
+    "seconds": 369.0372719999996,
+    "gpu_memory_utilization": "11471, 8",
+    "ram_available": 2113232896
+  },
+  {
+    "seconds": 374.3417372999993,
+    "gpu_memory_utilization": "11497, 8",
+    "ram_available": 2135699456
+  },
+  {
+    "seconds": 379.67359860000033,
+    "gpu_memory_utilization": "9861, 33",
+    "ram_available": 2139168768
+  },
+  {
+    "seconds": 384.9957424000004,
+    "gpu_memory_utilization": "11410, 48",
+    "ram_available": 2158854144
+  },
+  {
+    "seconds": 390.3781995999998,
+    "gpu_memory_utilization": "11566, 100",
+    "ram_available": 2166534144
+  },
+  {
+    "seconds": 395.69239059999927,
+    "gpu_memory_utilization": "11234, 100",
+    "ram_available": 1999458304
+  },
+  {
+    "seconds": 400.9876256999996,
+    "gpu_memory_utilization": "11209, 100",
+    "ram_available": 1893953536
+  },
+  {
+    "seconds": 406.2442479000001,
+    "gpu_memory_utilization": "11244, 100",
+    "ram_available": 1906081792
+  },
+  {
+    "seconds": 411.49754399999983,
+    "gpu_memory_utilization": "11222, 100",
+    "ram_available": 1782333440
+  },
+  {
+    "seconds": 416.7870019000002,
+    "gpu_memory_utilization": "11222, 100",
+    "ram_available": 1665245184
+  },
+  {
+    "seconds": 422.04500559999906,
+    "gpu_memory_utilization": "11225, 100",
+    "ram_available": 1552654336
+  },
+  {
+    "seconds": 427.32830509999985,
+    "gpu_memory_utilization": "11215, 100",
+    "ram_available": 1416511488
+  },
+  {
+    "seconds": 432.61186219999945,
+    "gpu_memory_utilization": "11200, 100",
+    "ram_available": 1405366272
+  }
+]

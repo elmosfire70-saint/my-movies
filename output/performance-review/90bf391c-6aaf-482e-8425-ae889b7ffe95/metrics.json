@@ -1,0 +1,11 @@
+{
+  "total_seconds": 437.511,
+  "frames": 124,
+  "fps": 24,
+  "duration_seconds": 5.166666666666667,
+  "audio_streams": 0,
+  "gpu_peak_sampled_mib": 11667.0,
+  "system_ram_peak_sampled_gib": 30.648056030273438,
+  "memory_samples": 82,
+  "video": "E:\\Comfy-Desktop\\ComfyUI-Shared\\output\\performance-review\\90bf391c-6aaf-482e-8425-ae889b7ffe95_00002_.mp4"
+}
